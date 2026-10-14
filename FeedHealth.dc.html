@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./demo-seed.js?v=20260926-failure-1"></script>
-<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./demo.js?v=20261014-app-only-1"></script>
+<link rel="stylesheet" href="./app-only-feed.css?v=1"><script src="./app-only-feed.js?v=1"></script>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-cards.js?v=2" defer></script><script src="./home-test-nav.js?v=9" defer></script></head>
 <body>
@@ -12,7 +13,7 @@
 <helmet>
 <style>@keyframes hlPulse{0%,100%{opacity:1}50%{opacity:.3}}.home-entry{flex:0 0 calc((100% - 24px)/3.2);min-width:0;scroll-snap-align:start;border-radius:18px;border:1px solid #E5E9E1;overflow:hidden;cursor:pointer;box-sizing:border-box}.home-entry-title{font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:space-between}.home-entry-preview{font-size:11px;color:#8C877F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:9px}.home-entry-number{font-size:27px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}.home-entry-unit{font-size:11px;font-weight:400;margin-left:4px;color:#8C877F}</style>
 </helmet>
-<div style="width:390px;height:844px;border-radius:46px;overflow:hidden;position:relative;background:#FFFFFF;color:#1D1C1A;font-family:'Instrument Sans','PingFang SC','Noto Sans SC',sans-serif;box-shadow:0 0 0 1px rgba(29,28,26,0.10),0 30px 60px -20px rgba(29,28,26,0.25);">
+<div class="{{ feedClass }}" style="width:390px;height:844px;border-radius:46px;overflow:hidden;position:relative;background:#FFFFFF;color:#1D1C1A;font-family:'Instrument Sans','PingFang SC','Noto Sans SC',sans-serif;box-shadow:0 0 0 1px rgba(29,28,26,0.10),0 30px 60px -20px rgba(29,28,26,0.25);">
   <div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 36px;font-size:16px;font-weight:600;">
     <button type="button" onClick="{{ toggleHealthBrief }}" aria-label="{{ healthToggleLabel }}" title="{{ healthToggleLabel }}" style="border:0;background:transparent;color:inherit;font:inherit;padding:8px 0;cursor:pointer;">9:41</button>
     <sc-if value="{{ showOriginalExtras }}"><a data-version-switch href="./HomeTest.dc.html" style="margin-left:auto;margin-right:14px;color:#8C877F;font-size:12px;text-decoration:none;font-weight:400;">测试</a></sc-if>
@@ -99,6 +100,7 @@
           <div data-href="./Bookkeeping.dc.html?from=FeedHealth.dc.html" role="link" tabindex="0" aria-label="记账卡片，查看记账列表" class="home-entry" style="padding:12px;background:#F1EEF5;border-color:#E6E0EC;color:#81708E;"><div class="home-entry-title" style="font-size:13px;"><span>记账</span><span aria-hidden="true">›</span></div><div style="margin-top:8px;"><span class="home-entry-number" style="font-size:24px;">{{ entryLedgerCount }}</span><span class="home-entry-unit">笔</span></div></div>
         </div>
       </sc-if>
+      <sc-if value="{{ appOnlyEmpty }}"><section class="ao-empty" aria-label="空白想法列表"><div class="ao-empty-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><rect x="7.5" y="3" width="9" height="12" rx="4.5"/><path d="M4.5 11.5a7.5 7.5 0 0 0 15 0M12 19v3M8.5 22h7"/></svg></div><h2>第一个想法，从这里开始</h2><p>不用打字，把想到的说出来。<br>录音会自动转写，并整理成笔记。</p><small>试着说：明天下午三点和设计师聊首页方案，<br>提前整理好要讨论的三个问题。<br>演示模式 · 长按鼠标或触屏模拟录音</small></section></sc-if>
       <sc-if value="{{ selecting }}"><div style="display:flex;justify-content:space-between;padding:14px 0 2px;font-size:13px;color:#8C877F;"><span>已选 {{ selectionCount }} 条</span><button onClick="{{ exitSelection }}" style="border:0;background:transparent;font:inherit;color:#1D1C1A;cursor:pointer;">取消</button></div></sc-if>
       <sc-if value="{{ noSearchResults }}"><div style="padding:48px 12px;text-align:center;font-size:14px;color:#8C877F;">没有找到相关想法，试试其他关键词</div></sc-if>
       <sc-if value="{{ showMorning }}" hint-placeholder-val="{{ false }}">
@@ -129,8 +131,8 @@
             </div>
             <sc-if value="{{ it.uploading }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:10px;padding:7px 0 3px;">
-                <div style="flex:1;height:4px;border-radius:99px;background:rgba(29,28,26,0.06);overflow:hidden;"><div style="width:{{ progressPct }};height:100%;border-radius:99px;background:#C9C4BC;"></div></div>
-                <span style="font-size:12px;color:#5E5A54;font-variant-numeric:tabular-nums;min-width:30px;text-align:right;">{{ progressPct }}</span>
+                <div style="flex:1;height:4px;border-radius:99px;background:rgba(29,28,26,0.06);overflow:hidden;"><div style="width:{{ it.progressPct }};height:100%;border-radius:99px;background:#C9C4BC;"></div></div>
+                <span style="font-size:12px;color:#5E5A54;font-variant-numeric:tabular-nums;min-width:30px;text-align:right;">{{ it.progressPct }}</span>
               </div>
             </sc-if>
             <sc-if value="{{ it.hasPreview }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;line-height:1.5;color:{{ it.previewColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.preview }}</div></sc-if>
@@ -194,6 +196,13 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ showAppOnlyRecorder }}">
+    <sc-if value="{{ appOnlyEmpty }}"><sc-if value="{{ aoIdle }}"><div class="ao-guide"><strong>长按下方 +，录下第一个想法</strong><span>按住说话，松开后自动转写</span></div></sc-if></sc-if>
+    <sc-if value="{{ aoHasHint }}"><div class="ao-feedback" role="status">{{ aoHint }}</div></sc-if>
+    <sc-if value="{{ aoRecording }}"><section class="ao-record-panel" role="status" aria-label="录音中"><h2>正在录音</h2><div class="ao-time">{{ aoTime }}</div><div class="ao-waves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p>{{ aoRecordHint }}</p></section></sc-if>
+    <button ref="{{ aoAddRef }}" class="ao-add" data-recording="{{ aoRecording }}" aria-label="{{ aoButtonLabel }}" disabled="{{ aoBusy }}" onPointerDown="{{ aoPointerDown }}" onPointerUp="{{ aoPointerUp }}" onPointerCancel="{{ aoPointerCancel }}" onKeyDown="{{ aoKeyDown }}" onClick="{{ aoPreventClick }}" onContextMenu="{{ aoPreventClick }}"><sc-if value="{{ aoIdle }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg></sc-if><sc-if value="{{ aoRecording }}"><span aria-hidden="true" style="width:17px;height:17px;border-radius:4px;background:white;"></span></sc-if></button>
+  </sc-if>
+  <sc-if value="{{ aoPermissionOpen }}"><div class="ao-permission-shade"><section ref="{{ aoDialogRef }}" class="ao-permission-dialog" role="dialog" aria-modal="true" aria-labelledby="ao-permission-title" tabindex="-1"><div class="ao-success"><span>✓</span>第一个想法已整理好</div><h2 id="ao-permission-title">让想法及时提醒你</h2><p class="ao-permission-intro">开启下面的权限，让录音结果和日程安排<br>在需要的时候提醒你。</p><div class="ao-permission-row"><div><strong>通知权限</strong><p>录音转写完成时通知你，<br>也为待办和日程发送提醒。</p></div><button class="ao-switch" role="switch" aria-label="通知权限" aria-checked="{{ aoNotificationEnabled }}" onClick="{{ aoToggleNotification }}"><span></span></button></div><div class="ao-permission-row"><div><strong>日历权限</strong><p>将你确认的日程同步到系统日历，<br>让安排和提醒放在一起。</p></div><button class="ao-switch" role="switch" aria-label="日历权限" aria-checked="{{ aoCalendarEnabled }}" onClick="{{ aoToggleCalendar }}"><span></span></button></div><p class="ao-permission-note">两个权限可独立选择，也可稍后在“我的”中开启。<br>演示模式 · 不修改系统权限</p><button class="ao-permission-primary" onClick="{{ aoClosePermissions }}">完成</button><button class="ao-permission-later" onClick="{{ aoClosePermissions }}">稍后设置</button></section></div></sc-if>
   <sc-if value="{{ hasDeleteToast }}"><div style="position:absolute;left:50%;bottom:110px;transform:translateX(-50%);z-index:10;background:white;padding:10px 16px;border-radius:99px;box-shadow:0 4px 20px #0002;font-size:13px;white-space:nowrap;">{{ deleteMessage }} <button data-delete-undo="true" onClick="{{ undoDeletion }}" style="border:0;background:transparent;color:oklch(0.42 0.08 195);font:inherit;margin-left:10px;cursor:pointer;">撤销</button></div></sc-if>
   <sc-if value="{{ browsing }}">
   <div style="position:absolute;left:0;right:0;bottom:0;height:86px;box-sizing:border-box;background:rgba(255,255,255,0.96);border-top:1px solid rgba(29,28,26,0.07);display:grid;grid-template-columns:repeat(3,1fr);padding-top:12px;">
@@ -214,12 +223,14 @@ class Component extends DCLogic {
   state = {};
   searchRef = React.createRef();
   searchContainerRef = React.createRef();
+  aoAddRef = React.createRef();
+  aoDialogRef = React.createRef();
   closeSearch = () => this.setState({searchOpen:false,query:''});
   onOutsideSearch = e => {
     if (this.state.searchOpen && !this.searchContainerRef.current?.contains(e.target)) this.closeSearch();
   };
-  componentDidMount() { this.deletionCleanup=window.Huling.bindPendingDeletion(this); document.addEventListener('pointerdown', this.onOutsideSearch, true); }
-  componentWillUnmount() { this.deletionCleanup?.(); document.removeEventListener('pointerdown', this.onOutsideSearch, true); }
+  componentDidMount() { this.appOnlyCleanup=window.HulingAppOnlyFeed.mount(this); this.deletionCleanup=window.Huling.bindPendingDeletion(this); document.addEventListener('pointerdown', this.onOutsideSearch, true); }
+  componentWillUnmount() { this.appOnlyCleanup?.(); this.deletionCleanup?.(); document.removeEventListener('pointerdown', this.onOutsideSearch, true); }
   stageDeletion(id) {
     if (window.Huling.note(id)?.status !== 'ready') return;
     this.commitDeletion();
@@ -235,7 +246,7 @@ class Component extends DCLogic {
     this.setState({pendingDelete:null,deletedNoteId:null,deletedNoteIds:null,deleteMessage:null});
   }
   renderVals() {
-    const H = window.Huling, v = this.props.variant || 'b', cleanList=H.params().has('homeTest');
+    const H = window.Huling, v = this.props.variant || 'b', appOnly=H.setting('app-only-onboarding')===true, cleanList=H.params().has('homeTest')||appOnly;
     const state = H.params().get('state') || this.props.state || 'demo';
     const searchOpen = !!this.state.searchOpen, query = this.state.query || '', term = query.trim().toLowerCase();
     const closeSearch = this.closeSearch;
@@ -263,7 +274,7 @@ class Component extends DCLogic {
       return { ...H.swipe(()=>this.stageDeletion(n.id),ready&&!deleting&&!selecting,1,{label:'左滑多选',release:'松开选择',commit:()=>this.setState({selecting:true,selected:[n.id]})}),deco:deleting?'line-through':'none',rowOpacity:deleting||(selecting&&!ready)?0.5:1,selecting,selected:selected.includes(n.id),selectionMark:selected.includes(n.id)?'✓':'',selectionBg:selected.includes(n.id)?'#326566':'#FFFFFF',selectionBorder:selected.includes(n.id)?'#326566':'#C9C4BC', ...n, createdDate, g:H.notePriority(n)<3?0:n.group, len:format(n.duration), dur:format(n.duration), ready, unread,
         titleStrong:ready&&unread, titleSoft:(ready&&!unread)||n.status.endsWith('_failed'),
         failed:n.status.endsWith('_failed'),failureLabel:n.status==='upload_failed'?'上传失败':'转写失败',retryLabel:n.status==='upload_failed'?'重新上传':'重新转写',retry:e=>{e.stopPropagation();if(H.retryNote(n.id))this.setState({retryTick:Date.now()});},processingLabel:n.phase==='transcribing'?'正在转写…':'正在整理…',processingHint:n.phase==='transcribing'?'正在重新转写':'转写完成 · 正在理解内容',
-        processing:n.status==='processing', uploading:n.status==='uploading',preview:n.phase==='transcribing'?'录音已保存，正在重新识别录音内容。':n.phase==='organizing'?n.summary:n.preview,uploadNote:`录音 ${format(n.duration)} · 已上传 62%`,
+        processing:n.status==='processing', uploading:n.status==='uploading',preview:n.phase==='transcribing'?(n.appOnlyRecording?'录音已保存，正在识别录音内容。':'录音已保存，正在重新识别录音内容。'):n.phase==='organizing'?n.summary:n.preview,progressPct:(n.appOnlyRecording?n.uploadProgress:62)+'%',uploadNote:`录音 ${format(n.duration)} · 已上传 ${n.appOnlyRecording?n.uploadProgress:62}%`,
         pending:pendingNum>0,pendingNum,pendingText:`${pendingNum} 项需要确认`,
         hasPreview:n.status!=='uploading',previewColor:'#8C877F',rowBg:'#FFFFFF',
         unreadDot:false,unreadTag:false,hasResult:false,
@@ -276,8 +287,8 @@ class Component extends DCLogic {
     const entryToday = {m:8,d:25};
     const liveActions=H.state.actions.filter(a=>!a.ignored&&!a.deleted&&a.date?.m===entryToday.m&&a.date?.d===entryToday.d), entryTodos=liveActions.filter(a=>a.type==='todo'&&a.status==='open'),entrySchedules=liveActions.filter(a=>a.type==='schedule'&&a.status==='ok').sort((a,b)=>(a.start||'').localeCompare(b.start||''));
 
-    const groups = [0,1,2].map(g=>({label:['今天','昨天','更早'][g],date:['9月25日','9月24日','9月23日'][g],items:items.filter(n=>n.g===g),showEmpty:!term&&g===0&&!items.some(n=>n.g===0),hasUnreadNote:false})).filter(g=>g.items.length||g.showEmpty);
-    return {showOriginalExtras:!cleanList,showEntryCards:!cleanList&&!term&&!selecting,entryLedgerCount:H.ledger().filter(a=>a.status!=='ignored').length,entryTodoCount:entryTodos.length,entryScheduleCount:entrySchedules.length,todoPreview:entryTodos[0]?.title||'暂时没有待办',schedulePreview:entrySchedules[0]?.title||'暂时没有日程',reviewPreview:counts.pending?'录音里的待办、日程与记账':'已全部处理，暂无需确认事项',showHealthBrief:!cleanList&&H.page()==='FeedHealth.dc.html'&&!term&&!selecting,healthToggleLabel:H.page()==='FeedHealth.dc.html'?'切换为没有健康简报的列表':'切换为有健康简报的列表',toggleHealthBrief:()=>H.go(H.page()==='FeedHealth.dc.html'?'FeedCompact.dc.html':'FeedHealth.dc.html'),selecting,browsing:!selecting,selectionCount:selected.length,canMerge:selected.length>1,mergeDisabled:selected.length<2,deleteDisabled:!selected.length,mergeOpacity:selected.length>1?1:0.35,
+    const groups = [0,1,2].map(g=>({label:['今天','昨天','更早'][g],date:['9月25日','9月24日','9月23日'][g],items:items.filter(n=>n.g===g),showEmpty:!appOnly&&!term&&g===0&&!items.some(n=>n.g===0),hasUnreadNote:false})).filter(g=>g.items.length||g.showEmpty);
+    return {...window.HulingAppOnlyFeed.vals(this),feedClass:appOnly?'ao-feed-screen':'',showOriginalExtras:!cleanList,showEntryCards:!cleanList&&!term&&!selecting,entryLedgerCount:H.ledger().filter(a=>a.status!=='ignored').length,entryTodoCount:entryTodos.length,entryScheduleCount:entrySchedules.length,todoPreview:entryTodos[0]?.title||'暂时没有待办',schedulePreview:entrySchedules[0]?.title||'暂时没有日程',reviewPreview:counts.pending?'录音里的待办、日程与记账':'已全部处理，暂无需确认事项',showHealthBrief:!cleanList&&H.page()==='FeedHealth.dc.html'&&!term&&!selecting,healthToggleLabel:appOnly?'当前时间':H.page()==='FeedHealth.dc.html'?'切换为没有健康简报的列表':'切换为有健康简报的列表',toggleHealthBrief:()=>!appOnly&&H.go(H.page()==='FeedHealth.dc.html'?'FeedCompact.dc.html':'FeedHealth.dc.html'),selecting,browsing:!selecting,selectionCount:selected.length,canMerge:selected.length>1,mergeDisabled:selected.length<2,deleteDisabled:!selected.length,mergeOpacity:selected.length>1?1:0.35,
       exitSelection:()=>this.setState({selecting:false,selected:[]}),
       deleteSelected:()=>{if(!selected.length)return;this.setState({pendingDelete:selected[0],deletedNoteIds:[...selected],deletedNoteId:selected[0],deleteMessage:'已标记删除 '+selected.length+' 条想法',selecting:false,selected:[]});},
       mergeSelected:()=>{const merged=H.mergeNotes(selected);if(merged)H.go('ThoughtDetail.dc.html',{id:merged.id,from:H.page()});},

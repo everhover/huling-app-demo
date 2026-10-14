@@ -8,6 +8,17 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {} };
   const params = () => new URLSearchParams(location.search);
   const page = () => decodeURIComponent(location.pathname.split('/').pop());
+  function beginAppOnly() {
+    state.notes=[];state.actions=[];state.ledger=[];state.deletedNotes=[];state.deletedActions=[];state.deletedRecordings={};
+    Object.assign(state.settings,{'app-only-onboarding':true,'device-bound':false,connected:false,'calendar-access':false,'transcription-success-notify':false,'todo-reminder-notify':false,'schedule-reminder-notify':false,'app-only-permissions-ready':false,'app-only-permissions-dismissed':false});
+    save();
+  }
+  function endAppOnly() {
+    if(!state.settings['app-only-onboarding'])return;
+    const phone=state.settings['login-phone'];state=clone(window.HulingSeed);
+    if(phone)state.settings['login-phone']=phone;
+    save();
+  }
   // A history-cache refresh updates shared data without resetting reading progress.
   const historyRefreshKey = KEY + ':history-refresh';
   let historyRefresh = false;
@@ -18,13 +29,16 @@
   const navigation = typeof performance !== 'undefined' ? performance.getEntriesByType('navigation')[0] : null;
   const manualReload = navigation?.type === 'reload' && !historyRefresh;
   if (manualReload) {
+    const appOnly=state.settings['app-only-onboarding']&&!/^Onboarding|^Launch|^Login/.test(page());
     state = clone(window.HulingSeed);
-    save();
+    if(appOnly||params().get('appOnly')==='1')beginAppOnly();else save();
+    if(appOnly&&page()==='ThoughtDetail.dc.html')window.DemoVersion.replace('FeedHealth.dc.html?appOnly=1');
     // A merged thought disappears when the demo resets; return to the initial feed.
     if (page() === 'ThoughtDetail.dc.html' && params().get('id')?.startsWith('merged-')) {
       window.DemoVersion.replace('FeedCompact.dc.html');
     }
   }
+  if(params().get('appOnly')==='1'&&!state.settings['app-only-onboarding'])beginAppOnly();
   // Anchor the five-tab demo to today once per day, without undoing user actions on navigation.
   if(page()==='HomeTest.dc.html'||params().has('homeTest')) {
     const today=new Date();today.setHours(0,0,0,0);
@@ -100,7 +114,7 @@
     };
   };
   const api = window.Huling = {
-    get state() { return state; }, swipe, page, params, go, note, pending, dateLabel,
+    get state() { return state; }, swipe, page, params, go, note, pending, dateLabel, beginAppOnly, endAppOnly,
     recordingDeleted(id) { return !!state.deletedRecordings?.[id]; },
     recordingFiles(n) { return (n.recordings?.length?n.recordings:[{id:n.id,title:n.title,duration:n.duration}]).map(r=>({...r,bytes:r.storageBytes||Math.round((r.duration||0)*32000),deleted:api.recordingDeleted(r.id)})); },
     storageRows() { return state.notes.filter(n=>!n.mergedInto).map(n=>{const files=api.recordingFiles(n),remaining=files.filter(f=>!f.deleted),bytes=['uploading','upload_failed'].includes(n.status)?0:remaining.reduce((v,f)=>v+f.bytes,0);return {...n,files,bytes,canDelete:n.status==='ready'&&remaining.length>0,recordingDeleted:remaining.length===0};}); },

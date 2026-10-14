@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./demo-seed.js?v=20260926-failure-1"></script>
-<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./demo.js?v=20261014-app-only-1"></script>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><style>
 .mixed-section {gap:14px !important;padding-bottom:10px;}
@@ -362,7 +362,7 @@ class Component extends window.Huling.logic(DCLogic, 'detail') {
   componentWillUnmount() { this.deletionCleanup?.(); this.outsideEditorCleanup?.(); clearInterval(this.timer); clearTimeout(this.toastTimer); }
   data() {
     const selected = window.Huling.currentNote(this.props);
-    if (selected) { const recording=selected.recordings?.[this.state.recordingIndex||0]; return { ...selected, meta: `${selected.group === 0 ? '今天' : selected.group === 1 ? '昨天' : '9月23日'} ${selected.time} · 通过戒指`, dur: recording?.duration??selected.duration, todos: [], segs: recording?.segs??selected.segs, busy: selected.status !== 'ready', uploading: selected.status === 'uploading' }; }
+    if (selected) { const recording=selected.recordings?.[this.state.recordingIndex||0]; return { ...selected, meta: `${selected.group === 0 ? '今天' : selected.group === 1 ? '昨天' : '9月23日'} ${selected.time} · ${selected.appOnlyRecording?'通过 App 录音':'通过戒指'}`, dur: recording?.duration??selected.duration, todos: [], segs: recording?.segs??selected.segs, busy: selected.status !== 'ready', uploading: selected.status === 'uploading' }; }
     const v = this.props.variant ?? 'normal';
     const D = {
       normal: {
