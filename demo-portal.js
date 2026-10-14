@@ -18,6 +18,7 @@ const groups=[
 const onboarding=groups[0],steps=onboarding.pages.filter(page=>!page[2]);
 onboarding.pages=onboarding.pages.filter(page=>page[2]);
 groups.splice(1,0,{id:'onboarding-steps',title:'Onboarding · 分步预览',pages:steps});
+groups.splice(2,0,{id:'app-only',title:'纯 App · 无戒指体验',pages:[['纯 App · 想法列表','FeedHealth.dc.html?appOnly=1'],['戒指介绍与购买','RingIntro.dc.html?appOnly=1']]});
 const entries=groups.flatMap(group=>group.pages.map(([title,page,badge])=>({title,page,badge,group})));
 const allowed=new Set(entries.map(entry=>entry.page.split('?')[0]).concat(['Launch.dc.html','Login.dc.html','RingPairing.dc.html','RecordingTutorial.dc.html','TodoSchedule.dc.html','ThoughtDetailPreview.html','Search.dc.html','RelatedTodos.dc.html','Versions.html','OnboardingVersions.html']));
 const base=new URL('./',location.href);
