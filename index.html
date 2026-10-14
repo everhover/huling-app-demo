@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f3f4ee">
+<meta name="description" content="乎零 App 交互演示：体验两套首次使用流程，以及三个底栏和五个底栏的页面方案。">
+<title>乎零 · 交互演示</title>
+<link rel="icon" href="./assets/ring-firmware.png">
+<link rel="stylesheet" href="./demo-portal.css?v=1">
+<script src="./demo-portal.js?v=1" defer></script>
+</head>
+<body>
+<div class="catalog-backdrop" id="catalog-backdrop" hidden></div>
+<aside class="catalog" id="catalog" aria-label="演示目录">
+  <a class="brand" href="./index.html" aria-label="乎零，回到方案选择"><img src="./assets/launch-logo.png" alt="乎零 HULING"><span>交互演示</span></a>
+  <div class="catalog-intro"><h2>页面目录</h2><p>随时切换方案，直接查看任一页面。</p></div>
+  <label class="catalog-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input type="search" id="catalog-search" placeholder="查找页面" aria-label="查找页面"></label>
+  <nav id="catalog-nav" aria-label="页面与版本"></nav>
+  <p id="catalog-empty" class="catalog-empty" hidden>没有匹配的页面</p>
+  <div class="catalog-footer"><span class="demo-dot"></span>交互原型 · 使用模拟数据</div>
+</aside>
+<main class="workspace">
+  <header class="workspace-toolbar">
+    <div class="toolbar-leading"><button class="icon-button menu-button" id="menu-button" aria-label="打开页面目录" aria-expanded="false" aria-controls="catalog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div><span class="current-group" id="current-group">欢迎体验乎零</span><span class="current-title" id="current-title">选择首次使用方案</span></div></div>
+    <div class="toolbar-actions"><button class="toolbar-button" id="home-button" hidden>选择方案</button><button class="icon-button" id="reload-button" aria-label="刷新当前演示" title="刷新当前演示，恢复模拟数据" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.7"/></svg></button><a class="icon-button" id="open-page" aria-label="单独打开当前页面" title="单独打开当前页面" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></svg></a></div>
+  </header>
+  <section class="welcome" id="welcome" aria-labelledby="welcome-title">
+    <div class="welcome-heading"><div><span class="eyebrow">HULING · APP DEMO</span><h1 id="welcome-title">选择首次使用方案</h1><p>从连接戒指，到记录第一个想法。<br>选择一条路径，开始完整体验。</p></div><div class="welcome-ring"><img src="./assets/ring-firmware.png" alt="乎零戒指"></div></div>
+    <div class="option-grid">
+      <article class="option-card"><div class="option-top"><span class="option-number">01</span><span class="option-tag">直接开始</span></div><h2>先体验，再探索</h2><p>完成戒指配对与录音教学，<br>直接进入想法首页。</p><ol class="flow"><li>登录</li><li>配对戒指</li><li>录音教学</li></ol><button class="start-option" data-page="OnboardingV1-Launch.dc.html">体验方案一 <span aria-hidden="true">↗</span></button></article>
+      <article class="option-card option-two"><div class="option-top"><span class="option-number">02</span><span class="option-tag">教学后开启权限</span></div><h2>准备好日历与提醒</h2><p>完成录音教学后，选择日历和<br>通知权限，再进入想法首页。</p><ol class="flow"><li>登录</li><li>配对与教学</li><li>权限选择</li></ol><button class="start-option" data-page="OnboardingV2-Launch.dc.html">体验方案二 <span aria-hidden="true">↗</span></button></article>
+    </div>
+    <p class="landing-note">两个方案完成后，均进入「想法 · 健康 · 我的」三个底栏版本。</p>
+    <div class="quick-versions"><span>直接查看首页</span><button data-page="FeedHealth.dc.html">三个底栏 <span aria-hidden="true">→</span></button><button data-page="HomeTest.dc.html?homeTest=1">五个底栏 <span aria-hidden="true">→</span></button></div>
+  </section>
+  <section class="preview" id="preview" aria-label="手机交互演示" hidden><div class="preview-space" id="preview-space"><iframe id="demo-frame" title="乎零 App 页面演示" allow="clipboard-write" hidden></iframe></div><p class="preview-hint">可点击、双击和左右拖动，体验完整交互。</p></section>
+  <p class="preview-error" id="preview-error" role="status" hidden>页面暂时未加载完成，可点击右上角刷新或单独打开。</p>
+</main>
+</body>
+</html>

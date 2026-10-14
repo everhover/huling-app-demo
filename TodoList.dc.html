@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head><script src="./version-routing.js?v=2"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./demo-seed.js?v=20260926-failure-1"></script>
+<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+<div ref="{{ rootRef }}" style="width:390px;height:844px;border-radius:46px;overflow:hidden;position:relative;background:#FFFFFF;color:#1D1C1A;font-family:'Instrument Sans','PingFang SC','Noto Sans SC',sans-serif;box-shadow:0 0 0 1px rgba(29,28,26,0.10),0 30px 60px -20px rgba(29,28,26,0.25);">
+  <div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 36px;font-size:16px;font-weight:600;">
+    <span>9:41</span>
+    <div data-href="./Launch.dc.html" role="link" tabindex="0" aria-label="重新开始 App 启动流程" title="重新开始 App 启动流程" style="display:flex;align-items:center;gap:6px;min-height:32px;cursor:pointer;"><div style="display:flex;align-items:flex-end;gap:2px;height:11px;"><div style="width:3px;height:4px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:6px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:8px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:11px;background:#1D1C1A;border-radius:1px;"></div></div><div style="width:24px;height:12px;border:1px solid rgba(29,28,26,0.4);border-radius:4px;padding:1px;"><div style="width:70%;height:100%;background:#1D1C1A;border-radius:2px;"></div></div></div>
+  </div>
+    <div style="position:relative;height:54px;margin:0 20px;flex-shrink:0;">
+      <div style="height:36px;display:flex;align-items:center;justify-content:center;visibility:{{ tabsVisibility }};">
+        <a href="{{ homeHref }}" aria-label="返回想法首页" style="position:absolute;left:0;top:0;height:36px;display:flex;align-items:center;gap:5px;text-decoration:none;color:#5E5A54;font-size:14px;"><svg width="10" height="18" viewBox="0 0 10 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2 2 9l6 7" stroke-linecap="round" stroke-linejoin="round"/></svg>想法</a>
+        <span style="font-size:20px;font-weight:600;">待办</span>
+      </div>
+      <div ref="{{ searchContainerRef }}" style="position:absolute;right:0;top:0;width:{{ searchWidth }};height:30px;box-sizing:border-box;display:flex;align-items:center;border-radius:99px;background:{{ searchBackground }};overflow:hidden;transition:width 220ms ease,background 220ms ease;">
+        <sc-if value="{{ searchOpen }}"><input ref="{{ searchRef }}" value="{{ query }}" onChange="{{ onSearch }}" onKeyDown="{{ searchKey }}" placeholder="搜索想法、待办、日程" aria-label="搜索想法、待办、日程" style="width:0;min-width:0;flex:1;border:0;outline:none;background:transparent;padding:0 12px;font-family:inherit;font-size:13px;color:#1D1C1A;"></sc-if>
+        <button type="button" onClick="{{ toggleSearch }}" aria-label="{{ searchLabel }}" style="width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center;border:0;padding:0;background:transparent;color:#5E5A54;cursor:pointer;">
+          <sc-if value="{{ searchClosed }}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7.8" cy="7.8" r="5.8"></circle><path d="M12.2 12.2 16 16" stroke-linecap="round"></path></svg></sc-if>
+          <sc-if value="{{ searchOpen }}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m4 4 8 8M12 4l-8 8" stroke-linecap="round"></path></svg></sc-if>
+        </button>
+      </div>
+    </div>
+
+
+  <div data-scroll-key="list" ref="{{ listRef }}" onScroll="{{ onScroll }}" style="padding:0 20px 110px;height:708px;overflow-y:auto;box-sizing:border-box;">
+    <sc-if value="{{ noSearchResults }}"><div style="padding:40px 12px;text-align:center;font-size:14px;color:#8C877F;">没有找到相关事项，试试其他关键词</div></sc-if>
+    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+      <div onClick="{{ g.onHeader }}" style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 2px;cursor:{{ g.cursor }};">
+        <span style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:12.5px;font-weight:600;color:{{ g.color }};">{{ g.label }}</span><span style="font-size:12px;color:#A8A39B;">{{ g.range }}</span></span>
+        <span style="font-size:12px;color:#A8A39B;">{{ g.right }}</span>
+      </div>
+      <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+          <div data-swipe-label="{{ it.swipeLabel }}" data-swipe-release="{{ it.swipeRelease }}" data-swipe-direction="left" style="margin:0 -20px;">
+        <div ref="{{ it.editRegionRef }}" onPointerDown="{{ it.swipeStart }}" onPointerMove="{{ it.swipeMove }}" onPointerUp="{{ it.swipeEnd }}" onPointerCancel="{{ it.swipeCancel }}" onClick="{{ it.tap }}" style="display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:12px;padding:11px 20px;margin:0;position:relative;touch-action:pan-y;background:{{ it.rowBg }};border-bottom:1px solid rgba(29,28,26,0.06);cursor:pointer;">
+          <div data-swipe-control="true" onClick="{{ it.toggle }}" style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;margin-top:1px;">
+            <sc-if value="{{ it.isDone }}" hint-placeholder-val="{{ false }}"><div style="width:18px;height:18px;border-radius:99px;background:#E4E0D9;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#5E5A54" stroke-width="1.8"><path d="M2 5.2 4.2 7.4 8 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></sc-if>
+            <sc-if value="{{ it.isOpen }}" hint-placeholder-val="{{ true }}"><div style="width:18px;height:18px;border-radius:99px;border:1.5px solid rgba(29,28,26,0.28);box-sizing:border-box;"></div></sc-if>
+            <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}"><div style="width:18px;height:18px;border-radius:99px;border:1.5px dashed oklch(0.56 0.07 195);box-sizing:border-box;"></div></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;min-width:0;padding-right:{{ it.actionSpace }};">
+            <sc-if value="{{ it.isEditing }}" hint-placeholder-val="{{ false }}"><input defaultValue="{{ it.title }}" onChange="{{ onTitle }}" onClick="{{ stopClick }}" style="border:none;border-bottom:1px solid rgba(29,28,26,0.18);outline:none;font-family:inherit;font-size:15.5px;line-height:1.4;font-weight:500;color:#1D1C1A;background:transparent;padding:0 0 3px;margin:0;width:100%;"></sc-if>
+            <sc-if value="{{ it.notEditing }}" hint-placeholder-val="{{ true }}"><div style="font-size:15.5px;line-height:1.4;color:{{ it.titleColor }};text-decoration:{{ it.deco }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.title }}</div></sc-if>
+            <div style="display:flex;gap:6px;font-size:12px;line-height:17px;color:#A8A39B;min-width:0;white-space:nowrap;overflow:hidden;">
+              <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}"><span style="color:oklch(0.42 0.08 195);flex:none;">待确认</span><span>·</span></sc-if>
+              <span style="color:{{ it.whenColor }};flex:none;font-variant-numeric:tabular-nums;">{{ it.when }}</span><span>·</span><span onClick="{{ it.openNote }}" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#8C877F;text-decoration:underline;text-decoration-color:rgba(29,28,26,0.18);text-underline-offset:3px;cursor:pointer;">{{ it.source }}</span>
+            </div>
+
+            <sc-if value="{{ it.showActions }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;right:20px;top:11px;display:flex;align-items:center;gap:16px;">
+                <button type="button" onClick="{{ it.ignore }}" style="height:28px;padding:0 8px;border:0;background:transparent;color:#8C877F;font-family:inherit;font-size:12.5px;cursor:pointer;">忽略</button>
+                <button type="button" onClick="{{ it.confirm }}" style="height:28px;padding:0 12px;border:0;border-radius:99px;background:oklch(0.42 0.08 195);color:#FFFFFF;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;">确认</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isEditing }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;margin-top:8px;gap:2px;">
+                <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;padding:6px 0;">
+                  <span style="font-size:12.5px;color:#A8A39B;padding-top:6px;">日期</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <sc-for list="{{ dateOpts }}" as="o" hint-placeholder-count="5">
+                      <div onClick="{{ o.pick }}" style="height:28px;padding:0 11px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+                <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ stopClick }}" style="padding:10px 0 12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px 8px;">
+                      <span onClick="{{ prevMonth }}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:{{ prevColor }};cursor:pointer;">‹</span>
+                      <span style="font-size:14.5px;font-weight:600;">{{ monthLabel }}</span>
+                      <span onClick="{{ nextMonth }}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#5E5A54;cursor:pointer;">›</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center;font-size:11.5px;color:#A8A39B;padding-bottom:4px;"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+                    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;">
+                      <sc-for list="{{ calDays }}" as="c" hint-placeholder-count="35">
+                        <div onClick="{{ c.pick }}" style="height:38px;display:flex;align-items:center;justify-content:center;cursor:{{ c.cursor }};">
+                          <span style="width:32px;height:32px;border-radius:99px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-variant-numeric:tabular-nums;background:{{ c.bg }};color:{{ c.fg }};font-weight:{{ c.fw }};border:{{ c.bd }};">{{ c.n }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+                <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;padding:6px 0;">
+                  <span style="font-size:12.5px;color:#A8A39B;">时间</span>
+                  <input defaultValue="{{ it.time }}" placeholder="不设时间" onChange="{{ onTime }}" onClick="{{ stopClick }}" style="border:none;outline:none;font-family:inherit;font-size:15px;color:#1D1C1A;background:transparent;padding:2px 0;width:100%;font-variant-numeric:tabular-nums;">
+                </div>
+                <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;padding:6px 0;">
+                  <span style="font-size:12.5px;color:#A8A39B;padding-top:6px;">提醒</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <sc-for list="{{ remindOpts }}" as="o" hint-placeholder-count="4">
+                      <div onClick="{{ o.pick }}" style="height:28px;padding:0 11px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding-top:8px;">
+                  <div onClick="{{ del }}" style="height:32px;padding:0 6px;font-size:13px;color:oklch(0.52 0.13 35);display:flex;align-items:center;cursor:pointer;">删除</div>
+                  <div style="flex:1;"></div>
+                  <div onClick="{{ cancelEdit }}" style="height:32px;padding:0 10px;font-size:13px;color:#8C877F;display:flex;align-items:center;cursor:pointer;">收起</div>
+                  <sc-if value="{{ curPending }}" hint-placeholder-val="{{ false }}"><div onClick="{{ confirmEdit }}" style="height:32px;padding:0 16px;border-radius:99px;background:#EEEBE6;font-weight:600;font-size:13px;display:flex;align-items:center;cursor:pointer;">{{ confirmText }}</div></sc-if>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+          </div>
+      </sc-for>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ noteOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:20;background:#FFFFFF;overflow-y:auto;">
+      <dc-import name="ThoughtDetail" embedded="{{ true }}" variant="{{ noteVariant }}" title-override="{{ noteTitle }}" highlight="{{ noteHighlight }}" back-label="待办" close-fn="{{ closeNote }}" hint-size="100%,844px"></dc-import>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:50%;bottom:100px;transform:translateX(-50%);background:#FFFFFF;font-size:13.5px;padding:10px 16px;border-radius:99px;box-shadow:0 6px 24px rgba(29,28,26,0.14),0 0 0 1px rgba(29,28,26,0.06);white-space:nowrap;display:flex;gap:12px;z-index:5;">
+      <span>{{ toast }}</span><span data-delete-undo="true" onClick="{{ undo }}" style="font-weight:600;cursor:pointer;">撤销</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;height:86px;background:rgba(255,255,255,0.96);border-top:1px solid rgba(29,28,26,0.07);display:grid;grid-template-columns:repeat(3,1fr);padding-top:12px;">
+      <div data-href="{{ homeHref }}" role="link" tabindex="0" style="display:flex;flex-direction:column;align-items:center;gap:5px;font-size:15px;font-weight:600;"><span>想法</span><div style="width:4px;height:4px;border-radius:99px;background:#1D1C1A;"></div></div>
+      <div data-href="./HealthScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">健康</div>
+      <div data-href="./MeScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">我的</div>
+      <div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:99px;background:#1D1C1A;"></div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;editing&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;calendar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDone&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;justDone&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;noteOpen&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const D = (m, d) => ({ m: m - 1, d });
+const TODOS = window.Huling.list('todo');
+const WD = '日一二三四五六';
+const WARN = 'oklch(0.52 0.13 35)';
+const TODAY = new URLSearchParams(location.search).has('homeTest') ? new Date(new Date().setHours(0,0,0,0)) : new Date(2026, 8, 25);
+const dayNum = dt => Math.round((new Date(2026, dt.m, dt.d) - TODAY) / 864e5);
+const wd = dt => WD[new Date(2026, dt.m, dt.d).getDay()];
+const same = (a, b) => a && b && a.m === b.m && a.d === b.d;
+function whenLabel(t) {
+  if (!t.date) return t.time || '未定时间';
+  const n = dayNum(t.date);
+  let s = n === 0 ? '今天' : n === 1 ? '明天' : n === -1 ? '昨天' : (n >= -4 && n <= 2) ? `周${wd(t.date)}` : `${t.date.m + 1}月${t.date.d}日 周${wd(t.date)}`;
+  if (n > 2 && n <= 9) s = `周${wd(t.date)} ${t.date.m + 1}月${t.date.d}日`;
+  return t.time ? `${s} ${t.time}` : s;
+}
+function groupOf(t) {
+  if (t.status === 'done') return 'done';
+  if (!t.date) return 'none';
+  const n = dayNum(t.date);
+  if (n < 0) return 'over';
+  if (n <= 2) return 'week';
+  if (n <= 9) return 'next';
+  return 'later';
+}
+class Component extends window.Huling.logic(DCLogic, 'todo') {
+  state = { held: {} };
+  rootRef = React.createRef();
+  componentDidMount() { this.deletionCleanup = window.Huling.bindPendingDeletion(this); this.headerCleanup = window.Huling.bindHeader(this); this.outsideEditorCleanup = window.Huling.bindOutsideEditor(this);
+    this._onBack = () => this.setState({ note: null });
+    const attach = () => { const el = this.rootRef.current; if (el) { el.addEventListener('td-back', this._onBack); this._el = el; } else if ((this._tries = (this._tries || 0) + 1) < 20) setTimeout(attach, 50); };
+    attach();
+    if (this.props.noteOpen && this.state.note === undefined) this.setState({ note: this.props.noteOpen });
+    const h = this.props.justDone; if (h) { const ids = h.split(','); const held = {}; const todos = TODOS.map(t => { if (ids.includes(t.id)) { held[t.id] = groupOf(t); return { ...t, status: 'done' }; } return t; }); this.setState({ todos, held }); } }
+  listRef = React.createRef();
+  componentWillUnmount() { this.deletionCleanup?.(); this.headerCleanup?.(); this.outsideEditorCleanup?.(); clearTimeout(this.tt); if (this._el) this._el.removeEventListener('td-back', this._onBack); }
+  get todos() { return this.state.todos ?? TODOS; }
+  flash(msg, prev) { clearTimeout(this.tt); this.setState({ toast: msg, prev }); this.tt = setTimeout(() => this.setState({ toast: null }), 3200); }
+  renderVals() {
+    const header = window.Huling.headerVals(this);
+    const todos = this.todos;
+    const stop = e => e && e.stopPropagation && e.stopPropagation();
+    const editingId = this.state.editing !== undefined ? this.state.editing : (this.props.editing || null);
+    const draft = this.state.draft || {};
+    const showDone = this.state.showDone ?? !!this.props.showDone;
+    const calOpen = this.state.calOpen ?? !!this.props.calendar;
+    const held = this.state.held || {};
+    const eg = this.state.editGroup;
+    const gOf = t => (t.id === editingId && eg) ? eg : (held[t.id] || groupOf(t));
+    const settle = () => (Object.keys(held).length ? { held: {} } : {});
+    const set = patch => this.setState({ ...settle(), ...patch });
+    const upd = (id, p, extra) => this.setState({ todos: todos.map(t => t.id === id ? { ...t, ...p } : t), ...(extra || {}) });
+    const row = t => {
+      const deleting = this.state.pendingDelete === t.id;
+      const done = t.status === 'done', pend = t.status === 'pending', ed = editingId === t.id;
+      const g = groupOf(t);
+      return {
+        ...window.Huling.swipe(() => { if(pend) {upd(t.id,{status:'open'});this.flash('已确认',todos);} else {upd(t.id, {status:'done'}, {held:{...held,[t.id]:groupOf(t)}});this.flash('已完成 1 项',todos);} }, !deleting && !done && !ed, -1, {label:pend?'右滑忽略':'右滑删除',release:pend?'松开忽略':'松开删除',commit:()=>{if(!pend){this.stageDeletion(t.id);return;}if(pend)window.Huling.resolve([t.id],true);this.setState({todos:todos.filter(x=>x.id!==t.id)});this.flash(pend?'已忽略 1 项':'已删除 1 项',todos.map(x=>x.id===t.id?{...x,ignored:false}:x));}}),
+        swipeLabel:pend?'左滑确认':'左滑完成',swipeRelease:pend?'松开确认':'松开完成',
+        ...t, isDone: done, isPending: pend, isOpen: !done && !pend, isEditing: ed, editRegionRef: ed ? this.editRegionRef : null, notEditing: !ed,
+        when: whenLabel(t) + (g === 'over' ? ' · 已过期' : '') + (held[t.id] && done ? ' · 刚刚完成' : ''),
+        whenColor: g === 'over' ? WARN : done ? '#A8A39B' : '#5E5A54',
+        titleColor: done || deleting ? '#A8A39B' : '#1D1C1A', deco: done || deleting ? 'line-through' : 'none',
+        rowBg: ed ? '#FAF9F7' : '#FFFFFF',
+        showActions: !deleting && pend && !ed, actionSpace: pend && !ed ? '120px' : '0',
+        openNote: e => { stop(e); window.Huling.openNote(t.source); },
+        tap: () => { if(deleting)return; window.Huling.go('TodoDetail.dc.html',{id:t.id}); },
+        confirm: e => { stop(e); upd(t.id, { status: 'open' }); this.flash('已确认', todos); },
+        ignore: e => { stop(e); window.Huling.resolve([t.id], true); this.setState({ todos: todos.filter(x => x.id !== t.id) }); this.flash('已忽略 1 项', todos.map(x => x.id === t.id ? { ...x, ignored: false } : x)); },
+        toggle: e => {
+          stop(e);
+          if(deleting)return;
+          if (pend) { upd(t.id, { status: 'open' }); this.flash('已确认', todos); return; }
+          const h = { ...held };
+          if (done) { if (h[t.id]) delete h[t.id]; else h[t.id] = 'done'; }
+          else h[t.id] = h[t.id] || groupOf(t);
+          upd(t.id, { status: done ? 'open' : 'done' }, { held: h });
+          if (!done) this.flash('已完成 1 项', todos);
+        }
+      };
+    };
+    const isFocus = this.props.focusEdit && this.state.editing === undefined && editingId;
+    const defs = [
+      ['over', '已过期', '', WARN],
+      ['week', '本周', '9月21日 – 27日', '#1D1C1A'],
+      ['next', '下周', '9月28日 – 10月4日', '#A8A39B'],
+      ['later', '之后', '', '#A8A39B'],
+      ['none', '未定时间', '', '#A8A39B'],
+      ['done', '已完成', '', '#A8A39B']
+    ];
+    const key = t => (t.date ? dayNum(t.date) * 10000 : 9e8) + (t.time ? parseInt(t.time.replace(':', ''), 10) || 1200 : 2400);
+    let groups = defs.map(([k, label, range, color]) => {
+      let list = todos.filter(t => gOf(t) === k && header.matches(t)).sort((a, b) => key(a) - key(b));
+      if (isFocus) { const idx = list.findIndex(t => t.id === editingId); list = idx >= 0 ? list.slice(idx) : []; }
+      const isDone = k === 'done';
+      return {
+        label, range, color, count: list.length,
+        right: isDone ? `${list.length} 项 · ${showDone ? '收起' : '展开'}` : `${list.filter(t => t.status !== 'done').length} 项`,
+        cursor: isDone ? 'pointer' : 'default',
+        onHeader: isDone ? () => set({ showDone: !showDone }) : undefined,
+        items: isDone && !header.query && !showDone && !list.some(t => t.id === editingId) ? [] : list.map(row)
+      };
+    }).filter(g => g.count);
+    const sg = this.props.startGroup;
+    if (sg && this.state.editing === undefined) { const i = defs.findIndex(d => d[0] === sg); const keep = defs.slice(i).map(d => d[1]); groups = groups.filter(g => keep.includes(g.label)); }
+
+    const cur = todos.find(t => t.id === editingId);
+    const val = k => cur && cur[k];
+    const setD = (k, v) => this.setState(s => ({ editGroup: s.editGroup || (cur ? groupOf(cur) : undefined), todos: (s.todos ?? TODOS).map(t => t.id === editingId ? { ...t, [k]: v } : t) }));
+    const chipStyle = on => ({ bg: on ? '#EEEBE6' : '#FFFFFF', fg: on ? '#1D1C1A' : '#5E5A54', fw: on ? 600 : 400, bd: on ? 'transparent' : 'rgba(29,28,26,0.1)' });
+    let dateOpts = [], remindOpts = [], calDays = [], monthLabel = '';
+    const calM = this.state.calM ?? (cur && cur.date && cur.date.m >= 8 ? cur.date.m : 8);
+    if (cur) {
+      const dv = val('date');
+      const presets = [['今天', D(9, 25)], ['明天', D(9, 26)], ['下周一', D(9, 28)]];
+      const isPreset = presets.some(p => same(p[1], dv));
+      dateOpts = presets.map(([label, dt]) => ({ label, ...chipStyle(same(dt, dv)), pick: e => { stop(e); setD('date', dt); set({ calOpen: false }); } }));
+      dateOpts.push({ label: '未定', ...chipStyle(!dv), pick: e => { stop(e); setD('date', null); set({ calOpen: false }); } });
+      const custom = dv && !isPreset;
+      dateOpts.push({ label: (custom ? `${dv.m + 1}月${dv.d}日` : '选择日期') + ' ▾', ...chipStyle(custom || calOpen), pick: e => { stop(e); set({ calOpen: !calOpen }); } });
+      remindOpts = ['不提醒', '准时', '提前 30 分钟', '提前 1 天'].map(o => ({ label: o, ...chipStyle(o === val('remind')), pick: e => { stop(e); setD('remind', o); } }));
+      const lead = (new Date(2026, calM, 1).getDay() + 6) % 7, nDays = new Date(2026, calM + 1, 0).getDate();
+      monthLabel = `2026年${calM + 1}月`;
+      for (let k = 0; k < lead; k++) calDays.push({ n: '', bg: 'transparent', fg: 'transparent', fw: 400, bd: 'none', cursor: 'default' });
+      for (let d = 1; d <= nDays; d++) {
+        const dt = { m: calM, d }, n = dayNum(dt), on = same(dt, dv), today = n === 0;
+        calDays.push({ n: d, cursor: n < 0 ? 'default' : 'pointer', bg: on ? '#EEEBE6' : 'transparent', fg: n < 0 ? '#D3CFC8' : '#1D1C1A', fw: on || today ? 600 : 400, bd: today && !on ? '1px solid #C9C4BC' : 'none', pick: e => { stop(e); if (n >= 0) setD('date', dt); } });
+      }
+    }
+    const close = () => set({ editing: null, editGroup: undefined, calOpen: false });
+    const onScroll = () => { if (Object.keys(held).length && !this._sc) { this._sc = setTimeout(() => { this._sc = null; this.setState({ held: {} }); }, 1200); } };
+    const noteId = this.state.note || null;
+    const noteT = todos.find(t => t.id === noteId);
+    return {
+      ...header, noSearchResults:!!header.query.trim() && !groups.some(g=>g.items.length),
+      ringStatus: window.Huling.setting("connected") === false ? "戒指未连接" : "戒指 78%",
+      noteOpen: !!noteT, noteTitle: noteT ? noteT.source : '', noteHighlight: noteT ? noteT.title : '',
+      noteVariant: noteT && noteT.source === '和供应商讨论 PCB' ? 'confirm' : 'normal',
+      closeNote: () => this.setState({ note: null }),
+      pendingCount: window.Huling.pending().length,
+      openCount: todos.filter(t => t.status !== 'done').length,
+      listRef: this.listRef, rootRef: this.rootRef, groups, onScroll,
+      dateOpts, remindOpts, calDays, monthLabel, calOpen: !!cur && calOpen,
+      prevColor: calM > 8 ? '#5E5A54' : '#D3CFC8',
+      prevMonth: e => { stop(e); if (calM > 8) set({ calM: calM - 1 }); },
+      nextMonth: e => { stop(e); if (calM < 11) set({ calM: calM + 1 }); },
+      stopClick: stop,
+      onTitle: e => setD('title', e.target.value), onTime: e => setD('time', e.target.value),
+      curPending: !!cur && cur.status === 'pending', confirmText: '确认',
+      cancelEdit: e => { stop(e); close(); },
+      confirmEdit: e => { stop(e); const prev = todos; this.setState({ todos: todos.map(t => t.id === editingId ? { ...t, status: 'open' } : t) }); this.flash('已确认', prev); },
+      del: e => { stop(e); this.stageDeletion(editingId); },
+      showTabBar: !cur,
+      hasToast: !!this.state.toast, toast: this.state.toast,
+      undo: () => { clearTimeout(this.tt); this.setState({ todos: this.state.prev, pendingDelete:null, toast: null }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

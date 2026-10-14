@@ -1,0 +1,11 @@
+# Local review materials and unrelated analysis
+.DS_Store
+.thumbnail
+analytics/
+uploads/
+screenshots/
+onboarding-previous/
+Readme*.png
+onboarding*preview.png
+public-demo-preview*.png
+assets/*.prompt.md

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head><script src="./version-routing.js?v=2"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./demo-seed.js?v=20260926-failure-1"></script>
+<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-cards.js?v=2" defer></script><link rel="stylesheet" href="./today-pages.css?v=4"><script src="./home-test-nav.js?v=9" defer></script></head>
+<body>
+<x-dc>
+<helmet>
+<style>@keyframes hlPulse{0%,100%{opacity:1}50%{opacity:.3}}.home-entry{flex:0 0 calc((100% - 24px)/3.2);min-width:0;scroll-snap-align:start;border-radius:18px;border:1px solid #E5E9E1;overflow:hidden;cursor:pointer;box-sizing:border-box}.home-entry-title{font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:space-between}.home-entry-preview{font-size:11px;color:#8C877F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:9px}.home-entry-number{font-size:27px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}.home-entry-unit{font-size:11px;font-weight:400;margin-left:4px;color:#8C877F}</style>
+</helmet>
+<div style="width:390px;height:844px;border-radius:46px;overflow:hidden;position:relative;background:#FFFFFF;color:#1D1C1A;font-family:'Instrument Sans','PingFang SC','Noto Sans SC',sans-serif;box-shadow:0 0 0 1px rgba(29,28,26,0.10),0 30px 60px -20px rgba(29,28,26,0.25);">
+  <div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 36px;font-size:16px;font-weight:600;">
+    <button type="button" onClick="{{ toggleHealthBrief }}" aria-label="{{ healthToggleLabel }}" title="{{ healthToggleLabel }}" style="border:0;background:transparent;color:inherit;font:inherit;padding:8px 0;cursor:pointer;">9:41</button>
+    <sc-if value="{{ showOriginalExtras }}"><a data-version-switch href="./HomeTest.dc.html" style="margin-left:auto;margin-right:14px;color:#8C877F;font-size:12px;text-decoration:none;font-weight:400;">测试</a></sc-if>
+    <div data-href="./Launch.dc.html" role="link" tabindex="0" aria-label="重新开始 App 启动流程" title="重新开始 App 启动流程" style="display:flex;align-items:center;gap:6px;min-height:32px;cursor:pointer;">
+      <div style="display:flex;align-items:flex-end;gap:2px;height:11px;"><div style="width:3px;height:4px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:6px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:8px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:11px;background:#1D1C1A;border-radius:1px;"></div></div>
+      <div style="width:24px;height:12px;border:1px solid rgba(29,28,26,0.4);border-radius:4px;padding:1px;"><div style="width:70%;height:100%;background:#1D1C1A;border-radius:2px;"></div></div>
+    </div>
+  </div>
+
+  <!-- 2a: 笔记式列表 -->
+  <sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:48px 1fr 48px;align-items:center;padding:8px 18px 10px;">
+      <div style="width:44px;height:44px;border-radius:99px;background:#FFFFFF;box-shadow:0 4px 16px rgba(29,28,26,0.08),0 0 0 1px rgba(29,28,26,0.04);display:flex;align-items:center;justify-content:center;position:relative;">
+        <div style="width:16px;height:16px;border-radius:99px;border:2px solid #1D1C1A;"></div>
+        <div style="position:absolute;top:10px;right:10px;width:7px;height:7px;border-radius:99px;background:oklch(0.62 0.08 160);box-shadow:0 0 0 2px #FFFFFF;"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:5px;font-size:19px;font-weight:600;"><span>想法</span><span style="font-size:11px;color:#9A958D;">▼</span></div>
+      <div style="width:44px;height:44px;border-radius:99px;background:#FFFFFF;box-shadow:0 4px 16px rgba(29,28,26,0.08),0 0 0 1px rgba(29,28,26,0.04);display:flex;align-items:center;justify-content:center;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#1D1C1A" stroke-width="1.6"><circle cx="7.8" cy="7.8" r="5.8"></circle><path d="M12.2 12.2 16 16" stroke-linecap="round"></path></svg>
+      </div>
+    </div>
+    <div style="padding:6px 22px 0;">
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="6">
+        <div onClick="{{ it.open }}" style="cursor:pointer;padding:15px 0 14px;border-bottom:1px solid rgba(29,28,26,0.08);display:flex;flex-direction:column;gap:5px;">
+          <sc-if value="{{ it.processing }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600;color:#9A958D;"><span style="width:7px;height:7px;border-radius:99px;background:oklch(0.56 0.07 195);animation:hlPulse 1.4s ease-in-out infinite;"></span>{{ it.processingLabel }}</div>
+          </sc-if>
+          <sc-if value="{{ it.ready }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:17px;font-weight:600;line-height:1.35;">{{ it.title }}</div>
+          </sc-if>
+          <div style="font-size:15px;line-height:1.5;color:#8C877F;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ it.preview }}</div>
+<sc-if value="{{ it.failed }}"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding-top:4px;"><span style="font-size:12px;color:#B05D50;">{{ it.failureLabel }}</span><button onClick="{{ it.retry }}" aria-label="{{ it.retryLabel }}" style="display:flex;align-items:center;gap:5px;border:0;border-radius:6px;padding:6px 8px;background:#F5EDE9;color:#A45145;font:inherit;font-size:12px;cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.7"/></svg>{{ it.retryLabel }}</button></div></sc-if>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#A8A39B;margin-top:3px;font-variant-numeric:tabular-nums;">
+            <sc-if value="{{ it.pending }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;order:2;text-align:right;color:oklch(0.45 0.08 195);font-weight:500;">● {{ it.pendingText }}</span></sc-if>
+            <span>{{ it.when }}</span>
+            <sc-if value="{{ it.hasResult }}" hint-placeholder-val="{{ true }}"><span>{{ it.result }}</span></sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- 2b: 分组紧凑列表 -->
+  <sc-if value="{{ isB }}" hint-placeholder-val="{{ false }}">
+<header class="today-page-head"><div><h1>想法</h1><div class="today-page-date"></div></div><div class="today-inline-search" ref="{{ searchContainerRef }}" style="width:{{ searchWidth }};background:{{ searchBackground }};">
+        <sc-if value="{{ searchOpen }}"><input ref="{{ searchRef }}" value="{{ query }}" onChange="{{ onSearch }}" onKeyDown="{{ searchKey }}" placeholder="搜索想法、待办、日程" aria-label="搜索想法、待办、日程" style="width:0;min-width:0;flex:1;border:0;outline:none;background:transparent;padding:0 12px;font-family:inherit;font-size:13px;color:#1D1C1A;"></sc-if>
+        <button type="button" onClick="{{ toggleSearch }}" aria-label="{{ searchLabel }}" style="width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center;border:0;padding:0;background:transparent;color:#5E5A54;cursor:pointer;">
+          <sc-if value="{{ searchClosed }}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7.8" cy="7.8" r="5.8"></circle><path d="M12.2 12.2 16 16" stroke-linecap="round"></path></svg></sc-if>
+          <sc-if value="{{ searchOpen }}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m4 4 8 8M12 4l-8 8" stroke-linecap="round"></path></svg></sc-if>
+        </button>
+      </div><a class="today-page-avatar" href="./MeScreen.dc.html" aria-label="我的">我</a></header>    <div data-scroll-key="feed" style="padding:0 20px 24px;height:668px;overflow-y:auto;box-sizing:border-box;">
+      <sc-if value="{{ showHealthBrief }}">
+        <div data-href="./HealthScreen.dc.html" role="link" tabindex="0" aria-label="昨日健康，查看健康详情" style="margin-top:12px;border-radius:18px;overflow:hidden;background:#F5F5EF;border:1px solid #E9EAE1;">
+          <div style="height:68px;position:relative;overflow:hidden;">
+            <img src="./assets/health-autumn-leaves.png" alt="阳光下的金色秋叶" style="position:absolute;left:-5%;top:-5%;width:110%;height:110%;object-fit:cover;object-position:center 56%;">
+            <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,24,14,.58),rgba(15,24,14,.08));"></div><div style="position:relative;padding:9px 16px;color:#FFFFFF;"><div style="font-size:18px;font-weight:600;letter-spacing:.5px;">昨日健康</div><div style="font-size:11px;margin-top:4px;color:#F0F0E6;">休息有度，今天从容出发</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:5px 0 6px;text-align:left;">
+            <div style="padding-left:15px;color:#77718E;"><div style="font-size:11px;">昨日睡眠</div><div style="font-size:21px;font-weight:600;line-height:24px;">7<span style="font-size:11px;font-weight:400;">时</span>42<span style="font-size:11px;font-weight:400;">分</span></div><div style="font-size:11px;">睡得不错</div></div>
+            <div style="padding-left:15px;border-left:1px solid #E2E5DC;color:#527A65;"><div style="font-size:11px;">今日就绪</div><div style="font-size:21px;font-weight:600;line-height:24px;">80<span style="font-size:11px;font-weight:400;"> / 100</span></div><div style="font-size:11px;">状态良好</div></div>
+            <div style="padding-left:15px;border-left:1px solid #E2E5DC;color:#997344;"><div style="font-size:11px;">昨日活动</div><div style="font-size:21px;font-weight:600;line-height:24px;">312<span style="font-size:11px;font-weight:400;"> 千卡</span></div><div style="font-size:11px;">6,240 步</div></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showEntryCards }}">
+        <div class="home-entry-strip" aria-label="事项快捷入口，可横向滑动" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;touch-action:pan-y;user-select:none;cursor:grab;overscroll-behavior-x:contain;scrollbar-width:none;">
+          <div data-href="./PendingReview.dc.html?from=FeedHealth.dc.html" role="link" tabindex="0" aria-label="需确认卡片，查看待确认事项" class="home-entry" style="padding:12px;background:#EAF1ED;color:#326566;"><div class="home-entry-title" style="font-size:13px;"><span>需确认</span><span aria-hidden="true">›</span></div><div style="margin-top:8px;"><span class="home-entry-number" style="font-size:24px;">{{ pendingCount }}</span><span class="home-entry-unit">项</span></div></div>
+          <div data-href="./TodoList.dc.html?from=FeedHealth.dc.html" role="link" tabindex="0" aria-label="今日待办卡片，查看待办列表" class="home-entry" style="padding:12px;background:#F1F3ED;color:#527A65;"><div class="home-entry-title" style="font-size:13px;"><span>今日待办</span><span aria-hidden="true">›</span></div><div style="margin-top:8px;"><span class="home-entry-number" style="font-size:24px;">{{ entryTodoCount }}</span><span class="home-entry-unit">项</span></div></div>
+          <div data-href="./ScheduleList.dc.html?from=FeedHealth.dc.html" role="link" tabindex="0" aria-label="今日日程卡片，查看日程列表" class="home-entry" style="padding:12px;background:#F6F2E9;border-color:#EBE5D9;color:#997344;"><div class="home-entry-title" style="font-size:13px;"><span>今日日程</span><span aria-hidden="true">›</span></div><div style="margin-top:8px;"><span class="home-entry-number" style="font-size:24px;">{{ entryScheduleCount }}</span><span class="home-entry-unit">项</span></div></div>
+          <div data-href="./Bookkeeping.dc.html?from=FeedHealth.dc.html" role="link" tabindex="0" aria-label="记账卡片，查看记账列表" class="home-entry" style="padding:12px;background:#F1EEF5;border-color:#E6E0EC;color:#81708E;"><div class="home-entry-title" style="font-size:13px;"><span>记账</span><span aria-hidden="true">›</span></div><div style="margin-top:8px;"><span class="home-entry-number" style="font-size:24px;">{{ entryLedgerCount }}</span><span class="home-entry-unit">笔</span></div></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ selecting }}"><div style="display:flex;justify-content:space-between;padding:14px 0 2px;font-size:13px;color:#8C877F;"><span>已选 {{ selectionCount }} 条</span><button onClick="{{ exitSelection }}" style="border:0;background:transparent;font:inherit;color:#1D1C1A;cursor:pointer;">取消</button></div></sc-if>
+      <sc-if value="{{ noSearchResults }}"><div style="padding:48px 12px;text-align:center;font-size:14px;color:#8C877F;">没有找到相关想法，试试其他关键词</div></sc-if>
+      <sc-if value="{{ showMorning }}" hint-placeholder-val="{{ false }}">
+        <div data-href="./HealthScreen.dc.html" role="link" tabindex="0" style="margin-top:10px;padding:11px 14px;border-radius:12px;background:#F6F4F1;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <div style="display:flex;align-items:baseline;gap:8px;min-width:0;"><span style="font-size:14px;font-weight:600;flex:none;">昨晚睡得不错</span><span style="font-size:12.5px;color:#8C877F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">7h 42m · 恢复处于日常水平</span></div>
+          <span style="font-size:12.5px;color:#8C877F;flex:none;">健康 ›</span>
+        </div>
+      </sc-if>
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 2px;"><span style="font-size:12.5px;font-weight:600;color:#A8A39B;">{{ g.label }}</span><sc-if value="{{ g.hasUnreadNote }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#5E5A54;">{{ g.unreadNote }}</span></sc-if></div>
+        <sc-if value="{{ g.showEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:12px 0 13px;border-bottom:1px solid rgba(29,28,26,0.07);display:flex;flex-direction:column;gap:3px;">
+            <span style="font-size:15px;color:#5E5A54;">今天还没有新的想法</span>
+            <span style="font-size:13px;color:#A8A39B;">想到什么时，双击戒指，说出来就好。</span>
+          </div>
+        </sc-if>
+        <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+          <div data-swipe-label="右滑删除" data-swipe-release="松开删除" data-swipe-direction="right" data-swipe-reverse="true" style="margin:0 -20px;">
+          <div onPointerDown="{{ it.swipeStart }}" onPointerMove="{{ it.swipeMove }}" onPointerUp="{{ it.swipeEnd }}" onPointerCancel="{{ it.swipeCancel }}" onClick="{{ it.open }}" role="link" tabindex="0" style="cursor:pointer;padding:11px 20px;margin:0;touch-action:pan-y;opacity:{{ it.rowOpacity }};text-decoration:{{ it.deco }};background:{{ it.rowBg }};border-bottom:1px solid rgba(29,28,26,0.07);display:flex;flex-direction:column;gap:3px;position:relative;">
+            <sc-if value="{{ it.unreadDot }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:7px;top:19px;width:7px;height:7px;border-radius:99px;background:oklch(0.6 0.16 35);"></div></sc-if>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+              <sc-if value="{{ it.selecting }}"><span style="width:18px;height:18px;flex:none;align-self:center;border-radius:99px;box-sizing:border-box;border:1px solid {{ it.selectionBorder }};background:{{ it.selectionBg }};color:white;font-size:12px;display:flex;align-items:center;justify-content:center;">{{ it.selectionMark }}</span></sc-if>
+              <sc-if value="{{ it.uploading }}" hint-placeholder-val="{{ false }}"><span style="font-size:16px;font-weight:600;color:#9A958D;">正在上传…</span></sc-if>
+              <sc-if value="{{ it.processing }}" hint-placeholder-val="{{ false }}"><span style="font-size:16px;font-weight:600;color:#9A958D;">{{ it.processingLabel }}</span></sc-if>
+              <sc-if value="{{ it.titleStrong }}" hint-placeholder-val="{{ true }}"><span style="font-size:16px;font-weight:600;color:#1D1C1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.title }}</span></sc-if>
+              <sc-if value="{{ it.titleSoft }}" hint-placeholder-val="{{ false }}"><span style="font-size:16px;font-weight:400;color:#5E5A54;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.title }}</span></sc-if>
+              <span style="font-size:12.5px;color:#A8A39B;flex:none;font-variant-numeric:tabular-nums;">{{ it.time }}</span>
+            </div>
+            <sc-if value="{{ it.uploading }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:10px;padding:7px 0 3px;">
+                <div style="flex:1;height:4px;border-radius:99px;background:rgba(29,28,26,0.06);overflow:hidden;"><div style="width:{{ progressPct }};height:100%;border-radius:99px;background:#C9C4BC;"></div></div>
+                <span style="font-size:12px;color:#5E5A54;font-variant-numeric:tabular-nums;min-width:30px;text-align:right;">{{ progressPct }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ it.hasPreview }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;line-height:1.5;color:{{ it.previewColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.preview }}</div></sc-if>
+<sc-if value="{{ it.failed }}"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding-top:4px;"><span style="font-size:12px;color:#B05D50;">{{ it.failureLabel }}</span><button onClick="{{ it.retry }}" aria-label="{{ it.retryLabel }}" style="display:flex;align-items:center;gap:5px;border:0;border-radius:6px;padding:6px 8px;background:#F5EDE9;color:#A45145;font:inherit;font-size:12px;cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.7"/></svg>{{ it.retryLabel }}</button></div></sc-if>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#A8A39B;font-variant-numeric:tabular-nums;">
+              <sc-if value="{{ it.unreadTag }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#1D1C1A;border:1px solid #1D1C1A;padding:0 5px;border-radius:4px;line-height:16px;">未读</span></sc-if>
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:0;height:0;border-left:6px solid #A8A39B;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;"></span>{{ it.len }}</span>
+              <span style="flex:none;white-space:nowrap;">{{ it.createdDate }}</span>
+              <div style="margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0;flex:0 1 auto;text-align:right;">
+              <sc-if value="{{ it.uploading }}" hint-placeholder-val="{{ false }}"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.uploadNote }}</span></sc-if>
+              <sc-if value="{{ it.processing }}" hint-placeholder-val="{{ false }}"><span style="color:oklch(0.45 0.08 195);">{{ it.processingHint }}</span></sc-if>
+              <sc-if value="{{ it.pending }}" hint-placeholder-val="{{ false }}"><span style="color:oklch(0.42 0.08 195);background:oklch(0.955 0.02 195);min-width:18px;height:18px;padding:0 5px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-weight:600;box-sizing:border-box;">{{ it.pendingNum }}</span></sc-if>
+              </div>
+            </div>
+          </div>
+          </div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- 2c: 时间栏列表 -->
+  <sc-if value="{{ isC }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;gap:12px;padding:6px 20px 10px;">
+      <div style="font-size:26px;font-weight:600;flex:none;">想法</div>
+      <div style="flex:1;height:36px;border-radius:12px;background:#F2F0EC;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#A8A39B;">
+        <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="#A8A39B" stroke-width="1.8"><circle cx="7.8" cy="7.8" r="5.8"></circle><path d="M12.2 12.2 16 16" stroke-linecap="round"></path></svg>搜索想法、待办
+      </div>
+      <div style="width:36px;height:36px;border-radius:99px;border:1px solid rgba(29,28,26,0.1);display:flex;align-items:center;justify-content:center;position:relative;flex:none;">
+        <div style="width:13px;height:13px;border-radius:99px;border:2px solid #1D1C1A;"></div>
+        <div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:99px;background:oklch(0.62 0.08 160);box-shadow:0 0 0 2px #FFFFFF;"></div>
+      </div>
+    </div>
+    <div data-scroll-key="feed" style="padding:0 20px 24px;height:668px;overflow-y:auto;box-sizing:border-box;">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+        <div style="display:flex;align-items:baseline;gap:8px;padding:14px 0 4px;border-bottom:1px solid #1D1C1A;"><span style="font-size:14px;font-weight:600;">{{ g.label }}</span><span style="font-size:12.5px;color:#A8A39B;">{{ g.date }}</span></div>
+        <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+          <div onClick="{{ it.open }}" style="cursor:pointer;display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:12px;padding:12px 0;border-bottom:1px solid rgba(29,28,26,0.07);">
+            <div style="display:flex;flex-direction:column;gap:2px;padding-top:2px;font-variant-numeric:tabular-nums;">
+              <span style="font-size:14px;font-weight:500;">{{ it.time }}</span>
+              <span style="font-size:11.5px;color:#A8A39B;">{{ it.dur }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px;">
+              <sc-if value="{{ it.processing }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:7px;font-size:16px;font-weight:600;color:#9A958D;"><span style="width:6px;height:6px;border-radius:99px;background:oklch(0.56 0.07 195);animation:hlPulse 1.4s ease-in-out infinite;"></span>{{ it.processingLabel }}</div></sc-if>
+              <sc-if value="{{ it.ready }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:7px;">
+                  <sc-if value="{{ it.pending }}" hint-placeholder-val="{{ false }}"><span style="width:6px;height:6px;border-radius:99px;background:oklch(0.56 0.08 195);flex:none;"></span></sc-if>
+                  <span style="font-size:16px;font-weight:600;line-height:1.35;">{{ it.title }}</span>
+                </div>
+              </sc-if>
+              <div style="font-size:14px;line-height:1.5;color:#8C877F;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ it.preview }}</div>
+<sc-if value="{{ it.failed }}"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding-top:4px;"><span style="font-size:12px;color:#B05D50;">{{ it.failureLabel }}</span><button onClick="{{ it.retry }}" aria-label="{{ it.retryLabel }}" style="display:flex;align-items:center;gap:5px;border:0;border-radius:6px;padding:6px 8px;background:#F5EDE9;color:#A45145;font:inherit;font-size:12px;cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.7"/></svg>{{ it.retryLabel }}</button></div></sc-if>
+              <div style="display:flex;gap:8px;font-size:12px;margin-top:1px;">
+                <sc-if value="{{ it.pending }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;order:2;text-align:right;color:oklch(0.42 0.08 195);">{{ it.pendingText }}</span></sc-if>
+                <sc-if value="{{ it.hasResult }}" hint-placeholder-val="{{ true }}"><span style="color:#A8A39B;">{{ it.result }}</span></sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasDeleteToast }}"><div style="position:absolute;left:50%;bottom:110px;transform:translateX(-50%);z-index:10;background:white;padding:10px 16px;border-radius:99px;box-shadow:0 4px 20px #0002;font-size:13px;white-space:nowrap;">{{ deleteMessage }} <button data-delete-undo="true" onClick="{{ undoDeletion }}" style="border:0;background:transparent;color:oklch(0.42 0.08 195);font:inherit;margin-left:10px;cursor:pointer;">撤销</button></div></sc-if>
+  <sc-if value="{{ browsing }}">
+  <div style="position:absolute;left:0;right:0;bottom:0;height:86px;box-sizing:border-box;background:rgba(255,255,255,0.96);border-top:1px solid rgba(29,28,26,0.07);display:grid;grid-template-columns:repeat(3,1fr);padding-top:12px;">
+    <div data-href="./FeedHealth.dc.html" role="link" tabindex="0" style="display:flex;flex-direction:column;align-items:center;gap:5px;font-size:15px;font-weight:600;"><span>想法</span><div style="width:4px;height:4px;border-radius:99px;background:#1D1C1A;"></div></div>
+    <div data-href="./HealthScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">健康</div>
+    <div data-href="./MeScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">我的</div>
+    <div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:99px;background:#1D1C1A;"></div>
+  </div>
+</sc-if>
+  <sc-if value="{{ selecting }}"><div style="position:absolute;left:0;right:0;bottom:0;display:flex;gap:12px;padding:14px 20px 32px;background:white;border-top:1px solid #EEECE8;">
+    <button onClick="{{ deleteSelected }}" disabled="{{ deleteDisabled }}" style="flex:1;height:46px;border:1px solid #E4DFD8;border-radius:99px;background:white;font:inherit;font-size:15px;color:#AD5C48;">删除</button>
+    <button onClick="{{ mergeSelected }}" disabled="{{ mergeDisabled }}" style="flex:1.4;height:46px;border:0;border-radius:99px;background:oklch(0.42 0.08 195);font:inherit;font-size:15px;color:white;opacity:{{ mergeOpacity }};">合并</button>
+  </div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],&quot;default&quot;:&quot;b&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;demo&quot;,&quot;all&quot;,&quot;first&quot;,&quot;regular&quot;,&quot;pending&quot;,&quot;uploading&quot;,&quot;recording&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;demo&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;connected&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;unreadStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;weight&quot;,&quot;tag&quot;,&quot;tint&quot;,&quot;dot&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;sleep&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {};
+  searchRef = React.createRef();
+  searchContainerRef = React.createRef();
+  closeSearch = () => this.setState({searchOpen:false,query:''});
+  onOutsideSearch = e => {
+    if (this.state.searchOpen && !this.searchContainerRef.current?.contains(e.target)) this.closeSearch();
+  };
+  componentDidMount() { this.deletionCleanup=window.Huling.bindPendingDeletion(this); document.addEventListener('pointerdown', this.onOutsideSearch, true); }
+  componentWillUnmount() { this.deletionCleanup?.(); document.removeEventListener('pointerdown', this.onOutsideSearch, true); }
+  stageDeletion(id) {
+    if (window.Huling.note(id)?.status !== 'ready') return;
+    this.commitDeletion();
+    this.setState({pendingDelete:id,deletedNoteId:id,deletedNoteIds:[id],deleteMessage:'已标记删除'});
+  }
+  commitDeletion() {
+    const id=this.state.pendingDelete;if(!id)return;
+    (this.state.deletedNoteIds||[id]).forEach(id=>window.Huling.archiveNote(id));
+    this.setState({pendingDelete:null,deleteMessage:'已删除 1 条想法'});
+  }
+  undoDeletion() {
+    (this.state.deletedNoteIds||[this.state.deletedNoteId]).filter(Boolean).forEach(id=>window.Huling.restoreNote(id));
+    this.setState({pendingDelete:null,deletedNoteId:null,deletedNoteIds:null,deleteMessage:null});
+  }
+  renderVals() {
+    const H = window.Huling, v = this.props.variant || 'b', cleanList=true;
+    const state = H.params().get('state') || this.props.state || 'demo';
+    const searchOpen = !!this.state.searchOpen, query = this.state.query || '', term = query.trim().toLowerCase();
+    const closeSearch = this.closeSearch;
+    const batteryIndex = this.state.batteryIndex ?? 0;
+    const batteryStates = [
+      {color:'#528565',label:'戒指：电量高于 60%，点击切换电量状态'},
+      {color:'#AF891E',label:'戒指：电量 20% 到 60%，点击切换电量状态'},
+      {color:'#C45249',label:'戒指：电量低于 20%，点击切换电量状态'}
+    ];
+    const selecting=!!this.state.selecting,selected=this.state.selected||[];
+    const all = H.state.notes.filter(n=>!n.deleted&&!n.mergedInto);
+    let notes = H.sortNotes(all);
+    if (state === 'regular') notes = notes.filter(n => n.status === 'ready');
+    if (state === 'first') notes = notes.filter(n => n.group !== 0 || n.id === 'morning');
+    if (state === 'empty') notes = notes.filter(n => n.group > 0);
+    if (state === 'pending') notes = notes.filter(n => H.pending().some(a => a.noteId === n.id));
+    if (term) notes = notes.filter(n => [n.title,n.preview,n.summary,...(n.segs||[]).map(s=>s[1]),...H.state.actions.filter(a=>a.noteId===n.id).map(a=>a.title)].join(' ').toLowerCase().includes(term));
+    const format = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2,'0')}`;
+    const mk = n => {
+      const createdAt=Number(n.createdAt)||Number(/^merged-(\d+)-/.exec(n.id)?.[1]);
+      const created=createdAt?new Date(createdAt):null;
+      const createdDate=n.createdDate||(created?`${created.getFullYear()}-${String(created.getMonth()+1).padStart(2,'0')}-${String(created.getDate()).padStart(2,'0')}`:`2026-09-${25-(n.group||0)}`);
+      const pendingNum = H.pending().filter(a => a.noteId === n.id).length;
+      const ready = n.status === 'ready', unread = n.unread, deleting=!!this.state.pendingDelete&&(this.state.deletedNoteIds||[this.state.pendingDelete]).includes(n.id);
+      return { ...H.swipe(()=>this.stageDeletion(n.id),ready&&!deleting&&!selecting,1,{label:'左滑多选',release:'松开选择',commit:()=>this.setState({selecting:true,selected:[n.id]})}),deco:deleting?'line-through':'none',rowOpacity:deleting||(selecting&&!ready)?0.5:1,selecting,selected:selected.includes(n.id),selectionMark:selected.includes(n.id)?'✓':'',selectionBg:selected.includes(n.id)?'#326566':'#FFFFFF',selectionBorder:selected.includes(n.id)?'#326566':'#C9C4BC', ...n, createdDate, g:H.notePriority(n)<3?0:n.group, len:format(n.duration), dur:format(n.duration), ready, unread,
+        titleStrong:ready&&unread, titleSoft:(ready&&!unread)||n.status.endsWith('_failed'),
+        failed:n.status.endsWith('_failed'),failureLabel:n.status==='upload_failed'?'上传失败':'转写失败',retryLabel:n.status==='upload_failed'?'重新上传':'重新转写',retry:e=>{e.stopPropagation();if(H.retryNote(n.id))this.setState({retryTick:Date.now()});},processingLabel:n.phase==='transcribing'?'正在转写…':'正在整理…',processingHint:n.phase==='transcribing'?'正在重新转写':'转写完成 · 正在理解内容',
+        processing:n.status==='processing', uploading:n.status==='uploading',preview:n.phase==='transcribing'?'录音已保存，正在重新识别录音内容。':n.phase==='organizing'?n.summary:n.preview,uploadNote:`录音 ${format(n.duration)} · 已上传 62%`,
+        pending:pendingNum>0,pendingNum,pendingText:`${pendingNum} 项需要确认`,
+        hasPreview:n.status!=='uploading',previewColor:'#8C877F',rowBg:'#FFFFFF',
+        unreadDot:false,unreadTag:false,hasResult:false,
+        when:`${n.group===0?'今天':'昨天'} ${n.time}`,
+        open:()=>{if(deleting)return;if(selecting){if(ready)this.setState({selected:selected.includes(n.id)?selected.filter(id=>id!==n.id):[...selected,n.id]});}else H.openNote(n.id);}
+      };
+    };
+    const items = notes.map(mk), counts=H.counts();
+    // Keep the date aligned with the existing demo lists' simulated today (2026-09-25).
+    const entryToday = {m:8,d:25};
+    const liveActions=H.state.actions.filter(a=>!a.ignored&&!a.deleted&&a.date?.m===entryToday.m&&a.date?.d===entryToday.d), entryTodos=liveActions.filter(a=>a.type==='todo'&&a.status==='open'),entrySchedules=liveActions.filter(a=>a.type==='schedule'&&a.status==='ok').sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+
+    const groups = [0,1,2].map(g=>({label:['今天','昨天','更早'][g],date:['9月25日','9月24日','9月23日'][g],items:items.filter(n=>n.g===g),showEmpty:!term&&g===0&&!items.some(n=>n.g===0),hasUnreadNote:false})).filter(g=>g.items.length||g.showEmpty);
+    return {showOriginalExtras:!cleanList,showEntryCards:!cleanList&&!term&&!selecting,entryLedgerCount:H.ledger().filter(a=>a.status!=='ignored').length,entryTodoCount:entryTodos.length,entryScheduleCount:entrySchedules.length,todoPreview:entryTodos[0]?.title||'暂时没有待办',schedulePreview:entrySchedules[0]?.title||'暂时没有日程',reviewPreview:counts.pending?'录音里的待办、日程与记账':'已全部处理，暂无需确认事项',showHealthBrief:!cleanList&&H.page()==='FeedHealth.dc.html'&&!term&&!selecting,healthToggleLabel:H.page()==='FeedHealth.dc.html'?'切换为没有健康简报的列表':'切换为有健康简报的列表',toggleHealthBrief:()=>H.go(H.page()==='FeedHealth.dc.html'?'FeedCompact.dc.html':'FeedHealth.dc.html'),selecting,browsing:!selecting,selectionCount:selected.length,canMerge:selected.length>1,mergeDisabled:selected.length<2,deleteDisabled:!selected.length,mergeOpacity:selected.length>1?1:0.35,
+      exitSelection:()=>this.setState({selecting:false,selected:[]}),
+      deleteSelected:()=>{if(!selected.length)return;this.setState({pendingDelete:selected[0],deletedNoteIds:[...selected],deletedNoteId:selected[0],deleteMessage:'已标记删除 '+selected.length+' 条想法',selecting:false,selected:[]});},
+      mergeSelected:()=>{const merged=H.mergeNotes(selected);if(merged)H.go('ThoughtDetail.dc.html',{id:merged.id,from:H.page()});},
+      hasDeleteToast:!!this.state.deleteMessage,deleteMessage:this.state.deleteMessage,undoDeletion:()=>this.undoDeletion(),batteryFill:['85%','45%','12%'][batteryIndex],batteryColor:batteryStates[batteryIndex].color,batteryLabel:batteryStates[batteryIndex].label,cycleBattery:()=>this.setState({batteryIndex:(batteryIndex+1)%3}),searchOpen,searchClosed:!searchOpen,query,searchRef:this.searchRef,searchContainerRef:this.searchContainerRef,tabsVisibility:searchOpen?'hidden':'visible',searchWidth:searchOpen?'calc(100% - 40px)':'30px',searchBackground:searchOpen?'#F2F0EC':'transparent',searchLabel:searchOpen?'关闭搜索':'搜索想法',noSearchResults:!!term&&!items.length,
+      toggleSearch:()=>{if(searchOpen)closeSearch();else{this.setState({searchOpen:true});setTimeout(()=>this.searchRef.current?.focus(),0);}},
+      onSearch:e=>this.setState({query:e.target.value}),searchKey:e=>{if(e.key==='Escape')closeSearch();},
+      isA:v==='a',isB:v==='b',isC:v==='c',items,groups,connected:H.setting('connected')!==false,disconnected:H.setting('connected')===false,
+      showMorning:!cleanList&&H.page()!=='FeedHealth.dc.html'&&!term&&(state==='first'||!!this.props.sleep)&&H.setting('morning-notify')!==false,pendingCount:counts.pending,hasPending:counts.pending>0,todoCount:counts.todo,
+      progressPct:'62%',uploadNote:'录音 1:26 · 已上传 1.1 / 1.8 MB'};
+  }
+}
+</script>
+</body>
+</html>

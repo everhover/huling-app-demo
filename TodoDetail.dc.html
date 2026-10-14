@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="./version-routing.js?v=2"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script src="./demo-seed.js?v=20260926-failure-1"></script><script src="./demo.js?v=20260929-version-24"></script><script src="./support.js"></script><link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head><body><x-dc><helmet><style>
+.demo-phone{width:390px;height:844px;border-radius:46px;background:white;color:#1D1C1A;overflow:hidden;position:relative;display:flex;flex-direction:column;font-family:'PingFang SC',sans-serif;box-shadow:0 0 0 1px #ddd,0 30px 60px -20px #ccc}
+.demo-top{padding:16px 28px;font-size:16px;font-weight:600;flex:none}.demo-header{padding:8px 20px;display:flex;align-items:center;gap:14px}.demo-back{color:#5E5A54;text-decoration:none;font-size:15px}.demo-body{padding:12px 20px 28px;flex:1;min-height:0;overflow-y:auto}.demo-title{font-size:26px;line-height:1.3;margin:4px 0 12px;font-weight:600}.demo-note{color:#8C877F;font-size:13px;line-height:1.65}.demo-row{padding:16px 0;border-bottom:1px solid #eeece8;display:flex;justify-content:space-between;gap:14px;align-items:center}.demo-button{border:0;border-radius:99px;background:#EEEBE6;color:#1D1C1A;padding:9px 16px;font:inherit;font-size:14px;cursor:pointer}.demo-input{width:100%;box-sizing:border-box;border:1px solid #e5e1da;border-radius:12px;padding:12px;font:inherit;font-size:15px;background:#faf9f7}.demo-nav{height:86px;flex:none;border-top:1px solid #eee;display:flex;justify-content:space-around;padding-top:14px;box-sizing:border-box;position:relative}.demo-nav a{color:#8C877F;font-size:15px;text-decoration:none}.demo-nav:after{content:'';position:absolute;bottom:8px;width:134px;height:5px;border-radius:9px;background:#1D1C1A}
+
+.td-section{font-size:12.5px;color:#A8A39B;font-weight:600;margin:24px 0 4px}.td-field{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #EEECE8;font-size:14px}.td-field>span{color:#8C877F;font-size:13px}.td-field input,.td-field select{width:100%;box-sizing:border-box;border:0;background:transparent;font:inherit;color:#1D1C1A;outline:none}.td-card{display:block;padding:14px 0;border-bottom:1px solid #EEECE8;text-decoration:none;color:inherit}.td-card-title{font-size:15px;line-height:1.5}.td-card-summary{font-size:13px;line-height:1.6;color:#8C877F;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.td-title{width:100%;resize:none;border:0;background:transparent;padding:0;font:600 23px/1.45 'PingFang SC',sans-serif;box-sizing:border-box;color:#1D1C1A;outline:none}.td-actions{display:flex;gap:16px;align-items:center;margin:16px 0 8px}.td-primary{background:oklch(0.42 0.08 195);color:white}.td-status{font-size:12px;color:oklch(0.42 0.08 195)}
+</style></helmet>
+<div class="demo-phone"><div class="demo-top">9:41</div><div class="demo-header"><a class="demo-back" href="./TodoList.dc.html">‹ 待办</a><span style="flex:1;text-align:center;font-size:16px;font-weight:600;padding-right:48px;">待办详情</span></div>
+<div class="demo-body">
+<sc-if value="{{ missing }}"><div class="demo-title">待办不存在</div><p class="demo-note">该待办可能已被删除，请返回列表查看。</p></sc-if>
+<sc-if value="{{ found }}">
+<div class="td-status" style="margin:6px 0 10px;">{{ statusLabel }}</div>
+<textarea class="td-title" rows="2" aria-label="待办标题" value="{{ title }}" onChange="{{ onTitle }}" onBlur="{{ onTitleBlur }}" style="text-decoration:{{ deco }};"></textarea>
+
+<div class="td-field"><span>日期</span><input type="date" min="2026-01-01" max="2026-12-31" aria-label="待办日期" value="{{ date }}" onChange="{{ onDate }}"></div>
+<div class="td-field"><span>时间</span><input type="time" aria-label="待办时间" value="{{ time }}" onChange="{{ onTime }}"></div>
+<div class="td-field"><span>提醒</span><select aria-label="待办提醒" value="{{ remind }}" onChange="{{ onRemind }}"><option>不提醒</option><option>准时</option><option>提前 15 分钟</option><option>提前 30 分钟</option><option>提前 1 天</option></select></div>
+<div class="td-section">备注</div><textarea class="demo-input" rows="2" placeholder="添加备注" aria-label="待办备注" value="{{ noteText }}" onChange="{{ onNote }}"></textarea>
+<div class="td-section">相关待办 · {{ todoCount }}</div>
+<dc-import name="RelatedTodos" ids="{{ relatedIdsString }}"></dc-import>
+<sc-if value="{{ noTodos }}"><p class="demo-note">暂无其他相关待办</p></sc-if>
+<div class="td-section">相关笔记 · {{ noteCount }}</div>
+<sc-for list="{{ relatedNotes }}" as="n"><a class="td-card" href="{{ n.href }}"><div class="demo-note">{{ n.relation }}</div><div class="td-card-title">{{ n.title }} <span style="float:right;color:#A8A39B;">›</span></div><div class="td-card-summary">{{ n.summary }}</div></a></sc-for>
+<sc-if value="{{ noNotes }}"><p class="demo-note">暂无相关笔记</p></sc-if>
+
+</sc-if></div>
+<sc-if value="{{ hasUndo }}"><div style="position:absolute;left:50%;bottom:164px;transform:translateX(-50%);padding:10px 16px;background:white;box-shadow:0 4px 20px #0002;border-radius:99px;white-space:nowrap;font-size:13px;">{{ message }} <button data-delete-undo="true" onClick="{{ undo }}" style="border:0;background:transparent;font:inherit;color:oklch(0.42 0.08 195);margin-left:12px;cursor:pointer;">撤销</button></div></sc-if>
+<sc-if value="{{ found }}"><div style="display:flex;gap:12px;padding:12px 20px;border-top:1px solid #EEECE8;background:white;flex:none;">
+<button class="demo-button" onClick="{{ deleteMain }}" style="flex:1;height:44px;background:white;border:1px solid #E4DFD8;color:#AD5C48;">删除</button>
+<sc-if value="{{ pending }}"><button class="demo-button" onClick="{{ ignore }}" style="height:44px;">忽略</button></sc-if>
+<button class="demo-button td-primary" onClick="{{ primary }}" style="flex:1.5;height:44px;">{{ primaryLabel }}</button>
+</div></sc-if>
+<nav class="demo-nav"><a href="./FeedCompact.dc.html">想法</a><a href="./HealthScreen.dc.html">健康</a><a href="./MeScreen.dc.html">我的</a></nav></div>
+</x-dc><script type="text/x-dc" data-dc-script>
+class Component extends window.Huling.logic(DCLogic,'todo') {
+ get todos(){return window.Huling.state.actions.filter(a=>a.type==='todo');}
+ componentDidMount(){this.cleanup=window.Huling.bindPendingDeletion(this);}
+ componentWillUnmount(){this.cleanup?.();clearTimeout(this.tt);}
+ state={};
+ renderVals(){
+  const H=window.Huling,id=H.params().get('id'),item=H.state.actions.find(a=>a.id===id&&a.type==='todo');
+  const update=patch=>{H.updateAction(id,patch);this.setState({version:(this.state.version||0)+1});};
+  const status=a=>a.ignored?'已忽略':a.status==='pending'?'待确认':a.status==='done'?'已完成':'待完成';
+  const relatedIds=new Set([item?.noteId,...(item?.relatedNoteIds||[])]);
+  // Mock topic connections link existing notes; source notes always appear first.
+  const topics=[['pcb','meeting'],['home','context'],['ces','pack'],['morning','run']];
+  const topic=topics.find(ids=>ids.includes(item?.noteId));if(topic)topic.forEach(id=>relatedIds.add(id));
+  const relatedNotes=H.state.notes.filter(n=>relatedIds.has(n.id)).sort((a,b)=>(a.id===item?.noteId?-1:b.id===item?.noteId?1:0)).map(n=>({...n,relation:n.id===item.noteId?'来源笔记':'相关主题',href:'ThoughtDetail.dc.html?'+new URLSearchParams({id:n.id,from:'TodoDetail.dc.html',todoId:id})}));
+  const relatedTodos=H.state.actions.filter(a=>a.type==='todo'&&a.id!==id&&!a.ignored&&relatedIds.has(a.noteId)).map(a=>({...a,statusLabel:status(a),deco:a.status==='done'?'line-through':'none',when:[H.dateLabel(a.date),a.time].filter(Boolean).join(' ')||'未设时间',href:'TodoDetail.dc.html?'+new URLSearchParams({id:a.id})}));
+  const change=(patch,message)=>{this.setState({deleteUndo:false,previous:{status:item.status,ignored:!!item.ignored},message});update(patch);};
+  return {found:!!item,missing:!item,title:this.state.titleDraft??item?.title??'',statusLabel:item?status(item):'',pending:item?.status==='pending'&&!item?.ignored,deco:this.state.pendingDelete===id||item?.status==='done'?'line-through':'none',
+    primaryLabel:item?.ignored?'恢复待办':item?.status==='pending'?'确认':item?.status==='done'?'标记未完成':'标记完成',
+    deleteMain:()=>{if(!item||this.state.pendingDelete)return;this.setState({deleteUndo:true,previous:null});this.stageDeletion(id);},
+    primary:()=>{if(!item||this.state.pendingDelete)return;change(item.ignored?{ignored:false}: {status:item.status==='pending'||item.status==='done'?'open':'done'},item.ignored?'已恢复':item.status==='pending'?'已确认':item.status==='done'?'已标记未完成':'已完成');},
+    ignore:()=>change({ignored:true},'已忽略'),hasUndo:!!this.state.previous||!!this.state.deleteUndo,message:this.state.deleteUndo?this.state.toast:this.state.message,
+    undo:()=>{if(this.state.deleteUndo){H.replaceType('todo',this.state.prev);this.setState({pendingDelete:null,deleteUndo:false,toast:null});}else if(this.state.previous)update(this.state.previous);this.setState({previous:null,message:''});},
+    date:item?.date?`2026-${String(item.date.m+1).padStart(2,'0')}-${String(item.date.d).padStart(2,'0')}`:'',time:item?.time||'',remind:item?.remind||'不提醒',noteText:item?.note||'',
+    onTitle:e=>{this.setState({titleDraft:e.target.value});if(e.target.value.trim())update({title:e.target.value});},onTitleBlur:()=>this.setState({titleDraft:undefined}),
+    onDate:e=>{const value=e.target.value;if(!value){update({date:null});return;}const [year,month,day]=value.split('-').map(Number);if(year===2026)update({date:{m:month-1,d:day}});},
+    onTime:e=>update({time:e.target.value}),onRemind:e=>update({remind:e.target.value}),onNote:e=>update({note:e.target.value}),
+    relatedIdsString:relatedTodos.map(a=>a.id).join(','),relatedNotes,noteCount:relatedNotes.length,noNotes:!relatedNotes.length,relatedTodos,todoCount:relatedTodos.length,noTodos:!relatedTodos.length};
+ }
+}
+</script></body></html>

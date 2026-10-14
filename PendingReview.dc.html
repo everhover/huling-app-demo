@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head><script src="./version-routing.js?v=2"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./demo-seed.js?v=20260926-failure-1"></script>
+<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+<div style="width:390px;height:844px;border-radius:46px;overflow:hidden;position:relative;background:#FFFFFF;color:#1D1C1A;font-family:'Instrument Sans','PingFang SC','Noto Sans SC',sans-serif;box-shadow:0 0 0 1px rgba(29,28,26,0.10),0 30px 60px -20px rgba(29,28,26,0.25);">
+  <div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 36px;font-size:16px;font-weight:600;">
+    <span>9:41</span>
+    <div data-href="./Launch.dc.html" role="link" tabindex="0" aria-label="重新开始 App 启动流程" title="重新开始 App 启动流程" style="display:flex;align-items:center;gap:6px;min-height:32px;cursor:pointer;"><div style="display:flex;align-items:flex-end;gap:2px;height:11px;"><div style="width:3px;height:4px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:6px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:8px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:11px;background:#1D1C1A;border-radius:1px;"></div></div><div style="width:24px;height:12px;border:1px solid rgba(29,28,26,0.4);border-radius:4px;padding:1px;"><div style="width:70%;height:100%;background:#1D1C1A;border-radius:2px;"></div></div></div>
+  </div>
+    <div style="position:relative;height:54px;margin:0 20px;flex-shrink:0;">
+      <div style="height:36px;display:flex;align-items:center;justify-content:center;visibility:{{ tabsVisibility }};">
+        <a href="{{ homeHref }}" aria-label="返回想法首页" style="position:absolute;left:0;top:0;height:36px;display:flex;align-items:center;gap:5px;text-decoration:none;color:#5E5A54;font-size:14px;"><svg width="10" height="18" viewBox="0 0 10 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2 2 9l6 7" stroke-linecap="round" stroke-linejoin="round"/></svg>想法</a>
+        <span style="font-size:20px;font-weight:600;">需确认</span>
+      </div>
+      <div ref="{{ searchContainerRef }}" style="position:absolute;right:0;top:0;width:{{ searchWidth }};height:30px;box-sizing:border-box;display:flex;align-items:center;border-radius:99px;background:{{ searchBackground }};overflow:hidden;transition:width 220ms ease,background 220ms ease;">
+        <sc-if value="{{ searchOpen }}"><input ref="{{ searchRef }}" value="{{ query }}" onChange="{{ onSearch }}" onKeyDown="{{ searchKey }}" placeholder="搜索想法、待办、日程" aria-label="搜索想法、待办、日程" style="width:0;min-width:0;flex:1;border:0;outline:none;background:transparent;padding:0 12px;font-family:inherit;font-size:13px;color:#1D1C1A;"></sc-if>
+        <button type="button" onClick="{{ toggleSearch }}" aria-label="{{ searchLabel }}" style="width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center;border:0;padding:0;background:transparent;color:#5E5A54;cursor:pointer;">
+          <sc-if value="{{ searchClosed }}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7.8" cy="7.8" r="5.8"></circle><path d="M12.2 12.2 16 16" stroke-linecap="round"></path></svg></sc-if>
+          <sc-if value="{{ searchOpen }}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m4 4 8 8M12 4l-8 8" stroke-linecap="round"></path></svg></sc-if>
+        </button>
+      </div>
+    </div>
+
+
+  <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px;font-size:13.5px;">
+      <sc-if value="{{ browsing }}" hint-placeholder-val="{{ true }}">
+        <span style="color:#8C877F;">{{ summary }}</span>
+        <div style="display:flex;align-items:center;gap:16px;flex:none;">
+          <span onClick="{{ enterSelect }}" style="font-weight:600;cursor:pointer;">批量处理</span>
+          <button type="button" onClick="{{ confirmAll }}" style="border:0;padding:0;background:transparent;color:oklch(0.42 0.08 195);font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">全部确认</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}">
+        <span onClick="{{ toggleAll }}" style="font-weight:600;cursor:pointer;">{{ allLabel }}</span>
+        <span style="color:#8C877F;">已选 {{ selCount }} 项</span>
+        <span onClick="{{ exitSelect }}" style="font-weight:600;cursor:pointer;">完成</span>
+      </sc-if>
+    </div>
+    <div data-scroll-key="list" ref="{{ listRef }}" style="padding:0 20px 110px;height:674px;overflow-y:auto;box-sizing:border-box;">
+    <sc-if value="{{ noSearchResults }}"><div style="padding:40px 12px;text-align:center;font-size:14px;color:#8C877F;">没有找到相关事项，试试其他关键词</div></sc-if>
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 2px;">
+          <span style="font-size:12.5px;font-weight:600;color:#A8A39B;">{{ g.label }} <span style="font-weight:400;">{{ g.count }}</span></span>
+          <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}"><span onClick="{{ g.selectGroup }}" style="font-size:12.5px;color:#5E5A54;cursor:pointer;">{{ g.selText }}</span></sc-if>
+        </div>
+        <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+          <div data-swipe-label="左滑确认" data-swipe-release="松开确认" data-swipe-direction="left" style="margin:0 -20px;">
+          <div ref="{{ it.editRegionRef }}" onPointerDown="{{ it.swipeStart }}" onPointerMove="{{ it.swipeMove }}" onPointerUp="{{ it.swipeEnd }}" onPointerCancel="{{ it.swipeCancel }}" onClick="{{ it.tap }}" style="display:grid;grid-template-columns:{{ cols }};column-gap:12px;padding:11px 20px;margin:0;position:relative;touch-action:pan-y;background:{{ it.rowBg }};border-bottom:1px solid rgba(29,28,26,0.06);cursor:{{ it.cursor }};">
+            <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}">
+              <div style="width:20px;height:20px;border-radius:99px;margin-top:1px;box-sizing:border-box;border:{{ it.boxBorder }};background:{{ it.boxBg }};display:flex;align-items:center;justify-content:center;">
+                <sc-if value="{{ it.sel }}" hint-placeholder-val="{{ false }}"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1D1C1A" stroke-width="1.8"><path d="M2 5.2 4.2 7.4 8 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:3px;min-width:0;padding-right:{{ it.actionSpace }};">
+              <sc-if value="{{ it.isEditing }}" hint-placeholder-val="{{ false }}"><input defaultValue="{{ it.title }}" onChange="{{ onTitle }}" onClick="{{ stopClick }}" style="border:none;border-bottom:1px solid rgba(29,28,26,0.18);outline:none;font-family:inherit;font-size:15.5px;line-height:1.4;font-weight:500;color:#1D1C1A;background:transparent;padding:0 0 3px;margin:0;width:100%;"></sc-if>
+              <sc-if value="{{ it.notEditing }}" hint-placeholder-val="{{ true }}"><div style="font-size:15.5px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.title }}</div></sc-if>
+              <div style="display:flex;gap:6px;font-size:12px;line-height:17px;color:#A8A39B;min-width:0;white-space:nowrap;overflow:hidden;">
+                <span style="color:#5E5A54;flex:none;font-variant-numeric:tabular-nums;">{{ it.when }}</span><span>·</span><span data-href="{{ it.sourceHref }}" role="link" tabindex="0" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:underline;">来自「{{ it.source }}」</span>
+              </div>
+              <sc-if value="{{ it.hasNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#8C877F;">{{ it.note }}</div></sc-if>
+              <sc-if value="{{ it.isEditing }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;margin-top:8px;gap:2px;">
+                  <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;padding:6px 0;">
+                    <span style="font-size:12.5px;color:#A8A39B;padding-top:6px;">日期</span>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <sc-for list="{{ dateOpts }}" as="o" hint-placeholder-count="4">
+                        <div onClick="{{ o.pick }}" style="height:28px;padding:0 11px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:10px 0 12px;">
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px 8px;">
+                        <span onClick="{{ prevMonth }}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:{{ prevColor }};cursor:pointer;">‹</span>
+                        <span style="font-size:14.5px;font-weight:600;font-variant-numeric:tabular-nums;">{{ monthLabel }}</span>
+                        <span onClick="{{ nextMonth }}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#5E5A54;cursor:pointer;">›</span>
+                      </div>
+                      <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center;font-size:11.5px;color:#A8A39B;padding-bottom:4px;">
+                        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+                      </div>
+                      <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;">
+                        <sc-for list="{{ calDays }}" as="c" hint-placeholder-count="35">
+                          <div onClick="{{ c.pick }}" style="height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:{{ c.cursor }};">
+                            <span style="width:32px;height:32px;border-radius:99px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-variant-numeric:tabular-nums;background:{{ c.bg }};color:{{ c.fg }};font-weight:{{ c.fw }};border:{{ c.bd }};">{{ c.n }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:14px;padding:8px 4px 0;font-size:11.5px;color:#A8A39B;">
+                        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:99px;border:1px solid #C9C4BC;box-sizing:border-box;"></span>今天</span>
+                        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:99px;background:#EEEBE6;"></span>已选</span>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-for list="{{ editRows }}" as="r" hint-placeholder-count="1">
+                    <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;padding:6px 0;">
+                      <span style="font-size:12.5px;color:#A8A39B;">{{ r.k }}</span>
+                      <input defaultValue="{{ r.v }}" onChange="{{ r.onChange }}" style="border:none;outline:none;font-family:inherit;font-size:15px;color:#1D1C1A;background:transparent;padding:2px 0;width:100%;font-variant-numeric:tabular-nums;">
+                    </div>
+                  </sc-for>
+                  <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;padding:6px 0;">
+                    <span style="font-size:12.5px;color:#A8A39B;padding-top:6px;">提醒</span>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <sc-for list="{{ remindOpts }}" as="o" hint-placeholder-count="4">
+                        <div onClick="{{ o.pick }}" style="height:28px;padding:0 11px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;padding-top:8px;">
+                    <div onClick="{{ cancelEdit }}" style="height:32px;padding:0 6px;font-size:13px;color:#8C877F;display:flex;align-items:center;cursor:pointer;">收起</div>
+                    <div style="flex:1;"></div>
+                    
+                    <div onClick="{{ saveConfirm }}" style="height:32px;padding:0 14px;border-radius:99px;background:#EEEBE6;font-weight:600;font-size:13px;display:flex;align-items:center;cursor:pointer;">{{ it.okText }}</div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ it.showActions }}" hint-placeholder-val="{{ true }}">
+                <div style="position:absolute;right:20px;top:11px;display:flex;align-items:center;gap:16px;">
+                  <button type="button" onClick="{{ it.ignore }}" style="height:28px;padding:0 8px;border:0;background:transparent;color:#8C877F;font-family:inherit;font-size:12.5px;cursor:pointer;">忽略</button>
+                  <button type="button" onClick="{{ it.confirm }}" style="height:28px;padding:0 12px;border:0;border-radius:99px;background:oklch(0.42 0.08 195);color:#FFFFFF;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;">确认</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          </div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:120px 40px 0;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;">
+      <div style="width:44px;height:44px;border-radius:99px;background:#F2F0EC;display:flex;align-items:center;justify-content:center;margin-bottom:6px;"><svg width="18" height="18" viewBox="0 0 10 10" fill="none" stroke="#8C877F" stroke-width="1.2"><path d="M2 5.2 4.2 7.4 8 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+      <div style="font-size:17px;font-weight:600;">都处理完了</div>
+      <div style="font-size:14px;line-height:1.6;color:#8C877F;">新的想法里如果有待办或日程，会先出现在这里等你确认。</div>
+      <div onClick="{{ reset }}" style="margin-top:10px;font-size:13px;color:#5E5A54;cursor:pointer;">重置演示</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:50%;bottom:{{ toastBottom }};transform:translateX(-50%);background:#FFFFFF;color:#1D1C1A;font-size:13.5px;padding:10px 16px;border-radius:99px;box-shadow:0 6px 24px rgba(29,28,26,0.14),0 0 0 1px rgba(29,28,26,0.06);white-space:nowrap;display:flex;gap:12px;z-index:5;">
+      <span>{{ toast }}</span><span onClick="{{ undo }}" style="font-weight:600;cursor:pointer;">撤销</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ browsingOrEmpty }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;height:86px;background:rgba(255,255,255,0.96);border-top:1px solid rgba(29,28,26,0.07);display:grid;grid-template-columns:repeat(3,1fr);padding-top:12px;">
+      <div data-href="{{ homeHref }}" role="link" tabindex="0" style="display:flex;flex-direction:column;align-items:center;gap:5px;font-size:15px;font-weight:600;"><span>想法</span><div style="width:4px;height:4px;border-radius:99px;background:#1D1C1A;"></div></div>
+      <div data-href="./HealthScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">健康</div>
+      <div data-href="./MeScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">我的</div>
+      <div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:99px;background:#1D1C1A;"></div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,0.97);border-top:1px solid rgba(29,28,26,0.07);padding:12px 20px 34px;display:flex;gap:10px;">
+      <div onClick="{{ batchIgnore }}" style="flex:1;height:46px;border-radius:99px;border:1px solid rgba(29,28,26,0.1);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:15px;color:{{ barFg }};cursor:pointer;">忽略{{ selSuffix }}</div>
+      <div onClick="{{ batchConfirm }}" style="flex:1.4;height:46px;border-radius:99px;background:{{ barBg }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:{{ confirmFg }};cursor:pointer;">确认{{ selSuffix }}</div>
+      <div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:99px;background:#1D1C1A;"></div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;browse&quot;,&quot;select&quot;],&quot;default&quot;:&quot;browse&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;selected&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;editing&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;calendar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const ITEMS = window.Huling.pendingRows();
+const whenOf = i => i.type === 'ledger' ? '¥ '+(i.amount/100).toFixed(2)+' · '+(i.tags||[i.category]).join(' / ') : i.type === 'sched' ? `${i.date} ${i.start}–${i.end}` : ([i.date, i.time].filter(Boolean).join(' ') || '未设时间');
+class Component extends window.Huling.logic(DCLogic, 'pending') {
+  state = {};
+  get items() { return this.state.items ?? ITEMS; }
+  sel() { return this.state.sel ?? new Set((this.props.selected ?? '').split(',').filter(Boolean)); }
+  mode() { return this.state.mode ?? this.props.mode ?? 'browse'; }
+  flash(msg, prev) {
+    clearTimeout(this.tt);
+    this.setState({ toast: msg, prevItems: prev });
+    this.tt = setTimeout(() => this.setState({ toast: null }), 3200);
+  }
+  componentWillUnmount() { this.headerCleanup?.(); this.outsideEditorCleanup?.(); clearTimeout(this.tt); }
+  listRef = React.createRef();
+  componentDidMount() { this.headerCleanup = window.Huling.bindHeader(this); this.outsideEditorCleanup = window.Huling.bindOutsideEditor(this);
+    const y = Number(this.props.scrollTop);
+    if (!y) return;
+    let n = 0;
+    const tryScroll = () => {
+      const el = this.listRef.current;
+      if (el && el.scrollHeight > el.clientHeight) { el.scrollTop = y; if (Math.abs(el.scrollTop - y) < 2 || n > 20) return; }
+      if (n++ < 30) this.st = setTimeout(tryScroll, 100);
+    };
+    tryScroll();
+  }
+  remove(ids, verb) {
+    const prev = this.items;
+    this.undoSnapshot = window.Huling.resolve(ids, verb === '忽略');
+    const left = prev.filter(i => !ids.includes(i.id));
+    this.setState({ items: left, sel: new Set(), mode: left.length ? this.mode() : 'browse' });
+    this.flash(`已${verb} ${ids.length} 项`, prev);
+  }
+  renderVals() {
+    const header = window.Huling.headerVals(this);
+    const items = this.items, sel = this.sel(), mode = this.mode();
+    const selecting = mode === 'select';
+    const stop = e => e && e.stopPropagation && e.stopPropagation();
+    const toggle = id => { const n = new Set(sel); n.has(id) ? n.delete(id) : n.add(id); this.setState({ sel: n }); };
+    const editingId = selecting ? null : (this.state.editing !== undefined ? this.state.editing : (this.props.editing || null));
+    const draft = this.state.draft || {};
+    const openEdit = id => this.setState({ editing: id, draft: {}, calOpen: false });
+    const row = i => {
+      const on = sel.has(i.id), ed = editingId === i.id;
+      return {
+        ...window.Huling.swipe(() => this.remove([i.id], i.type === 'sched' ? '加入日历' : '确认'), !selecting && !ed, -1, {label:'右滑忽略',release:'松开忽略',commit:()=>this.remove([i.id],'忽略')}),
+        ...i, sourceHref: window.Huling.sourceLink(i.source), when: whenOf(i), sel: on, hasNote: !!i.note && !ed, okText: '确认',
+        saveOkText: i.type === 'todo' ? '保存并确认' : '保存并加入日历',
+        isEditing: ed, editRegionRef: ed ? this.editRegionRef : null, notEditing: !ed, showActions: !selecting && !ed, cursor: 'pointer', actionSpace: !selecting && !ed ? '120px' : '0',
+        rowBg: (selecting && on) || ed ? '#FAF9F7' : '#FFFFFF',
+        boxBorder: on ? 'none' : '1.5px solid rgba(29,28,26,0.25)', boxBg: on ? '#E4E0D9' : 'transparent',
+        tap: e => { if (e?.target?.closest('[data-href]')) return; if (selecting) toggle(i.id); else if(i.type==='ledger')window.Huling.go('Bookkeeping.dc.html');else if (!ed) openEdit(i.id); },
+        confirm: e => { stop(e); this.remove([i.id], i.type === 'sched' ? '加入日历' : '确认'); },
+        ignore: e => { stop(e); this.remove([i.id], '忽略'); }
+      };
+    };
+    const cur = items.find(i => i.id === editingId);
+    const val = k => cur && cur[k];
+    const setD = k => v => this.setState(s => ({ items: (s.items ?? ITEMS).map(i => i.id === editingId ? { ...i, [k]: v, note: undefined } : i) }));
+    const chip = (opts, selV, k) => opts.map(o => ({ label: o, bg: o === selV ? '#EEEBE6' : '#FFFFFF', fg: o === selV ? '#1D1C1A' : '#5E5A54', fw: o === selV ? 600 : 400, bd: o === selV ? 'transparent' : 'rgba(29,28,26,0.1)', pick: e => { stop(e); setD(k)(o); } }));
+    let dateOpts = [], remindOpts = [], editRows = [], calDays = [], monthLabel = '';
+    const WD = '日一二三四五六';
+    const fmtD = (m, d) => `${m + 1}月${d}日 周${WD[new Date(2026, m, d).getDay()]}`;
+    const calOpen = this.state.calOpen ?? !!this.props.calendar;
+    const calM = this.state.calM ?? 8;
+    if (cur) {
+      const presets = ['今天', '明天', '9月28日 周一'];
+      const dv = val('date') || '';
+      const custom = dv && !presets.includes(dv);
+      dateOpts = chip([...presets, custom ? dv : '选择日期'], custom ? dv : dv, 'date').map((o, idx) => idx === 3 ? { ...o, label: custom ? dv + ' ▾' : '选择日期 ▾', bg: custom || calOpen ? '#EEEBE6' : '#FFFFFF', fg: '#1D1C1A', fw: custom ? 600 : 400, bd: custom || calOpen ? 'transparent' : 'rgba(29,28,26,0.1)', pick: e => { stop(e); this.setState({ calOpen: !calOpen }); } } : { ...o, pick: e => { stop(e); setD('date')(o.label); this.setState({ calOpen: false }); } });
+      const selKey = dv === '今天' ? '8-25' : dv === '明天' ? '8-26' : (() => { const m = dv.match(/(\d+)月(\d+)日/); return m ? `${m[1] - 1}-${m[2]}` : ''; })();
+      const first = new Date(2026, calM, 1).getDay();
+      const lead = (first + 6) % 7;
+      const nDays = new Date(2026, calM + 1, 0).getDate();
+      monthLabel = `2026年${calM + 1}月`;
+      for (let k = 0; k < lead; k++) calDays.push({ n: '', bg: 'transparent', fg: 'transparent', fw: 400, bd: 'none', cursor: 'default' });
+      for (let d = 1; d <= nDays; d++) {
+        const past = calM === 8 && d < 25, today = calM === 8 && d === 25, on = selKey === `${calM}-${d}`;
+        calDays.push({
+          n: d, cursor: past ? 'default' : 'pointer',
+          bg: on ? '#EEEBE6' : 'transparent', fg: past ? '#D3CFC8' : '#1D1C1A', fw: on || today ? 600 : 400,
+          bd: today && !on ? '1px solid #C9C4BC' : 'none',
+          pick: e => { stop(e); if (past) return; setD('date')(today ? '今天' : calM === 8 && d === 26 ? '明天' : fmtD(calM, d)); }
+        });
+      }
+      remindOpts = chip(['不提醒', '准时', '提前 15 分钟', '提前 30 分钟', '提前 1 天'], val('remind'), 'remind');
+      const inp = k => e => setD(k)(e.target.value);
+      editRows = cur.type === 'todo'
+        ? [{ k: '时间', v: cur.time || '', onChange: inp('time') }]
+        : [{ k: '开始', v: cur.start, onChange: inp('start') }, { k: '结束', v: cur.end, onChange: inp('end') }, { k: '地点', v: cur.place, onChange: inp('place') }];
+    }
+    const applyDraft = () => items.map(i => i.id === editingId ? { ...i, ...draft, date: draft.date ?? i.date, note: undefined } : i);
+    const groups = [['todo', '待办'], ['sched', '日程'], ['ledger', '记账']].map(([t, label]) => {
+      let list = items.filter(i => i.type === t && header.matches(i));
+      if (this.props.focusEdit && editingId && this.state.editing === undefined) {
+        const idx = list.findIndex(i => i.id === editingId);
+        list = idx >= 0 ? list.slice(idx) : [];
+      }
+      const allSel = list.length && list.every(i => sel.has(i.id));
+      return {
+        label, count: list.length, items: list.map(row),
+        selText: allSel ? '取消选择本组' : '选择本组',
+        selectGroup: () => { const n = new Set(sel); list.forEach(i => allSel ? n.delete(i.id) : n.add(i.id)); this.setState({ sel: n }); }
+      };
+    }).filter(g => g.count);
+    const selCount = [...sel].filter(id => items.some(i => i.id === id)).length;
+    const allSelected = selCount === items.length && items.length > 0;
+    const srcCount = new Set(items.map(i => i.source)).size;
+    const hasItems = items.length > 0;
+    return {
+      ...header, noSearchResults:!!header.query.trim() && !groups.some(g=>g.items.length),
+      ringStatus: window.Huling.setting("connected") === false ? "戒指未连接" : "戒指 78%",
+      hasItems, empty: !hasItems, total: items.length, browsing: !selecting, selecting,
+      browsingOrEmpty: (!selecting && !cur) || !hasItems,
+      summary: `${items.length} 项来自 ${srcCount} 条想法`, groups, selCount,
+      cols: selecting ? '20px minmax(0,1fr)' : 'minmax(0,1fr)',
+      allLabel: allSelected ? '取消全选' : '全选',
+      toggleAll: () => this.setState({ sel: allSelected ? new Set() : new Set(items.map(i => i.id)) }),
+      confirmAll: () => { if (items.length) this.remove(items.map(i => i.id), '确认'); },
+      enterSelect: () => this.setState({ mode: 'select', sel: new Set(), editing: null }),
+      exitSelect: () => this.setState({ mode: 'browse', sel: new Set() }),
+      selSuffix: selCount ? ` ${selCount} 项` : '',
+      barBg: selCount ? 'oklch(0.42 0.08 195)' : '#F6F4F1', confirmFg: selCount ? '#FFFFFF' : '#C9C4BC', barFg: selCount ? '#1D1C1A' : '#C9C4BC',
+      batchConfirm: () => { const ids = [...sel].filter(id => items.some(i => i.id === id)); if (ids.length) this.remove(ids, '确认'); },
+      batchIgnore: () => { const ids = [...sel].filter(id => items.some(i => i.id === id)); if (ids.length) this.remove(ids, '忽略'); },
+      hasToast: !!this.state.toast, toast: this.state.toast, toastBottom: selecting ? '104px' : '100px',
+      undo: () => { clearTimeout(this.tt); if (this.undoSnapshot) window.Huling.restore(this.undoSnapshot); this.setState({ items: this.state.prevItems, toast: null }); },
+      reset: () => window.Huling.reset(),
+      stopClick: stop,
+      listRef: this.listRef,
+      calOpen: !!cur && calOpen, calDays, monthLabel, prevColor: calM > 8 ? '#5E5A54' : '#D3CFC8',
+      prevMonth: e => { stop(e); if (calM > 8) this.setState({ calM: calM - 1 }); },
+      nextMonth: e => { stop(e); if (calM < 11) this.setState({ calM: calM + 1 }); },
+      dateOpts, remindOpts, editRows,
+      onTitle: e => setD('title')(e.target.value),
+      cancelEdit: e => { stop(e); this.setState({ editing: null, draft: {}, calOpen: false }); },
+      saveConfirm: e => { stop(e); const prev = items; this.undoSnapshot = window.Huling.resolve([editingId]); this.setState({ items: items.filter(i => i.id !== editingId), editing: null, calOpen: false }); this.flash(cur && cur.type === 'sched' ? '已加入日历' : '已确认', prev); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><script src="./version-routing.js?v=2"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>想法详情 · 交互预览</title><script src="./demo-seed.js?v=20260926-failure-1"></script>
+<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./support.js"></script><link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head>
+<body style="margin:0;background:#F2F0EC;">
+<x-dc>
+<div style="padding:32px 20px;font-family:'PingFang SC',sans-serif;color:#1D1C1A;">
+  <h1 style="font-size:22px;margin:0 0 8px;">想法详情</h1>
+  <p style="font-size:14px;color:#8C877F;margin:0 0 24px;">点击待办或日程可原地编辑；点击待办圆圈确认或完成。</p>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;">
+    <div><p style="font-size:14px;">已整理</p><dc-import name="ThoughtDetail" variant="normal" hint-size="390px,1300px"></dc-import></div>
+    <div><p style="font-size:14px;">有待确认内容</p><dc-import name="ThoughtDetail" variant="confirm" hint-size="390px,1500px"></dc-import></div>
+  </div>
+</div>
+</x-dc>
+</body></html>

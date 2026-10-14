@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="./version-routing.js?v=2"></script><title>套餐与用量详情 · 乎零</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script src="./demo-seed.js?v=20260926-failure-1"></script><script src="./demo.js?v=20260929-version-24"></script><script src="./support.js"></script><link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head><body><x-dc><helmet><style>
+.demo-phone{width:390px;height:844px;border-radius:46px;background:white;color:#1D1C1A;overflow:hidden;position:relative;display:flex;flex-direction:column;font-family:'PingFang SC',sans-serif;box-shadow:0 0 0 1px #ddd,0 30px 60px -20px #ccc}
+.demo-top{padding:16px 28px;font-size:16px;font-weight:600;flex:none}.demo-header{padding:8px 20px;display:flex;align-items:center;gap:14px}.demo-back{color:#5E5A54;text-decoration:none;font-size:15px}.demo-body{padding:12px 20px 28px;flex:1;min-height:0;overflow-y:auto}.demo-title{font-size:26px;line-height:1.3;margin:4px 0 12px;font-weight:600}.demo-note{color:#8C877F;font-size:13px;line-height:1.65}.demo-row{padding:16px 0;border-bottom:1px solid #eeece8;display:flex;justify-content:space-between;gap:14px;align-items:center}.demo-button{border:0;border-radius:99px;background:#EEEBE6;color:#1D1C1A;padding:9px 16px;font:inherit;font-size:14px;cursor:pointer}.demo-input{width:100%;box-sizing:border-box;border:1px solid #e5e1da;border-radius:12px;padding:12px;font:inherit;font-size:15px;background:#faf9f7}.demo-nav{height:86px;flex:none;border-top:1px solid #eee;display:flex;justify-content:space-around;padding-top:14px;box-sizing:border-box;position:relative}.demo-nav a{color:#8C877F;font-size:15px;text-decoration:none}.demo-nav:after{content:'';position:absolute;bottom:8px;width:134px;height:5px;border-radius:9px;background:#1D1C1A}
+</style></helmet>
+<div class="demo-phone"><div class="demo-top">9:41</div><div class="demo-header"><a class="demo-back" href="./UsageStats.dc.html">‹ 用量统计</a></div>
+<div class="demo-body" style="background:radial-gradient(#DDE2DB .7px,transparent .7px);background-size:9px 9px;">
+<div class="demo-title">套餐与用量详情</div><p class="demo-note" style="margin-top:0;">查看当前套餐、月度额度与录音存储空间。</p>
+    <div style="background:#F6F5F1;border-radius:16px;padding:16px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;"><div><span style="font-size:16px;font-weight:600;">{{ planName }}</span><span style="font-size:11px;color:#8C877F;margin-left:8px;">当前套餐</span></div><button onClick="{{ openPlan }}" style="border:0;border-radius:99px;background:#326566;color:white;padding:7px 12px;font:inherit;font-size:12px;cursor:pointer;">{{ planAction }}</button></div>
+      <div >
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8C877F;margin:18px 0 12px;"><span>本月用量 · 2026.09</span><span>10 月 1 日重置</span></div>
+      <sc-for list="{{ usage }}" as="u"><div style="margin-top:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px;"><span>{{ u.label }}</span><span style="color:#8C877F;font-variant-numeric:tabular-nums;">{{ u.text }}</span></div><div role="progressbar" aria-label="{{ u.label }}" aria-valuenow="{{ u.percent }}" aria-valuemin="0" aria-valuemax="100" style="height:5px;border-radius:99px;background:#E5E4DF;overflow:hidden;"><div style="width:{{ u.width }};height:100%;background:{{ u.color }};border-radius:99px;"></div></div></div></sc-for>
+      <div data-href="./RecordingStorage.dc.html?from=SubscriptionDetail.dc.html" role="link" tabindex="0" aria-label="管理原始录音存储" onClick="{{ openStorage }}" style="cursor:pointer;margin-top:18px;padding-top:15px;border-top:1px solid #E5E4DF;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px;"><span>云存储空间 ›</span><span style="color:#8C877F;">{{ storageText }}</span></div>
+      <div role="progressbar" aria-label="云存储空间" aria-valuenow="{{ storagePercent }}" aria-valuemin="0" aria-valuemax="100" style="height:5px;background:#E5E4DF;border-radius:99px;overflow:hidden;"><div style="height:100%;width:{{ storageWidth }};background:#7D8DAB;border-radius:99px;"></div></div>
+      <div style="margin-top:8px;font-size:11px;color:#8C877F;">用于存储原始录音文件 · 不按月重置</div></div>
+      </div>
+    </div>
+<div style="background:white;border:1px solid #EEEFE9;border-radius:16px;padding:16px;margin-bottom:14px;">
+<strong style="font-size:16px;">本月额度明细</strong>
+<div class="demo-row" style="font-size:13px;"><span>ASR 转写</span><span>已用 42 分钟 · 剩余 {{ remainingAsr }} 分钟</span></div>
+<div class="demo-row" style="font-size:13px;"><span>内容整理</span><span>已用 18 次 · 剩余 {{ remainingOrganize }} 次</span></div>
+<p class="demo-note" style="margin-bottom:0;">统计周期：2026-09-01 至 2026-09-30<br>转写与整理额度于 10 月 1 日重置。</p>
+</div>
+<div style="background:white;border:1px solid #EEEFE9;border-radius:16px;padding:16px;margin-bottom:14px;">
+<strong style="font-size:16px;">云存储明细</strong>
+<div class="demo-row" style="font-size:13px;"><span>原始录音文件</span><span>{{ usedStorage }}</span></div>
+<div class="demo-row" style="font-size:13px;"><span>剩余空间</span><span>{{ remainingStorage }} GB</span></div>
+<p class="demo-note" style="margin-bottom:0;">云存储持续累计，用于保留原始录音文件，不随月度额度重置。</p>
+</div>
+<div style="background:white;border:1px solid #EEEFE9;border-radius:16px;padding:16px;">
+<strong style="font-size:16px;">套餐权益对比</strong>
+<table style="width:100%;border-collapse:collapse;font-size:12px;line-height:2.8;text-align:left;margin-top:12px;"><thead><tr style="color:#8C877F;"><th>权益</th><th>基础版</th><th style="color:#326566;">Pro 版</th></tr></thead><tbody><tr><td>转写 / 月</td><td>60 分钟</td><td>1,200 分钟</td></tr><tr><td>整理 / 月</td><td>30 次</td><td>600 次</td></tr><tr><td>云存储</td><td>5 GB</td><td>50 GB</td></tr></tbody></table>
+</div><p class="demo-note">当前为模拟用量及演示套餐。</p>
+</div>  <sc-if value="{{ modal }}"><div onClick="{{ closeModal }}" style="position:absolute;inset:0;z-index:20;background:#0004;display:flex;align-items:flex-end;"><div onClick="{{ stopClick }}" role="dialog" aria-label="{{ modalTitle }}" style="width:100%;box-sizing:border-box;background:white;border-radius:24px 24px 0 0;padding:24px 24px 36px;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong style="font-size:20px;">{{ modalTitle }}</strong><button aria-label="关闭" onClick="{{ closeModal }}" style="border:0;background:#F3F2EE;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;">×</button></div><p style="font-size:14px;line-height:1.7;color:#8C877F;">{{ modalBody }}</p><sc-if value="{{ planModal }}"><button onClick="{{ choosePlan }}" style="width:100%;padding:13px;border:0;border-radius:12px;background:#326566;color:white;font:inherit;cursor:pointer;">{{ chooseLabel }}</button></sc-if></div></div></sc-if><nav class="demo-nav"><a href="./FeedCompact.dc.html">想法</a><a href="./HealthScreen.dc.html">健康</a><a href="./MeScreen.dc.html" style="color:#1D1C1A;font-weight:600;">我的</a></nav></div></x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+ state={offset:0,selected:'2026-09-25'};
+ renderVals(){
+ const H=window.Huling,pro=H.setting('subscription-plan')==='pro';
+ const day=86400000,today=Date.UTC(2026,8,25),joined=Date.UTC(2026,7,18),fmt=t=>new Date(t).toISOString().slice(0,10);
+ const data=[];for(let t=joined,i=0;t<=today;t+=day,i++){const count=(i%9===0||i%7===2)?0:1+(i*7+3)%9;data.push({t,date:fmt(t),count,minutes:count*3+(count?i%5:0)});}
+ const byDate=Object.fromEntries(data.map(d=>[d.date,d])),total=data.reduce((n,d)=>n+d.count,0),minutes=data.reduce((n,d)=>n+d.minutes,0);
+ let longest=0,run=0,current=0;for(const d of data){run=d.count?run+1:0;longest=Math.max(longest,run);}for(let i=data.length-1;i>=0&&data[i].count;i--)current++;
+ const colors=['#F0F1ED','#E1EBDE','#BACEB3','#86AA80','#527A65'];
+ const end=today+(6-new Date(today).getUTCDay())*day-this.state.offset*84*day,start=end-83*day;
+ const selected=byDate[this.state.selected];
+ return {remainingAsr:pro?'1,158':'18',remainingOrganize:pro?'582':'12',remainingStorage:pro?'48.8':'3.8',planName:pro?'Pro 版':'基础版',planAction:pro?'管理套餐':'升级 Pro',
+   ...H.storageQuota(),openStorage:e=>{e.stopPropagation();H.go('RecordingStorage.dc.html',{from:H.page()});},
+   usage:[{label:'ASR 转写',text:pro?'42 / 1,200 分钟':'42 / 60 分钟',percent:pro?3.5:70,width:pro?'3.5%':'70%',color:'#527A65'},{label:'内容整理',text:pro?'18 / 600 次':'18 / 30 次',percent:pro?3:60,width:pro?'3%':'60%',color:'#A18964'}],
+   modal:!!this.state.modal,planModal:this.state.modal==='plan',modalTitle:this.state.modal==='plan'?'订阅套餐':this.state.integration+'接入',modalBody:this.state.modal==='plan'?'基础版：每月 60 分钟转写、30 次整理，5 GB 云存储。Pro 版：每月 1,200 分钟转写、600 次整理，50 GB 云存储。当前为演示套餐，不会产生扣费。':'这里将支持连接'+this.state.integration+'账号并管理授权，接入功能稍后开放。',
+   openPlan:()=>this.setState({modal:'plan'}),closeModal:()=>this.setState({modal:null}),stopClick:e=>e.stopPropagation(),chooseLabel:pro?'切换为基础版（演示）':'体验 Pro 版（演示）',choosePlan:()=>{H.setting('subscription-plan',pro?'basic':'pro');this.setState({modal:null});},
+ metrics:[{label:'累计想法',value:total,unit:'条'},{label:'节省时间',value:Math.floor(minutes*3/60)+'时'+minutes*3%60,unit:'分'},{label:'总陪伴天数',value:data.length,unit:'天'},{label:'总录音时长',value:Math.floor(minutes/60)+'时'+minutes%60,unit:'分'}],
+ streaks:[{label:'活跃天数',value:data.filter(d=>d.count).length},{label:'当前连续',value:current},{label:'最长连续',value:longest}],
+ weekdays:['日','一','二','三','四','五','六'],legend:colors,range:'近 12 周',period:fmt(start).slice(5).replace('-','/')+' — '+fmt(end).slice(5).replace('-','/'),latest:this.state.offset===0,nextOpacity:this.state.offset===0?.3:1,
+ previous:()=>this.setState({offset:this.state.offset+1}),next:()=>this.setState({offset:Math.max(0,this.state.offset-1)}),
+ cells:Array.from({length:84},(_,i)=>{const t=start+i*day,date=fmt(t),d=byDate[date],disabled=t>today||t<joined,count=d?.count||0,selected=date===this.state.selected;return {label:date+(t>today?'，尚未到来':t<joined?'，注册前':'，'+count+' 条想法'),selected,disabled,color:disabled?'repeating-linear-gradient(135deg,#FFF 0 3px,#F1F1ED 3px 4px)':colors[count===0?0:count<3?1:count<5?2:count<8?3:4],outline:selected?'2px solid #326566':'none',cursor:disabled?'default':'pointer',select:()=>this.setState({selected:date})};}),
+ selectedText:selected?selected.date+' · '+selected.count+' 条想法 · 录音 '+selected.minutes+' 分钟':'选择一个日期，查看当天记录'
+ };
+ }
+}
+</script></body></html>

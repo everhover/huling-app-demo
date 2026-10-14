@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head><script src="./version-routing.js?v=2"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./demo-seed.js?v=20260926-failure-1"></script>
+<script src="./demo.js?v=20260929-version-24"></script>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+<div style="width:390px;height:844px;border-radius:46px;overflow:hidden;position:relative;background:#FFFFFF;color:#1D1C1A;font-family:'Instrument Sans','PingFang SC','Noto Sans SC',sans-serif;box-shadow:0 0 0 1px rgba(29,28,26,0.10),0 30px 60px -20px rgba(29,28,26,0.25);">
+  <div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 36px;font-size:16px;font-weight:600;">
+    <span>9:41</span>
+    <div data-href="./Launch.dc.html" role="link" tabindex="0" aria-label="重新开始 App 启动流程" title="重新开始 App 启动流程" style="display:flex;align-items:center;gap:6px;min-height:32px;cursor:pointer;"><div style="display:flex;align-items:flex-end;gap:2px;height:11px;"><div style="width:3px;height:4px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:6px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:8px;background:#1D1C1A;border-radius:1px;"></div><div style="width:3px;height:11px;background:#1D1C1A;border-radius:1px;"></div></div><div style="width:24px;height:12px;border:1px solid rgba(29,28,26,0.4);border-radius:4px;padding:1px;"><div style="width:70%;height:100%;background:#1D1C1A;border-radius:2px;"></div></div></div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 20px 12px;">
+    <div style="font-size:30px;font-weight:600;">想法</div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div data-href="./DemoPage.dc.html?view=device" role="link" tabindex="0" style="display:flex;align-items:center;gap:6px;font-size:13px;color:#5E5A54;"><span style="width:6px;height:6px;border-radius:99px;background:oklch(0.62 0.08 160);"></span>戒指 78%</div>
+      <svg data-href="./Search.dc.html" role="link" tabindex="0" aria-label="搜索想法" width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="#1D1C1A" stroke-width="1.6"><circle cx="7.8" cy="7.8" r="5.8"></circle><path d="M12.2 12.2 16 16" stroke-linecap="round"></path></svg>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;padding:0 20px 8px;">
+    <div data-href="./FeedCompact.dc.html" role="link" tabindex="0" style="height:30px;padding:0 13px;border-radius:99px;border:1px solid rgba(29,28,26,0.1);box-sizing:border-box;color:#5E5A54;font-size:13px;display:flex;align-items:center;">全部</div>
+    <div data-href="./PendingReview.dc.html" role="link" tabindex="0" style="height:30px;padding:0 13px;border-radius:99px;border:1px solid rgba(29,28,26,0.1);box-sizing:border-box;color:#5E5A54;font-size:13px;display:flex;align-items:center;gap:6px;">需要确认<span style="color:oklch(0.45 0.08 195);font-weight:600;">{{ pendingTotal }}</span></div>
+    <div onClick="{{ toTodo }}" style="height:30px;padding:0 13px;border-radius:99px;background:{{ todoChipBg }};color:{{ todoChipFg }};font-weight:{{ todoChipFw }};border:1px solid {{ todoChipBd }};box-sizing:border-box;font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;">待办<span style="opacity:0.6;">{{ todoCount }}</span></div>
+    <div onClick="{{ toSched }}" style="height:30px;padding:0 13px;border-radius:99px;background:{{ schedChipBg }};color:{{ schedChipFg }};font-weight:{{ schedChipFw }};border:1px solid {{ schedChipBd }};box-sizing:border-box;font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;">日程<span style="opacity:0.6;">{{ schedCount }}</span></div>
+  </div>
+
+  <sc-if value="{{ isTodo }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:0 20px 100px;">
+      <sc-for list="{{ todoGroups }}" as="g" hint-placeholder-count="3">
+        <div onClick="{{ g.onHeader }}" style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 2px;cursor:{{ g.cursor }};">
+          <span style="font-size:12.5px;font-weight:600;color:{{ g.color }};">{{ g.label }} <span style="font-weight:400;">{{ g.count }}</span></span>
+          <sc-if value="{{ g.isDone }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#A8A39B;">{{ g.toggleLabel }}</span></sc-if>
+        </div>
+        <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+          <div onClick="{{ it.open }}" style="display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:12px;padding:11px 0;border-bottom:1px solid rgba(29,28,26,0.07);cursor:pointer;">
+            <div onClick="{{ it.toggle }}" style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;margin-top:1px;">
+              <sc-if value="{{ it.isDone }}" hint-placeholder-val="{{ false }}"><div style="width:18px;height:18px;border-radius:99px;background:#1D1C1A;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#FFFFFF" stroke-width="1.8"><path d="M2 5.2 4.2 7.4 8 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></sc-if>
+              <sc-if value="{{ it.isOpenish }}" hint-placeholder-val="{{ true }}"><div style="width:18px;height:18px;border-radius:99px;border:1.5px solid rgba(29,28,26,0.3);box-sizing:border-box;"></div></sc-if>
+              <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}"><div style="width:18px;height:18px;border-radius:99px;border:1.5px dashed oklch(0.56 0.07 195);box-sizing:border-box;"></div></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+              <div style="font-size:15.5px;line-height:1.4;color:{{ it.titleColor }};text-decoration:{{ it.deco }};">{{ it.text }}</div>
+              <div style="display:flex;gap:6px;font-size:12px;color:#A8A39B;min-width:0;">
+                <span style="color:{{ it.dueColor }};flex:none;">{{ it.dueLabel }}</span><span>·</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.source }}</span>
+              </div>
+              <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                  <div onClick="{{ it.confirm }}" style="height:28px;padding:0 14px;border-radius:99px;background:#1D1C1A;color:#FFFFFF;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">确认</div>
+                  <div onClick="{{ it.edit }}" style="height:28px;padding:0 12px;border-radius:99px;border:1px solid rgba(29,28,26,0.14);font-size:12.5px;display:flex;align-items:center;cursor:pointer;">修改</div>
+                  <div onClick="{{ it.ignore }}" style="height:28px;padding:0 8px;font-size:12.5px;color:#A8A39B;display:flex;align-items:center;cursor:pointer;">忽略</div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSched }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:0 20px 100px;">
+      <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:8px 0 10px;border-bottom:1px solid rgba(29,28,26,0.07);">
+        <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <span style="font-size:11px;color:#A8A39B;">{{ d.w }}</span>
+            <span style="width:30px;height:30px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:{{ d.fw }};background:{{ d.bg }};color:{{ d.fg }};font-variant-numeric:tabular-nums;">{{ d.n }}</span>
+            <span style="width:4px;height:4px;border-radius:99px;background:{{ d.mark }};"></span>
+          </div>
+        </sc-for>
+      </div>
+      <sc-for list="{{ schedGroups }}" as="g" hint-placeholder-count="3">
+        <div style="display:flex;align-items:baseline;gap:8px;padding:16px 0 2px;"><span style="font-size:12.5px;font-weight:600;color:{{ g.color }};">{{ g.label }}</span><span style="font-size:12px;color:#A8A39B;">{{ g.sub }}</span></div>
+        <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+          <div onClick="{{ it.open }}" style="display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:12px;padding:11px 0;border-bottom:1px solid rgba(29,28,26,0.07);cursor:pointer;">
+            <div style="display:flex;flex-direction:column;gap:1px;font-variant-numeric:tabular-nums;padding-top:1px;">
+              <span style="font-size:14px;font-weight:500;color:{{ it.timeColor }};">{{ it.start }}</span>
+              <span style="font-size:11.5px;color:#A8A39B;">{{ it.end }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:15.5px;line-height:1.4;color:{{ it.titleColor }};">{{ it.title }}</span>
+                <sc-if value="{{ it.isNow }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#FFFFFF;background:#1D1C1A;padding:1px 6px;border-radius:4px;line-height:16px;">进行中</span></sc-if>
+              </div>
+              <div style="font-size:12px;color:#A8A39B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.meta }}</div>
+              <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                  <div onClick="{{ it.confirm }}" style="height:28px;padding:0 14px;border-radius:99px;background:#1D1C1A;color:#FFFFFF;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">加入日历</div>
+                  <div onClick="{{ it.edit }}" style="height:28px;padding:0 12px;border-radius:99px;border:1px solid rgba(29,28,26,0.14);font-size:12.5px;display:flex;align-items:center;cursor:pointer;">修改</div>
+                  <div onClick="{{ it.ignore }}" style="height:28px;padding:0 8px;font-size:12.5px;color:#A8A39B;display:flex;align-items:center;cursor:pointer;">忽略</div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:86px;background:rgba(255,255,255,0.96);border-top:1px solid rgba(29,28,26,0.07);display:grid;grid-template-columns:repeat(3,1fr);padding-top:12px;">
+    <div data-href="./FeedCompact.dc.html" role="link" tabindex="0" style="display:flex;flex-direction:column;align-items:center;gap:5px;font-size:15px;font-weight:600;"><span>想法</span><div style="width:4px;height:4px;border-radius:99px;background:#1D1C1A;"></div></div>
+    <div data-href="./HealthScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">健康</div>
+    <div data-href="./MeScreen.dc.html" role="link" tabindex="0" style="display:flex;justify-content:center;font-size:15px;color:#A8A39B;">我的</div>
+    <div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:99px;background:#1D1C1A;"></div>
+  </div>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;">
+      <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(29,28,26,0.32);"></div>
+      <div style="position:relative;background:#FFFFFF;border-radius:26px 26px 0 0;padding:8px 20px 34px;display:flex;flex-direction:column;">
+        <div style="width:36px;height:5px;border-radius:99px;background:rgba(29,28,26,0.15);align-self:center;margin-bottom:14px;"></div>
+
+        <sc-if value="{{ sheetDetail }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;">
+            <span style="color:#A8A39B;font-weight:600;">{{ s.kind }}</span>
+            <span style="color:{{ s.stateColor }};background:{{ s.stateBg }};padding:1px 8px;border-radius:5px;">{{ s.stateLabel }}</span>
+          </div>
+          <div style="font-size:21px;font-weight:600;line-height:1.35;padding:8px 0 10px;">{{ s.title }}</div>
+          <sc-for list="{{ s.fields }}" as="f" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid rgba(29,28,26,0.07);font-size:14.5px;">
+              <span style="color:#8C877F;flex:none;">{{ f.k }}</span>
+              <span style="color:{{ f.color }};text-align:right;">{{ f.v }}</span>
+            </div>
+          </sc-for>
+          <div style="margin-top:14px;padding:12px 14px;border-radius:14px;background:#F6F4F1;display:flex;flex-direction:column;gap:6px;">
+            <div style="font-size:12px;color:#A8A39B;"><span data-href="{{ sourceHref }}" role="link" tabindex="0">来自想法「{{ s.source }}」</span></div>
+            <div style="font-size:14px;line-height:1.55;color:#5E5A54;">“{{ s.quote }}”</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#1D1C1A;margin-top:2px;"><span style="width:0;height:0;border-left:6px solid #1D1C1A;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;"></span>从 {{ s.at }} 播放原话</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:18px;">
+            <sc-for list="{{ s.actions }}" as="a" hint-placeholder-count="2">
+              <sc-if value="{{ a.primary }}" hint-placeholder-val="{{ false }}"><div onClick="{{ a.onClick }}" style="flex:1;height:46px;border-radius:99px;background:#1D1C1A;color:#FFFFFF;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;cursor:pointer;">{{ a.label }}</div></sc-if>
+              <sc-if value="{{ a.secondary }}" hint-placeholder-val="{{ true }}"><div onClick="{{ a.onClick }}" style="flex:1;height:46px;border-radius:99px;border:1px solid rgba(29,28,26,0.14);font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;">{{ a.label }}</div></sc-if>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ sheetEdit }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;">
+            <span onClick="{{ cancelEdit }}" style="font-size:15px;color:#8C877F;cursor:pointer;">取消</span>
+            <span style="font-size:16px;font-weight:600;">{{ s.editTitle }}</span>
+            <span onClick="{{ saveEdit }}" style="font-size:15px;font-weight:600;cursor:pointer;">保存</span>
+          </div>
+          <div style="padding:10px 0;border-bottom:1px solid rgba(29,28,26,0.07);">
+            <input defaultValue="{{ s.title }}" style="width:100%;border:none;outline:none;font-family:inherit;font-size:18px;font-weight:600;color:#1D1C1A;padding:4px 0;background:transparent;">
+          </div>
+          <div style="padding:12px 0;border-bottom:1px solid rgba(29,28,26,0.07);display:flex;flex-direction:column;gap:10px;">
+            <span style="font-size:13px;color:#8C877F;">{{ s.dateLabel }}</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <sc-for list="{{ dateOpts }}" as="o" hint-placeholder-count="4">
+                <div onClick="{{ o.pick }}" style="height:32px;padding:0 13px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:13.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <sc-for list="{{ s.editRows }}" as="r" hint-placeholder-count="2">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(29,28,26,0.07);font-size:15px;">
+              <span style="color:#8C877F;font-size:14px;">{{ r.k }}</span>
+              <input defaultValue="{{ r.v }}" style="border:none;outline:none;font-family:inherit;font-size:15px;color:#1D1C1A;text-align:right;background:transparent;width:180px;">
+            </div>
+          </sc-for>
+          <div style="padding:12px 0;border-bottom:1px solid rgba(29,28,26,0.07);display:flex;flex-direction:column;gap:10px;">
+            <span style="font-size:13px;color:#8C877F;">提醒</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <sc-for list="{{ remindOpts }}" as="o" hint-placeholder-count="3">
+                <div onClick="{{ o.pick }}" style="height:32px;padding:0 13px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:13.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:12px 0 4px;display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:13px;color:#8C877F;">备注</span>
+            <textarea placeholder="添加备注" style="border:none;outline:none;resize:none;font-family:inherit;font-size:14.5px;line-height:1.5;color:#1D1C1A;height:44px;padding:0;background:transparent;"></textarea>
+          </div>
+          <div style="font-size:12px;color:#A8A39B;padding-top:6px;"><span data-href="{{ sourceHref }}" role="link" tabindex="0">来自想法「{{ s.source }}」</span> · 修改不会影响原始录音</div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;tab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;todo&quot;,&quot;sched&quot;],&quot;default&quot;:&quot;todo&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;sheet&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;detail&quot;,&quot;edit&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;sheetId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;t1&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const TODOS = [
+  { id: 't1', text: '核对报价单中的 3 处差异', status: 'pending', day: 'later', due: '明天下午', dueFull: '9月26日 周六 下午', remind: '提前 30 分钟', source: '和供应商讨论 PCB', quote: '我明天下午把报价单里那三处对一下。', at: '4:08' },
+  { id: 't2', text: '确认首页 V1 信息架构', status: 'pending', day: 'later', due: '明天 18:00', dueFull: '9月26日 周六 18:00', remind: '准时', source: '产品首页的一个想法', quote: '先这样，明天下午把信息架构定下来。', at: '1:50' },
+  { id: 't3', text: '回复主办方的展位确认邮件', status: 'overdue', day: 'past', due: '昨天 18:00 · 已过期', dueFull: '9月24日 周四 18:00', remind: '提前 1 小时', source: 'CES 展位的准备', quote: '主办方那封确认邮件记得明天之前回。', at: '0:32' },
+  { id: 't4', text: '把新版 BOM 发给供应商', status: 'open', day: 'today', due: '今天 17:00', dueFull: '9月25日 周五 17:00', remind: '提前 30 分钟', source: '和供应商讨论 PCB', quote: '新版 BOM 今天先发过去。', at: '4:15' },
+  { id: 't5', text: '给妈妈打电话', status: 'open', day: 'today', due: '今天 20:00', dueFull: '9月25日 周五 20:00', remind: '准时', source: '今天要做的三件事', quote: '晚上记得给妈妈打电话。', at: '0:30' },
+  { id: 't6', text: '询问打样周期', status: 'open', day: 'later', due: '9月28日 周一', dueFull: '9月28日 周一', remind: '不提醒', source: '和供应商讨论 PCB', quote: '打样周期他们给的是两到三周，这个有点长。', at: '2:36' },
+  { id: 't7', text: '准备展位演示脚本', status: 'open', day: 'later', due: '9月29日 周二', dueFull: '9月29日 周二', remind: '提前 1 天', source: 'CES 展位的准备', quote: '演示的时候要有一段固定的话术。', at: '0:44' },
+  { id: 't8', text: '过一遍供应商报价', status: 'done', day: 'today', due: '今天 11:20 完成', dueFull: '9月25日 周五', remind: '不提醒', source: '今天要做的三件事', quote: '上午先把供应商的报价过一遍。', at: '0:08' },
+  { id: 't9', text: '同步设计首页方向', status: 'done', day: 'past', due: '昨天完成', dueFull: '9月24日 周四', remind: '不提醒', source: '周会后的结论', quote: '首页方向这周要和设计同步一次。', at: '2:12' }
+];
+const SCHEDS = [
+  { id: 's1', title: '和供应商沟通 PCB', status: 'pending', date: 'mon', start: '14:00', end: '15:00', place: '线上会议', dateFull: '9月28日 周一 14:00 – 15:00', remind: '提前 15 分钟', source: '和供应商讨论 PCB', quote: '下周一下午两点左右再和他们约一次，把这些都定下来。', at: '5:18' },
+  { id: 's2', title: '产品周会', status: 'ok', date: 'today', start: '09:30', end: '10:30', place: '会议室 A', dateFull: '9月25日 周五 09:30 – 10:30', remind: '提前 10 分钟', now: true, source: '周会后的结论', quote: '周会还是固定周五早上九点半。', at: '0:12' },
+  { id: 's3', title: '设计评审：首页 V1', status: 'ok', date: 'today', start: '14:00', end: '15:00', place: '会议室 B', dateFull: '9月25日 周五 14:00 – 15:00', remind: '提前 15 分钟', source: '产品首页的一个想法', quote: '周五下午找设计一起过一下首页。', at: '1:40' },
+  { id: 's4', title: '和展会主办方通话', status: 'ok', date: 'today', start: '16:00', end: '16:30', place: '电话', dateFull: '9月25日 周五 16:00 – 16:30', remind: '提前 10 分钟', source: 'CES 展位的准备', quote: '周五四点和主办方打个电话确认展位位置。', at: '0:40' },
+  { id: 's5', title: '晨跑', status: 'ok', date: 'sat', start: '07:30', end: '08:30', place: '滨江步道', dateFull: '9月26日 周六 07:30 – 08:30', remind: '不提醒', source: '跑步时想到的', quote: '周六早上还是去滨江跑一圈。', at: '0:50' },
+  { id: 's6', title: '出发去拉斯维加斯', status: 'ok', date: 'wed', start: '全天', end: '', place: 'PVG → LAS', dateFull: '9月30日 周三 全天', remind: '提前 1 天', source: '出差前要带的东西', quote: '周三出发，样机两台记得带上。', at: '0:06' }
+];
+const DAYS = { today: ['今天', '9月25日 周五'], sat: ['明天', '9月26日 周六'], mon: ['9月28日', '周一'], wed: ['9月30日', '周三'] };
+const WARN = 'oklch(0.52 0.13 35)', TEAL = 'oklch(0.42 0.08 195)', TEAL_BG = 'oklch(0.955 0.02 195)';
+class Component extends DCLogic {
+  state = { todos: TODOS.map(t => ({ ...t })), scheds: SCHEDS.map(s => ({ ...s })), showDone: true };
+  upd(key, id, patch) { this.setState(s => ({ [key]: s[key].map(x => x.id === id ? { ...x, ...patch } : x) })); }
+  drop(key, id) { this.setState(s => ({ [key]: s[key].filter(x => x.id !== id), sheet: null })); }
+  openSheet(type, id, mode) { this.setState({ sheet: { type, id, mode }, dateSel: undefined, remindSel: undefined }); }
+  stop(e) { e && e.stopPropagation && e.stopPropagation(); }
+  renderVals() {
+    const tab = this.state.tab ?? this.props.tab ?? 'todo';
+    let sheet = this.state.sheet;
+    if (sheet === undefined) {
+      const m = this.props.sheet ?? 'none';
+      sheet = m === 'none' ? null : { type: tab, id: this.props.sheetId ?? (tab === 'todo' ? 't1' : 's1'), mode: m };
+    }
+    const { todos, scheds, showDone } = this.state;
+    const todoRow = t => {
+      const done = t.status === 'done', pend = t.status === 'pending', over = t.status === 'overdue';
+      return {
+        ...t, isDone: done, isPending: pend, isOpenish: !done && !pend,
+        titleColor: done ? '#A8A39B' : '#1D1C1A', deco: done ? 'line-through' : 'none',
+        dueLabel: t.due, dueColor: over ? WARN : pend ? TEAL : '#8C877F',
+        open: () => window.Huling.go('TodoList.dc.html'),
+        toggle: e => { this.stop(e); if (pend) return; this.upd('todos', t.id, done ? { status: t.prev || 'open', due: t.prevDue || t.due } : { status: 'done', prev: t.status, prevDue: t.due, due: '刚刚完成' }); },
+        confirm: e => { this.stop(e); this.upd('todos', t.id, { status: 'open' }); },
+        ignore: e => { this.stop(e); this.drop('todos', t.id); },
+        edit: e => { this.stop(e); this.openSheet('todo', t.id, 'edit'); }
+      };
+    };
+    const byStatus = st => todos.filter(t => t.status === st);
+    const openToday = todos.filter(t => t.status === 'open' && t.day === 'today');
+    const openLater = todos.filter(t => t.status === 'open' && t.day !== 'today');
+    const doneList = byStatus('done');
+    const todoGroups = [
+      { label: '需要确认', list: byStatus('pending'), color: TEAL },
+      { label: '已过期', list: byStatus('overdue'), color: WARN },
+      { label: '今天', list: openToday, color: '#A8A39B' },
+      { label: '之后', list: openLater, color: '#A8A39B' },
+      { label: '已完成', list: doneList, color: '#A8A39B', isDone: true }
+    ].filter(g => g.list.length).map(g => ({
+      label: g.label, color: g.color, count: g.list.length, isDone: !!g.isDone,
+      toggleLabel: showDone ? '收起' : '展开', cursor: g.isDone ? 'pointer' : 'default',
+      onHeader: g.isDone ? () => this.setState({ showDone: !showDone }) : undefined,
+      items: g.isDone && !showDone ? [] : g.list.map(todoRow)
+    }));
+    const schedRow = s => {
+      const pend = s.status === 'pending';
+      const past = s.date === 'today' && !s.now && s.start < '09:41';
+      return {
+        ...s, isPending: pend, isNow: !!s.now,
+        timeColor: past ? '#A8A39B' : '#1D1C1A', titleColor: past ? '#A8A39B' : '#1D1C1A',
+        start: pend ? s.dateFull.split(' ')[0].replace('9月', '') : s.start,
+        end: pend ? s.start : s.end,
+        meta: `${pend ? s.start + ' – ' + s.end + ' · ' : ''}${s.place} · 来自「${s.source}」`,
+        open: () => window.Huling.go('ScheduleList.dc.html'),
+        confirm: e => { this.stop(e); this.upd('scheds', s.id, { status: 'ok' }); },
+        ignore: e => { this.stop(e); this.drop('scheds', s.id); },
+        edit: e => { this.stop(e); this.openSheet('sched', s.id, 'edit'); }
+      };
+    };
+    const pendS = scheds.filter(s => s.status === 'pending');
+    const schedGroups = [];
+    if (pendS.length) schedGroups.push({ label: '需要确认', sub: `${pendS.length} 项`, color: TEAL, items: pendS.map(schedRow) });
+    Object.keys(DAYS).forEach(k => {
+      const list = scheds.filter(s => s.status !== 'pending' && s.date === k);
+      if (list.length) schedGroups.push({ label: DAYS[k][0], sub: DAYS[k][1], color: k === 'today' ? '#1D1C1A' : '#A8A39B', items: list.map(schedRow) });
+    });
+    const has = { 25: 1, 26: 1, 28: 1, 30: 1 };
+    const week = [['五', 25], ['六', 26], ['日', 27], ['一', 28], ['二', 29], ['三', 30], ['四', 1]].map(([w, n]) => ({
+      w, n, bg: n === 25 ? '#EEEBE6' : 'transparent', fg: '#1D1C1A', fw: n === 25 ? 600 : 400,
+      mark: has[n] && n !== 25 ? '#C9C4BC' : 'transparent'
+    }));
+
+    let s = {}, sheetOpen = false;
+    const pickOpts = (opts, sel, key) => opts.map(o => ({ label: o, bg: o === sel ? '#EEEBE6' : '#FFFFFF', fg: o === sel ? '#1D1C1A' : '#5E5A54', fw: o === sel ? 600 : 400, bd: o === sel ? 'transparent' : 'rgba(29,28,26,0.1)', pick: () => this.setState({ [key]: o }) }));
+    let dateOpts = [], remindOpts = [];
+    if (sheet) {
+      const isT = sheet.type === 'todo';
+      const item = (isT ? todos : scheds).find(x => x.id === sheet.id);
+      if (item) {
+        sheetOpen = true;
+        const st = item.status;
+        const stateMap = isT
+          ? { pending: ['待确认', TEAL, TEAL_BG], open: ['未完成', '#5E5A54', '#F2F0EC'], overdue: ['已过期', WARN, 'oklch(0.96 0.02 35)'], done: ['已完成', '#A8A39B', '#F2F0EC'] }
+          : { pending: ['待确认', TEAL, TEAL_BG], ok: ['已加入日历', '#5E5A54', '#F2F0EC'] };
+        const [stateLabel, stateColor, stateBg] = stateMap[st];
+        const key = isT ? 'todos' : 'scheds';
+        const toEdit = () => this.setState({ sheet: { ...sheet, mode: 'edit' } });
+        const act = (label, primary, fn) => ({ label, primary, secondary: !primary, onClick: fn });
+        let actions;
+        if (st === 'pending') actions = [act('忽略', false, () => this.drop(key, item.id)), act('修改', false, toEdit), act(isT ? '确认' : '加入日历', true, () => this.upd(key, item.id, { status: isT ? 'open' : 'ok' }))];
+        else if (isT && st === 'done') actions = [act('编辑', false, toEdit), act('标记为未完成', true, () => this.upd('todos', item.id, { status: item.prev || 'open', due: item.prevDue || item.due }))];
+        else if (isT) actions = [act('编辑', false, toEdit), act('标记完成', true, () => this.upd('todos', item.id, { status: 'done', prev: st, prevDue: item.due, due: '刚刚完成' }))];
+        else actions = [act('删除', false, () => this.drop('scheds', item.id)), act('编辑', true, toEdit)];
+        const fields = isT
+          ? [{ k: '截止', v: item.dueFull, color: st === 'overdue' ? WARN : '#1D1C1A' }, { k: '提醒', v: item.remind, color: '#1D1C1A' }, { k: '状态', v: stateLabel, color: stateColor }]
+          : [{ k: '时间', v: item.dateFull, color: '#1D1C1A' }, { k: '地点', v: item.place, color: '#1D1C1A' }, { k: '提醒', v: item.remind, color: '#1D1C1A' }, { k: '日历', v: '工作', color: '#1D1C1A' }];
+        s = {
+          kind: isT ? '待办' : '日程', stateLabel, stateColor, stateBg, title: isT ? item.text : item.title,
+          fields, source: item.source, quote: item.quote, at: item.at, actions,
+          editTitle: isT ? '编辑待办' : '编辑日程', dateLabel: isT ? '截止日期' : '日期',
+          editRows: isT ? [{ k: '时间', v: item.dueFull.split(' ').slice(2).join(' ') || '全天' }] : [{ k: '开始', v: item.start }, { k: '结束', v: item.end }, { k: '地点', v: item.place }]
+        };
+        const dOpts = isT ? ['今天', '明天', '9月28日 周一', '选择日期'] : ['今天', '明天', '9月28日 周一', '选择日期'];
+        const defD = item.dueFull?.startsWith('9月26日') || item.dateFull?.startsWith('9月26日') ? '明天' : (item.dueFull || item.dateFull || '').startsWith('9月25日') ? '今天' : (item.dueFull || item.dateFull || '').startsWith('9月28日') ? '9月28日 周一' : '选择日期';
+        dateOpts = pickOpts(dOpts, this.state.dateSel ?? defD, 'dateSel');
+        const rOpts = ['不提醒', '准时', '提前 15 分钟', '提前 30 分钟', '提前 1 天'];
+        remindOpts = pickOpts(rOpts, this.state.remindSel ?? item.remind, 'remindSel');
+      }
+    }
+    const back = () => this.setState({ sheet: { ...sheet, mode: 'detail' } });
+    return {
+      isTodo: tab === 'todo', isSched: tab === 'sched',
+      toTodo: () => window.Huling.go('TodoList.dc.html'), toSched: () => window.Huling.go('ScheduleList.dc.html'),
+      todoChipBg: tab === 'todo' ? '#EEEBE6' : '#FFFFFF', todoChipFg: tab === 'todo' ? '#1D1C1A' : '#5E5A54', todoChipFw: tab === 'todo' ? 600 : 400, todoChipBd: tab === 'todo' ? 'transparent' : 'rgba(29,28,26,0.1)',
+      schedChipBg: tab === 'sched' ? '#EEEBE6' : '#FFFFFF', schedChipFg: tab === 'sched' ? '#1D1C1A' : '#5E5A54', schedChipFw: tab === 'sched' ? 600 : 400, schedChipBd: tab === 'sched' ? 'transparent' : 'rgba(29,28,26,0.1)',
+      todoCount: todos.filter(t => t.status !== 'done').length, schedCount: scheds.length,
+      pendingTotal: todos.filter(t => t.status === 'pending').length + pendS.length,
+      todoGroups, schedGroups, week,
+      sheetOpen, sheetDetail: sheetOpen && sheet.mode === 'detail', sheetEdit: sheetOpen && sheet.mode === 'edit',
+      sourceHref: window.Huling.sourceLink(s.source), s, dateOpts, remindOpts,
+      closeSheet: () => this.setState({ sheet: null }), cancelEdit: back, saveEdit: back
+    };
+  }
+}
+</script>
+</body>
+</html>

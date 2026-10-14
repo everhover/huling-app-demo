@@ -1,0 +1,190 @@
+<!DOCTYPE html><html><head><script src="./version-routing.js?v=2"></script><meta charset="utf-8"><script src="./demo-seed.js?v=20260926-failure-1"></script><script src="./demo.js?v=20260929-version-24"></script><script src="./support.js"></script><link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head><body><x-dc><div>      <sc-for list="{{ todoRows }}" as="it" hint-placeholder-count="3">
+        <div data-swipe-label="{{ it.swipeLabel }}" data-swipe-release="{{ it.swipeRelease }}" data-swipe-direction="{{ it.swipeDirection }}" data-swipe-reverse="{{ it.swipeDestructive }}" style="margin:0 -20px;"><div ref="{{ it.editRegionRef }}" onPointerDown="{{ it.swipeStart }}" onPointerMove="{{ it.swipeMove }}" onPointerUp="{{ it.swipeEnd }}" onPointerCancel="{{ it.swipeCancel }}" onClick="{{ it.tap }}" style="display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:12px;padding:11px 20px;margin:0;touch-action:pan-y;position:relative;background:{{ it.rowBg }};border-bottom:1px solid rgba(29,28,26,0.06);cursor:pointer;">
+          <div data-swipe-control="true" onClick="{{ it.toggle }}" style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;margin-top:1px;">
+            <sc-if value="{{ it.isDone }}" hint-placeholder-val="{{ false }}"><div style="width:18px;height:18px;border-radius:99px;background:#E4E0D9;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#5E5A54" stroke-width="1.8"><path d="M2 5.2 4.2 7.4 8 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></sc-if>
+            <sc-if value="{{ it.isOpen }}" hint-placeholder-val="{{ true }}"><div style="width:18px;height:18px;border-radius:99px;border:1.5px solid rgba(29,28,26,0.28);box-sizing:border-box;"></div></sc-if>
+            <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}"><div style="width:18px;height:18px;border-radius:99px;border:1.5px dashed oklch(0.56 0.07 195);box-sizing:border-box;"></div></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;min-width:0;padding-right:{{ it.actionSpace }};">
+            <sc-if value="{{ it.isEditing }}" hint-placeholder-val="{{ false }}"><input defaultValue="{{ it.title }}" onChange="{{ onTitle }}" onClick="{{ stopClick }}" style="border:none;border-bottom:1px solid rgba(29,28,26,0.18);outline:none;font-family:inherit;font-size:15.5px;line-height:1.4;font-weight:500;color:#1D1C1A;background:transparent;padding:0 0 3px;margin:0;width:100%;"></sc-if>
+            <sc-if value="{{ it.notEditing }}" hint-placeholder-val="{{ true }}"><div style="font-size:15.5px;line-height:1.4;color:{{ it.titleColor }};text-decoration:{{ it.deco }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.title }}</div></sc-if>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;line-height:17px;color:#A8A39B;min-width:0;white-space:nowrap;overflow:hidden;">
+              <sc-if value="{{ it.isPending }}" hint-placeholder-val="{{ false }}"><span style="color:oklch(0.42 0.08 195);flex:none;">待确认</span><span>·</span></sc-if><sc-if value="{{ it.isIgnored }}"><span>已忽略</span><span>·</span></sc-if>
+              <span style="color:{{ it.whenColor }};flex:none;font-variant-numeric:tabular-nums;">{{ it.when }}</span>
+            <sc-if value="{{ it.hl }}"><span style="color:#5E5A54;">· 你从这条待办进入</span></sc-if><sc-if value="{{ it.showActions }}"><div style="position:absolute;right:20px;top:11px;display:flex;align-items:center;gap:16px;">
+                <button type="button" onClick="{{ it.ignore }}" style="height:28px;padding:0 8px;border:0;background:transparent;color:#8C877F;font-family:inherit;font-size:12.5px;cursor:pointer;">忽略</button>
+                <sc-if value="{{ it.isPending }}"><button type="button" onClick="{{ it.confirm }}" style="height:28px;padding:0 12px;border:0;border-radius:99px;background:oklch(0.42 0.08 195);color:#FFFFFF;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;">确认</button></sc-if>
+              </div></sc-if></div>
+
+            <sc-if value="{{ it.isEditing }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;margin-top:8px;gap:2px;">
+                <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;padding:6px 0;">
+                  <span style="font-size:12.5px;color:#A8A39B;padding-top:6px;">日期</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <sc-for list="{{ dateOpts }}" as="o" hint-placeholder-count="5">
+                      <div onClick="{{ o.pick }}" style="height:28px;padding:0 11px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+                <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ stopClick }}" style="padding:10px 0 12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px 8px;">
+                      <span onClick="{{ prevMonth }}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:{{ prevColor }};cursor:pointer;">‹</span>
+                      <span style="font-size:14.5px;font-weight:600;">{{ monthLabel }}</span>
+                      <span onClick="{{ nextMonth }}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#5E5A54;cursor:pointer;">›</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center;font-size:11.5px;color:#A8A39B;padding-bottom:4px;"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+                    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;">
+                      <sc-for list="{{ calDays }}" as="c" hint-placeholder-count="35">
+                        <div onClick="{{ c.pick }}" style="height:38px;display:flex;align-items:center;justify-content:center;cursor:{{ c.cursor }};">
+                          <span style="width:32px;height:32px;border-radius:99px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-variant-numeric:tabular-nums;background:{{ c.bg }};color:{{ c.fg }};font-weight:{{ c.fw }};border:{{ c.bd }};">{{ c.n }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+                <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;padding:6px 0;">
+                  <span style="font-size:12.5px;color:#A8A39B;">时间</span>
+                  <input defaultValue="{{ it.time }}" placeholder="不设时间" onChange="{{ onTime }}" onClick="{{ stopClick }}" style="border:none;outline:none;font-family:inherit;font-size:15px;color:#1D1C1A;background:transparent;padding:2px 0;width:100%;font-variant-numeric:tabular-nums;">
+                </div>
+                <div style="display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;padding:6px 0;">
+                  <span style="font-size:12.5px;color:#A8A39B;padding-top:6px;">提醒</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <sc-for list="{{ remindOpts }}" as="o" hint-placeholder-count="4">
+                      <div onClick="{{ o.pick }}" style="height:28px;padding:0 11px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }};font-weight:{{ o.fw }};border:1px solid {{ o.bd }};box-sizing:border-box;font-size:12.5px;display:flex;align-items:center;cursor:pointer;">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding-top:8px;">
+                  <div onClick="{{ del }}" style="height:32px;padding:0 6px;font-size:13px;color:oklch(0.52 0.13 35);display:flex;align-items:center;cursor:pointer;">删除</div>
+                  <div style="flex:1;"></div>
+                  <div onClick="{{ cancelEdit }}" style="height:32px;padding:0 10px;font-size:13px;color:#8C877F;display:flex;align-items:center;cursor:pointer;">收起</div>
+                  <sc-if value="{{ curPending }}" hint-placeholder-val="{{ false }}"><div onClick="{{ confirmEdit }}" style="height:32px;padding:0 16px;border-radius:99px;background:#EEEBE6;font-weight:600;font-size:13px;display:flex;align-items:center;cursor:pointer;">{{ confirmText }}</div></sc-if>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div></div>
+      </sc-for><sc-if value="{{ hasToast }}"><div style="font-size:13px;color:#8C877F;padding:10px 0;">{{ toast }} <button data-delete-undo="true" onClick="{{ undo }}" style="border:0;background:transparent;font:inherit;color:oklch(0.42 0.08 195);cursor:pointer;">撤销</button></div></sc-if></div></x-dc><script type="text/x-dc" data-dc-script>
+class Component extends window.Huling.logic(DCLogic,'related') {
+ state={};
+ componentDidMount(){this.deletionCleanup=window.Huling.bindPendingDeletion(this);this.cleanup=window.Huling.bindOutsideEditor(this);}
+ componentWillUnmount(){this.deletionCleanup?.();this.cleanup?.();clearTimeout(this.toastTimer);}
+ actionItems(){return this.state.actionItems || window.Huling.state.actions.filter(a=>(this.props.ids||'').split(',').includes(a.id));}
+ setState(update,cb){super.setState(prev=>{
+  const patch=typeof update==='function'?update(prev):update;
+  if(patch.actionItems){
+   const before=this.actionItems(),ids=new Set(patch.actionItems.map(a=>a.id));
+   before.filter(a=>!ids.has(a.id)).forEach(a=>window.Huling.archiveAction(a.id));
+   const all=window.Huling.state.actions.filter(a=>a.type==='todo'&&!ids.has(a.id));
+   window.Huling.replaceType('todo',[...all,...patch.actionItems]);
+  }
+  return patch;
+ },cb);}
+ renderVals(){return this.actionVals({});}
+  actionVals(base) {
+    const items = this.actionItems(base), editing = this.state.editing;
+    const current = items.find(i => i.id === editing);
+    const stop = e => e && e.stopPropagation && e.stopPropagation();
+    const set = patch => this.setState(patch);
+    const patchItem = (id, patch) => this.setState(s => ({ actionItems: (s.actionItems || this.actionItems(base)).map(i => i.id === id ? { ...i, ...patch } : i) }));
+    const change = (id, patch, message) => {
+      const previous = items;
+      set({ actionItems: patch ? items.map(i => i.id === id ? { ...i, ...patch } : i) : items.filter(i => i.id !== id),
+        editing: patch ? editing : null, previousActions: previous, toast: message });
+      clearTimeout(this.toastTimer);
+      this.toastTimer = setTimeout(() => set({ toast: null }), 3200);
+    };
+    // Group actions apply only to suggestions still awaiting confirmation.
+    const groupActions = {};
+    for (const type of ['todo', 'schedule']) {
+      const targets = items.filter(i => i.type === type && i.status === 'pending' && !i.ignored);
+      const batch = (ignore, e) => {
+        stop(e);
+        if (!targets.length) return;
+        const ids = new Set(targets.map(i => i.id));
+        set({ actionItems: items.map(i => ids.has(i.id) ? { ...i, ...(ignore ? { ignored: true } : { status: type === 'todo' ? 'open' : 'ok' }) } : i),
+          editing: null, calOpen: false, previousActions: items,
+          toast: `已${ignore ? '忽略' : '确认'} ${targets.length} 项` });
+        clearTimeout(this.toastTimer);
+        this.toastTimer = setTimeout(() => set({ toast: null }), 3200);
+      };
+      groupActions[type + 'ConfirmAll'] = e => batch(false, e);
+      groupActions[type + 'IgnoreAll'] = e => batch(true, e);
+      groupActions[type + 'ShowBulkActions'] = targets.length > 1;
+      groupActions[type + 'ActionsDisabled'] = targets.length === 0;
+      groupActions[type + 'ActionOpacity'] = targets.length ? 1 : 0.35;
+      groupActions[type + 'ActionCursor'] = targets.length ? 'pointer' : 'default';
+    }
+    const dayNum = date => date ? Math.round((new Date(2026, date.m, date.d) - new Date(2026, 8, 25)) / 864e5) : null;
+    const dayLabel = date => {
+      if (!date) return '未定时间';
+      const n = dayNum(date), w = '日一二三四五六'[new Date(2026, date.m, date.d).getDay()];
+      return n === 0 ? '今天' : n === 1 ? '明天' : n === -1 ? '昨天' : `${date.m + 1}月${date.d}日 周${w}`;
+    };
+    const row = i => {
+      const ignored = !!i.ignored, ed = editing === i.id && !ignored, done = i.status === 'done', pending = i.status === 'pending' && !ignored;
+      const deleting=this.state.pendingDelete===i.id;
+      const canLeft=pending||(i.type==='todo'&&!done);
+      const remove=()=>this.stageDeletion(i.id);
+      const ignore=()=>{change(i.id,{ignored:true},'已忽略 1 项');set({editing:null,calOpen:false});};
+      const left=()=>change(i.id,{status:pending?(i.type==='todo'?'open':'ok'):'done'},pending?'已确认':'已完成 1 项');
+      const swipe=window.Huling.swipe(canLeft?left:remove,!ignored&&!ed&&!deleting,canLeft?-1:1,canLeft?{label:pending?'右滑忽略':'右滑删除',release:pending?'松开忽略':'松开删除',commit:pending?ignore:remove}:null);
+      const past = i.date && dayNum(i.date) < 0;
+      return { ...swipe,swipeLabel:canLeft?(pending?'左滑确认':'左滑完成'):'右滑删除',swipeRelease:canLeft?(pending?'松开确认':'松开完成'):'松开删除',swipeDirection:canLeft?'left':'right',swipeDestructive:canLeft?'false':'true', ...i, isIgnored: ignored, ignoreLabel: ignored ? '恢复' : '忽略', isDone: done, isOpen: !done && !pending, isPending: pending, isEditing: ed, editRegionRef: ed ? this.editRegionRef : null, notEditing: !ed,
+        titleColor: done || ignored || deleting ? '#A8A39B' : '#1D1C1A', deco: done || ignored || deleting ? 'line-through' : 'none',
+        rowBg: ed || i.hl ? '#FAF9F7' : '#FFFFFF', whenColor: past && !done ? 'oklch(0.52 0.13 35)' : done ? '#A8A39B' : '#5E5A54',
+        when: [dayLabel(i.date), i.time].filter(Boolean).join(' ') + (past && !done ? ' · 已过期' : ''),
+        startLabel: i.allDay ? '全天' : i.start || '—', endLabel: i.allDay ? '' : i.end || '', timeColor: past ? '#A8A39B' : '#1D1C1A',
+        dayLabel: dayLabel(i.date), hasPlace: !!i.place, isNow: i.type === 'schedule' && dayNum(i.date) === 0 && !i.allDay && i.start <= '09:41' && i.end > '09:41',
+        showActions: !deleting && pending && !ed, actionSpace: pending && !ed ? '120px' : '0',
+        tap: () => { if(deleting)return; if (ignored) { change(i.id, { ignored: false }, '已恢复'); return; } if (!ed) set({ editing: i.id, calOpen: false, calM: undefined }); },
+        toggle: e => { stop(e); if(deleting)return; if (ignored) { change(i.id, { ignored: false }, '已恢复'); return; } change(i.id, { status: pending || done ? 'open' : 'done' }, pending ? '已确认' : done ? '已标记为未完成' : '已完成 1 项'); },
+        confirm: e => { stop(e); change(i.id, { status: i.type === 'schedule' ? 'ok' : 'open' }, i.type === 'schedule' ? '已加入日历' : '已确认'); },
+        ignore: e => { stop(e); change(i.id, { ignored: !ignored }, ignored ? '已恢复' : '已忽略 1 项'); set({ editing: null, calOpen: false }); }
+      };
+    };
+    const calM = this.state.calM ?? Math.max(8, current?.date?.m ?? 8), calOpen = !!current && !!this.state.calOpen;
+    const same = (a, b) => a && b && a.m === b.m && a.d === b.d;
+    const style = on => ({ bg: on ? '#EEEBE6' : '#FFFFFF', fg: on ? '#1D1C1A' : '#5E5A54', fw: on ? 600 : 400, bd: on ? 'transparent' : 'rgba(29,28,26,0.1)' });
+    const update = (key, value) => { if (current) patchItem(current.id, { [key]: value }); };
+    let dateOpts = [], remindOpts = [], timeModes = [], calDays = [], showTimes = false, durLabel = '';
+    if (current) {
+      const presets = [['今天', { m: 8, d: 25 }], ['明天', { m: 8, d: 26 }], ['下周一', { m: 8, d: 28 }]];
+      dateOpts = presets.map(([label, dt]) => ({ label, ...style(same(dt, current.date)), pick: e => { stop(e); update('date', dt); set({ calOpen: false }); } }));
+      dateOpts.push({ label: '未定', ...style(!current.date), pick: e => { stop(e); update('date', null); set({ calOpen: false }); } });
+      const custom = current.date && !presets.some(([, dt]) => same(dt, current.date));
+      dateOpts.push({ label: (custom ? `${current.date.m + 1}月${current.date.d}日` : '选择日期') + ' ▾', ...style(custom || calOpen), pick: e => { stop(e); set({ calOpen: !calOpen }); } });
+      const reminders = current.type === 'todo' ? ['不提醒', '准时', '提前 30 分钟', '提前 1 天'] : ['不提醒', '提前 15 分钟', '提前 1 小时', '提前 1 天'];
+      remindOpts = reminders.map(label => ({ label, ...style(label === current.remind), pick: e => { stop(e); update('remind', label); } }));
+      const mode = current.allDay ? 'all' : current.timeMode ?? (current.start ? 'range' : 'none');
+      showTimes = mode === 'range';
+      timeModes = [['range', '指定时间'], ['all', '全天'], ['none', '未定']].map(([key, label]) => ({ label, ...style(mode === key), pick: e => {
+        stop(e); patchItem(current.id, { timeMode: key, allDay: key === 'all', ...(key === 'none' ? { start: '', end: '' } : key === 'range' && !current.start ? { start: '10:00', end: '11:00' } : {}) });
+      } }));
+      const mins = text => { const m = /^(\d{1,2}):(\d{2})$/.exec(text || ''); return m ? +m[1] * 60 + +m[2] : null; };
+      const a = mins(current.start), b = mins(current.end);
+      if (a != null && b != null && b > a) durLabel = b - a >= 60 ? `${(b - a) / 60} 小时` : `${b - a} 分钟`;
+      const lead = (new Date(2026, calM, 1).getDay() + 6) % 7;
+      for (let n = 0; n < lead; n++) calDays.push({ n: '', bg: 'transparent', fg: 'transparent', fw: 400, bd: 'none', cursor: 'default' });
+      for (let n = 1; n <= new Date(2026, calM + 1, 0).getDate(); n++) {
+        const dt = { m: calM, d: n }, past = dayNum(dt) < 0, today = dayNum(dt) === 0, on = same(dt, current.date);
+        calDays.push({ n, bg: on ? '#EEEBE6' : 'transparent', fg: past ? '#D3CFC8' : '#1D1C1A', fw: on || today ? 600 : 400, bd: today && !on ? '1px solid #C9C4BC' : 'none', cursor: past ? 'default' : 'pointer', pick: e => { stop(e); if (!past) update('date', dt); } });
+      }
+    }
+    return {
+      ...groupActions,
+      todoRows: items.filter(i => i.type === 'todo').map(row), scheduleRows: items.filter(i => i.type === 'schedule').map(row),
+      pendingCount: items.filter(i => i.status === 'pending' && !i.ignored).length,
+      dateOpts, remindOpts, timeModes, calDays, showTimes, durLabel, calOpen, monthLabel: `2026年${calM + 1}月`, prevColor: calM > 8 ? '#5E5A54' : '#D3CFC8',
+      prevMonth: e => { stop(e); if (calM > 8) set({ calM: calM - 1 }); }, nextMonth: e => { stop(e); if (calM < 11) set({ calM: calM + 1 }); },
+      stopClick: stop, onTitle: e => update('title', e.target.value), onTime: e => update('time', e.target.value), onStart: e => update('start', e.target.value), onEnd: e => update('end', e.target.value), onPlace: e => update('place', e.target.value),
+      curPending: current?.status === 'pending', confirmText: current?.type === 'schedule' ? '加入日历' : '确认',
+      cancelEdit: e => { stop(e); set({ editing: null, calOpen: false }); },
+      confirmEdit: e => { stop(e); if (current) change(current.id, { status: current.type === 'schedule' ? 'ok' : 'open' }, current.type === 'schedule' ? '已加入日历' : '已确认'); },
+      del: e => { stop(e); if (current) this.stageDeletion(current.id); },
+      hasToast: !!this.state.toast, toast: this.state.toast,
+      undo: () => { clearTimeout(this.toastTimer); set({ actionItems: this.state.previousActions, pendingDelete:null, toast: null }); }
+    };
+  }
+}</script></body></html>

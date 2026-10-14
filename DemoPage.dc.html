@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="./version-routing.js?v=2"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script src="./demo-seed.js?v=20260926-failure-1"></script><script src="./demo.js?v=20260929-version-24"></script><script src="./support.js"></script><link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script></head><body><x-dc>
+<helmet><style>
+.demo-phone{width:390px;height:844px;border-radius:46px;background:white;color:#1D1C1A;overflow:hidden;position:relative;display:flex;flex-direction:column;font-family:'PingFang SC',sans-serif;box-shadow:0 0 0 1px #ddd,0 30px 60px -20px #ccc}
+.demo-top{padding:16px 28px;font-size:16px;font-weight:600;flex:none}.demo-header{padding:8px 20px;display:flex;align-items:center;gap:14px}.demo-back{color:#5E5A54;text-decoration:none;font-size:15px}.demo-body{padding:12px 20px 28px;flex:1;min-height:0;overflow-y:auto}.demo-title{font-size:26px;line-height:1.3;margin:4px 0 12px;font-weight:600}.demo-note{color:#8C877F;font-size:13px;line-height:1.65}.demo-row{padding:16px 0;border-bottom:1px solid #eeece8;display:flex;justify-content:space-between;gap:14px;align-items:center}.demo-button{border:0;border-radius:99px;background:#EEEBE6;color:#1D1C1A;padding:9px 16px;font:inherit;font-size:14px;cursor:pointer}.demo-input{width:100%;box-sizing:border-box;border:1px solid #e5e1da;border-radius:12px;padding:12px;font:inherit;font-size:15px;background:#faf9f7}.demo-nav{height:86px;flex:none;border-top:1px solid #eee;display:flex;justify-content:space-around;padding-top:14px;box-sizing:border-box;position:relative}.demo-nav a{color:#8C877F;font-size:15px;text-decoration:none}.demo-nav:after{content:'';position:absolute;bottom:8px;width:134px;height:5px;border-radius:9px;background:#1D1C1A}
+</style></helmet><div class="demo-phone"><div class="demo-top">9:41</div><div class="demo-header"><a class="demo-back" href="{{ backHref }}">‹ {{ backLabel }}</a></div><div class="demo-body"><div class="demo-title">{{ title }}</div><p class="demo-note">{{ description }}</p>
+<sc-for list="{{ rows }}" as="row"><div class="demo-row"><span>{{ row.label }}</span><span style="color:#5E5A54;text-align:right;">{{ row.value }}<sc-if value="{{ row.hasUpdate }}"><button class="demo-button" onClick="{{ row.update }}" style="margin-left:10px;padding:6px 10px;background:#EAF1EE;color:#326566;">固件更新</button></sc-if></span></div></sc-for>
+<sc-for list="{{ toggles }}" as="o"><div class="demo-row"><span>{{ o.label }}</span><button class="demo-button" onClick="{{ o.toggle }}" aria-pressed="{{ o.on }}">{{ o.value }}</button></div></sc-for>
+<sc-if value="{{ profile }}">
+<div style="text-align:center;padding:14px 0 28px;">
+<label style="display:inline-flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;position:relative;">
+<span style="display:flex;width:88px;height:88px;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;background:#E8EEE7;color:#527A65;font-size:34px;">
+<sc-if value="{{ hasAvatar }}"><img src="{{ avatar }}" alt="个人头像" style="width:100%;height:100%;object-fit:cover;"></sc-if><sc-if value="{{ noAvatar }}"><span>{{ initial }}</span></sc-if></span>
+<span style="font-size:13px;color:#326566;">更换头像</span><input type="file" accept="image/*" aria-label="上传头像图片" onChange="{{ onAvatar }}" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;">
+</label></div>
+<div style="padding-bottom:20px;"><label for="profile-name" style="display:block;font-size:13px;color:#8C877F;margin-bottom:10px;">用户名</label><input id="profile-name" class="demo-input" aria-label="用户名" maxlength="24" value="{{ name }}" onChange="{{ onName }}" onBlur="{{ onNameBlur }}" placeholder="请输入用户名"></div>
+<div class="demo-row"><span>绑定手机号</span><span style="color:#5E5A54;font-variant-numeric:tabular-nums;">138****2046</span></div>
+<div class="demo-row"><span>注册时间</span><span style="color:#5E5A54;font-variant-numeric:tabular-nums;">2026-08-18</span></div>
+<div class="demo-row"><div><div>邮箱</div><div style="font-size:12px;color:#8C877F;margin-top:6px;">{{ emailText }}</div></div><button class="demo-button" onClick="{{ editEmail }}">{{ emailAction }}</button></div>
+<sc-if value="{{ emailEditing }}"><div style="padding:14px 0;"><input type="email" class="demo-input" aria-label="邮箱地址" value="{{ emailDraft }}" onChange="{{ changeEmail }}" placeholder="请输入邮箱地址"><div role="status" style="font-size:12px;color:#AD5C48;margin-top:8px;">{{ emailError }}</div><div style="display:flex;gap:8px;margin-top:10px;"><button class="demo-button" onClick="{{ saveEmail }}" style="background:#326566;color:white;">保存邮箱（演示）</button><button class="demo-button" onClick="{{ cancelEmail }}">取消</button><sc-if value="{{ hasEmail }}"><button class="demo-button" onClick="{{ removeEmail }}">解绑</button></sc-if></div></div></sc-if>
+<div style="font-size:12px;color:#A8A39B;margin-top:24px;">关联账号</div>
+<sc-for list="{{ accounts }}" as="account"><div class="demo-row"><div><div>{{ account.name }}</div><div style="font-size:12px;color:#8C877F;margin-top:6px;">{{ account.status }}</div></div><button class="demo-button" onClick="{{ account.open }}">{{ account.action }}</button></div></sc-for>
+<p class="demo-note" style="font-size:11px;">绑定为交互演示，不发送验证邮件，也不连接真实第三方账号。</p>
+<p class="demo-note" role="status">{{ profileMessage }}</p>
+</sc-if>
+<sc-if value="{{ device }}"><p class="demo-note">{{ warrantyNote }}</p><div class="demo-row"><div><span>连接状态</span><div style="font-size:12px;color:#8C877F;margin-top:5px;">{{ deviceStatus }}</div></div><button class="demo-button" onClick="{{ toggleDevice }}">{{ deviceText }}</button></div>
+<div style="display:flex;flex-direction:column;gap:12px;padding-top:24px;"><button class="demo-button" disabled="{{ deviceUnbound }}" onClick="{{ requestUnbind }}" style="padding:13px;border-radius:12px;background:#F3F1ED;color:#AD5C48;opacity:{{ unbindOpacity }};">解绑戒指</button><button class="demo-button" onClick="{{ requestReset }}" style="padding:13px;border-radius:12px;background:#FAEEEB;color:#AD5C48;">戒指重置</button></div><p class="demo-note" role="status">{{ deviceMessage }}</p></sc-if>
+<sc-if value="{{ trend }}"><div style="display:flex;gap:12px;align-items:flex-end;height:170px;margin:24px 0;"><sc-for list="{{ bars }}" as="b"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;"><span class="demo-note">{{ b.score }}</span><div style="height:{{ b.height }};width:100%;border-radius:6px;background:#C9C4BC;"></div><span class="demo-note">{{ b.day }}</span></div></sc-for></div></sc-if>
+<sc-for list="{{ sections }}" as="section"><section style="padding:12px 0;"><h2 style="font-size:16px;font-weight:600;margin:0 0 9px;">{{ section.title }}</h2><p style="font-size:14px;color:#5E5A54;line-height:1.85;margin:0;white-space:pre-line;">{{ section.body }}</p></section></sc-for>
+<sc-if value="{{ thoughts }}"><a class="demo-back" href="./Search.dc.html">查看全部想法 ›</a></sc-if>
+</div><sc-if value="{{ bindingOpen }}"><div onClick="{{ closeBinding }}" style="position:absolute;inset:0;z-index:20;background:#0004;display:flex;align-items:flex-end;"><div role="dialog" aria-label="{{ bindingTitle }}" onClick="{{ stopBinding }}" style="width:100%;box-sizing:border-box;background:white;padding:24px 20px 36px;border-radius:22px 22px 0 0;"><strong style="font-size:19px;">{{ bindingTitle }}</strong><p class="demo-note">{{ bindingDescription }}</p><div style="display:flex;gap:10px;"><button class="demo-button" onClick="{{ closeBinding }}" style="flex:1;">取消</button><button class="demo-button" onClick="{{ confirmBinding }}" style="flex:1;background:#326566;color:white;">{{ bindingConfirm }}</button></div></div></div></sc-if><sc-if value="{{ deviceActionOpen }}"><div onClick="{{ cancelDeviceAction }}" style="position:absolute;inset:0;background:#0004;z-index:25;display:flex;align-items:flex-end;"><div role="dialog" aria-label="{{ deviceActionTitle }}" onClick="{{ stopBinding }}" style="width:100%;padding:24px 20px 36px;box-sizing:border-box;background:white;border-radius:22px 22px 0 0;"><strong style="font-size:20px;">{{ deviceActionTitle }}</strong><p class="demo-note">{{ deviceActionDescription }}</p><div style="display:flex;gap:12px;"><button class="demo-button" onClick="{{ cancelDeviceAction }}" style="flex:1;">取消</button><button class="demo-button" onClick="{{ confirmDeviceAction }}" style="flex:1;background:#AD5C48;color:white;">{{ deviceActionConfirm }}</button></div></div></div></sc-if><nav class="demo-nav"><a href="./FeedCompact.dc.html">想法</a><a href="./HealthScreen.dc.html">健康</a><a href="./MeScreen.dc.html">我的</a></nav></div></x-dc><script type="text/x-dc" data-dc-script>class Component extends DCLogic {
+ state={};
+ warranty(activation,today=new Date()){
+  const [y,m,d]=activation.split('-').map(Number),endYear=y+1;
+  const endDay=Math.min(d,new Date(Date.UTC(endYear,m,0)).getUTCDate());
+  const end=Date.UTC(endYear,m-1,endDay),start=Date.UTC(y,m-1,d);
+  const now=Date.UTC(today.getFullYear(),today.getMonth(),today.getDate());
+  const remaining=Math.max(0,Math.ceil((end-now)/86400000));
+  return {expiry:new Date(end).toISOString().slice(0,10),status:now<start?'尚未开始':remaining>0?'保修中 · 剩余 '+remaining+' 天':'保修已到期',today:[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-')};
+ }
+
+ async uploadAvatar(e){
+  const file=e.target.files?.[0];e.target.value='';if(!file)return;
+  if(!file.type.startsWith('image/')){this.setState({profileMessage:'请选择图片文件。'});return;}
+  if(file.size>10*1024*1024){this.setState({profileMessage:'图片请小于 10 MB。'});return;}
+  this.setState({profileMessage:'正在保存头像…'});
+  try{
+   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
+   const img=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=data;});
+   const canvas=document.createElement('canvas');canvas.width=256;canvas.height=256;const ctx=canvas.getContext('2d');const size=Math.min(img.width,img.height);ctx.drawImage(img,(img.width-size)/2,(img.height-size)/2,size,size,0,0,256,256);
+   window.Huling.setting('avatar',canvas.toDataURL('image/jpeg',0.85));this.setState({profileMessage:'头像已保存'});
+  }catch(_){this.setState({profileMessage:'无法读取这张图片，请换一张 JPG 或 PNG 图片。'});}
+ }
+
+ renderVals(){
+ const H=window.Huling,view=H.params().get('view')||'about';
+ const activation=H.setting('device-activated-at')||'2026-08-18',warranty=this.warranty(activation);
+ const pages={
+ 'sleep':['睡眠','昨晚的睡眠记录。', [['睡眠评分','88'],['总睡眠','7 小时 42 分钟'],['入睡 / 醒来','23:48 / 07:30'],['深睡','1 小时 36 分钟'],['快速眼动','1 小时 52 分钟'],['浅睡','4 小时 14 分钟']]],
+ 'recovery':['恢复','与你过去两周的个人基线比较。',[['恢复评分','80'],['静息心率','54 bpm'],['心率变异性','48 ms'],['体温变化','+0.1 °C'],['血氧饱和度','97%'],['呼吸频率','14 次/分']]],
+ 'activity':['活动','今天的活动记录。',[['活动评分','71'],['步数','6,240 / 8,000'],['活动消耗','312 千卡'],['久坐提醒','2 次']]],
+ 'trend':['近 7 天状态','9月19日 – 9月25日',[['本周平均','74'],['今天','82']]],
+ 'device':['设备管理','乎零 Ring · 钛银 · 9 号',[['电量','78%'],['固件版本',H.setting('firmware-version')||'1.2.4'],['激活日期',activation],['保修到期日期',warranty.expiry],['保修状态',warranty.status]]],
+ 'gesture':['双击手势与输入','双击戒指开始录音，再次双击结束。',[['输入方式','双击录音'],['最长录音','30 分钟']]],
+ 'notifications':['通知','选择演示中的通知偏好。',[]],
+ 'health-permission':['健康数据权限','此处仅切换 demo 状态，不请求系统权限。',[]],
+ 'calendar-permission':['日历权限','此处仅模拟加入日历，不会写入系统日历。',[]],
+ 'mic-permission':['麦克风权限','此处仅切换 demo 状态，不启动真实录音。',[]],
+ 'ai':['AI 数据处理','演示中的录音和整理内容均为模拟数据。',[['处理内容','转写、摘要、待办和日程'],['确认方式','由你确认后采用']]],
+ 'privacy':['隐私协议','演示文案 · 正式内容待确认',[]],
+ 'ai-agreement':['AI 服务使用协议','演示文案 · 正式内容待确认',[]],
+ 'account':['账号','演示账号信息。',[['手机号','138****2046'],['账号状态','已登录（演示）']]],
+ 'subscription':['订阅','乎零 Plus 演示，不包含购买流程。',[['当前计划','乎零 Plus'],['语音整理','已包含'],['健康趋势','已包含']]],
+ 'profile':['个人资料','',[]],
+ 'about':['关于乎零','记录当下，让想法与生活自然连接。',[['软件版本','1.0.0']]],
+ 'thought-help':['想法与录音','录音播放为时间轴模拟，可点击波形定位。',[['编辑待办 / 日程','点击条目原地修改'],['忽略建议','保留条目，再点可恢复'],['原文','点击标题展开']]]
+ };
+ const articles={
+ about:[['关于产品','乎零将语音记录、内容整理、待办日程与健康状态融入日常，帮助你记录灵感，回顾生活，并将想法转化为行动。'],['关于我们','我们专注于智能穿戴与日常记录体验，希望通过自然、轻便的交互，让技术更好地服务生活。'],['公司信息','公司名称与联系方式将在正式发布前补充。以上为公司介绍的演示文案。']],
+ privacy:[['1. 信息范围','正式协议将在此说明账号资料、录音与转写内容、待办日程、健康数据及设备信息的处理范围。本演示使用模拟数据；自行选择的头像仅保存在当前浏览器中。'],['2. 使用目的','相关信息用于提供账号管理、语音转写、内容整理、提醒及健康展示等功能。正式版本将逐项说明数据用途和必要性。'],['3. 权限与选择','你可以在“我的”页面管理通知偏好及其他权限。演示中的开关用于展示交互，不会改变操作系统权限。'],['4. 存储与第三方服务','正式协议将列明存储期限、存储位置、第三方服务及数据共享情况。本演示未启用真实录音上传或外部账号接入。'],['5. 用户权利与联系','正式版本将提供信息查询、更正、删除、撤回授权和注销账号的方式，以及隐私问题的联系渠道。具体流程与联系方式待补充。']],
+ 'ai-agreement':[['1. 服务范围','AI 服务用于语音转写、内容整理以及待办与日程建议。当前页面展示的是交互演示，未接入真实 AI 处理服务。'],['2. 输入与授权','请仅提交你有权使用的内容。正式协议将明确输入内容的使用范围、处理方式及相关授权。'],['3. 结果与确认','转写和整理结果可能存在遗漏或错误，请在使用前核对。识别出的待办与日程由你确认、编辑或忽略。'],['4. 用量与订阅','转写和整理用量按月展示。基础版与 Pro 版的额度及升级流程目前为模拟内容，正式套餐规则以发布信息为准。'],['5. 数据与服务更新','有关数据处理请参阅隐私协议。正式版本将在此补充服务变更、暂停、终止及用户反馈的规则与渠道。']]
+ };
+ const [title,description,values]=pages[view]||pages.about;
+ const health=['sleep','recovery','activity','trend'].includes(view);
+ const defs={gesture:[['vibration','震动反馈']],notifications:[['todo-notify','待办提醒'],['schedule-notify','日程提醒'],['morning-notify','晨间睡眠摘要']],'health-permission':[['health-access','允许读取健康数据']],'calendar-permission':[['calendar-access','允许访问日历']],'mic-permission':[['mic-access','允许麦克风']],'ai':[['ai-process','自动整理新录音']]};
+ const toggles=(defs[view]||[]).map(([key,label])=>{const on=H.setting(key)!==false;return{label,on,value:on?'已开启':'已关闭',toggle:()=>{H.setting(key,!on);this.setState({revision:Date.now()});}}});
+ const binding=this.state.binding,bound=binding?!!H.setting('account-'+binding.key):false;
+ return{warrantyNote:'按当前日期 '+warranty.today+' 计算剩余保修时间。激活日期为演示数据。',emailText:H.setting('email')||'未绑定',hasEmail:!!H.setting('email'),emailAction:H.setting('email')?'修改':'绑定',emailEditing:!!this.state.emailEditing,emailDraft:this.state.emailDraft||'',emailError:this.state.emailError||'',
+ editEmail:()=>this.setState({emailEditing:true,emailDraft:H.setting('email')||'',emailError:''}),changeEmail:e=>this.setState({emailDraft:e.target.value,emailError:''}),cancelEmail:()=>this.setState({emailEditing:false,emailError:''}),
+ saveEmail:()=>{const email=(this.state.emailDraft||'').trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){this.setState({emailError:'请输入有效的邮箱地址'});return;}H.setting('email',email);this.setState({emailEditing:false,profileMessage:'邮箱已保存（演示）'});},removeEmail:()=>{H.setting('email','');this.setState({emailEditing:false,profileMessage:'邮箱已解绑'});},
+ accounts:[['微信','wechat'],['抖音','douyin'],['小红书','xiaohongshu']].map(([name,key])=>({name,status:H.setting('account-'+key)?'已绑定 · 演示账号':'未绑定',action:H.setting('account-'+key)?'管理':'绑定',open:()=>this.setState({binding:{name,key}})})),
+ bindingOpen:!!binding,bindingTitle:(bound?'管理':'绑定')+(binding?.name||'')+'账号',bindingDescription:bound?'当前关联的是演示账号，可以解除绑定。':'正式版本将在此跳转到'+(binding?.name||'')+'授权。当前仅模拟绑定，不会获取你的真实账号信息。',bindingConfirm:bound?'解除绑定':'模拟授权并绑定',closeBinding:()=>this.setState({binding:null}),stopBinding:e=>e.stopPropagation(),confirmBinding:()=>{if(!binding)return;H.setting('account-'+binding.key,!bound);this.setState({binding:null,profileMessage:binding.name+(bound?'已解绑':'已绑定（演示）')});},
+ sections:(articles[view]||[]).map(([title,body])=>({title,body})),title,description,rows:values.map(([label,value])=>({label,value,hasUpdate:view==='device'&&label==='固件版本'&&(H.setting('firmware-version')||'1.2.4')!=='1.3.0',update:()=>H.go('FirmwareUpdate.dc.html')})),toggles,profile:view==='profile',device:view==='device',about:view==='about',thoughts:false,trend:view==='trend',
+ backHref:['Login.dc.html','OnboardingV1-Login.dc.html','OnboardingV2-Login.dc.html'].includes(H.params().get('from'))?'./'+H.params().get('from'):health?'./HealthScreen.dc.html':view==='thought-help'?'./FeedCompact.dc.html':'./MeScreen.dc.html',backLabel:['Login.dc.html','OnboardingV1-Login.dc.html','OnboardingV2-Login.dc.html'].includes(H.params().get('from'))?'登录':health?'健康':view==='thought-help'?'想法':'我的',
+ avatar:H.setting('avatar')||'',hasAvatar:!!H.setting('avatar'),noAvatar:!H.setting('avatar'),initial:(H.setting('name')||'林一').slice(0,1),onAvatar:e=>this.uploadAvatar(e),profileMessage:this.state.profileMessage||'修改自动保存',
+ name:this.state.nameDraft??H.setting('name')??'林一',onName:e=>{const value=e.target.value;this.setState({nameDraft:value,profileMessage:value.trim()?'用户名已保存':'用户名不能为空'});if(value.trim())H.setting('name',value.trim());},onNameBlur:()=>{if(this.state.nameDraft!==undefined&&!this.state.nameDraft.trim())this.setState({nameDraft:H.setting('name')||'林一',profileMessage:'已保留原用户名'});},
+ deviceUnbound:H.setting('device-bound')===false,unbindOpacity:H.setting('device-bound')===false?.4:1,deviceStatus:H.setting('device-bound')===false?'未绑定当前账户':H.setting('connected')===false?'已绑定 · 未连接':'已绑定 · 已连接',
+ deviceText:H.setting('device-bound')===false?'绑定并连接':H.setting('connected')===false?'连接戒指':'断开连接',toggleDevice:()=>{H.setting('device-bound',true);H.setting('connected',H.setting('connected')===false);this.setState({revision:Date.now()});},
+ deviceMessage:this.state.deviceMessage||'设备操作为演示，不会操作真实硬件。',requestUnbind:()=>this.setState({deviceAction:'unbind'}),requestReset:()=>this.setState({deviceAction:'reset'}),deviceActionOpen:!!this.state.deviceAction,deviceActionTitle:this.state.deviceAction==='reset'?'重置戒指？':'解绑当前戒指？',deviceActionDescription:this.state.deviceAction==='reset'?'将清空戒指内全部原始录音、恢复设备初始设置，并解除当前账户绑定。云端已保存的录音、转写内容及待办日程继续保留。':'将解除戒指与当前账户的绑定并断开连接。戒指内的录音会保留。',deviceActionConfirm:this.state.deviceAction==='reset'?'确认重置':'确认解绑',cancelDeviceAction:()=>this.setState({deviceAction:null}),confirmDeviceAction:()=>{const reset=this.state.deviceAction==='reset';if(!this.state.deviceAction)return;if(reset){H.setting('device-recordings',[]);H.setting('device-preferences',{});H.setting('device-reset-at',new Date().toISOString());}H.setting('device-bound',false);H.setting('connected',false);this.setState({deviceAction:null,deviceMessage:reset?'戒指已重置，录音已清空。请重新绑定设备（演示）。':'已与当前账户解绑（演示）。'});},
+ bars:[62,74,55,70,80,66,82].map((score,i)=>({score,height:score+'px',day:['六','日','一','二','三','四','今天'][i]})),reset:()=>H.reset()};
+ }
+}</script></body></html>

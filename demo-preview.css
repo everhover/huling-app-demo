@@ -1,0 +1,5 @@
+/* Applied only inside the demo directory's preview iframe. */
+html.demo-embedded{background:transparent!important;overflow:hidden!important}
+html.demo-embedded body,html.demo-embedded.home-test-layout body{margin:0!important;padding:0!important;min-width:0!important;min-height:0!important;width:100%!important;height:100dvh!important;display:block!important;overflow:hidden!important;box-sizing:border-box!important;background:transparent!important}
+html.demo-embedded .sc-host,html.demo-embedded.home-test-layout .sc-host{width:100%!important;height:100dvh!important;margin:0!important;padding:0!important;min-width:0!important}
+html.demo-embedded .sc-host>div:first-child,html.demo-embedded.home-test-layout .sc-host>div:first-child,html.demo-embedded .auth-phone,html.demo-embedded.home-test-layout .auth-phone{width:100%!important;height:100dvh!important;min-height:0!important;max-height:none!important;margin:0!important;border-radius:0!important;box-shadow:none!important;flex-shrink:0!important}
