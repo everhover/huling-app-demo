@@ -1,5 +1,16 @@
 <!DOCTYPE html><html lang="zh-CN"><head><script src="./version-routing.js?v=2"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>登录 · 乎零</title><link rel="stylesheet" href="./onboarding-auth-v2.css"><script src="./demo-seed.js?v=20260926-failure-1"></script><script src="./demo.js?v=20260929-version-24"></script><link rel="stylesheet" href="./scrollbars.css?v=1"><script src="./scrollbars.js?v=1" defer></script><script src="./home-test-nav.js?v=9" defer></script><link rel="stylesheet" href="./onboarding-v2.css?v=3"></head><body><main class="auth-phone"><div class="status"><span>9:41</span><a class="system-icons" href="./OnboardingV2-Launch.dc.html" aria-label="重新开始 App 启动流程" title="重新开始 App 启动流程" style="color:inherit;text-decoration:none;padding:8px 0;">▂▅▇ ▰</a></div><div class="login-body"><div class="on-step"><i class="active"></i><i></i><i></i><i></i></div><div class="brand">乎零 HULING</div><h1>先认识一下你</h1><p class="subtitle">用手机号保存你的想法和戒指数据。<br>未注册的手机号，验证后将自动注册。</p><form id="login" novalidate><label class="field"><span class="country">+86</span><input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="11" value="13800002046" placeholder="请输入手机号" aria-label="手机号"></label><div class="field"><input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="4" value="1234" placeholder="请输入四位验证码" aria-label="验证码"><button class="send" id="send" type="button">获取验证码</button></div><div class="message" id="message" role="status" aria-live="polite"></div><button class="submit" id="submit" type="submit">登录 / 注册</button><label class="terms"><input id="agree" type="checkbox"><span>我已阅读并同意 <a href="./DemoPage.dc.html?view=privacy&from=OnboardingV2-Login.dc.html">《隐私协议》</a> 和 <a href="./DemoPage.dc.html?view=ai-agreement&from=OnboardingV2-Login.dc.html">《AI 服务使用协议》</a></span></label></form><p class="demo-note">已预填演示手机号和验证码，可直接点击继续，也可自行修改。当前为交互演示，不会发送真实短信或创建真实账号。</p></div><div class="home"></div></main><script>
 const H=window.Huling,$=id=>document.getElementById(id);let sentTo='',deadline=0;
+// Keep the app-only path in the URL so refresh and agreement links retain it.
+const withoutRing=new URLSearchParams(location.search).get('withoutRing')==='1';
+if(withoutRing){
+ document.querySelector('.on-step').hidden=true;
+ document.querySelector('.brand').textContent='直接使用 App';
+ document.querySelector('h1').textContent='从一个想法开始';
+ document.querySelector('.subtitle').textContent='注册后即可记录和整理想法，无需连接戒指。';
+ if($('paired-hint'))$('paired-hint').hidden=true;
+ $('submit').textContent='注册并开始使用';
+ document.querySelectorAll('.terms a').forEach(link=>{const url=new URL(link.href);url.searchParams.set('withoutRing','1');link.href=url.href;});
+}
 try{const draft=JSON.parse(sessionStorage.getItem('login-draft')||'null');if(draft){if(/^1[3-9]\d{9}$/.test(draft.phone||''))$('phone').value=draft.phone;sentTo=draft.sentTo||'';deadline=draft.deadline||0;}}catch(_){}
 window.addEventListener('pagehide',()=>sessionStorage.setItem('login-draft',JSON.stringify({phone:$('phone').value,sentTo,deadline})));
 function message(text){$('message').textContent=text;}
@@ -10,5 +21,5 @@ $('phone').oninput=()=>{if(sentTo&&$('phone').value.trim()!==sentTo){sentTo='';d
 function canContinue(){return /^\d{4}$/.test($('code').value);}
 $('code').oninput=()=>{$('submit').disabled=!canContinue();message('');};
 $('submit').disabled=!canContinue();
-$('login').onsubmit=e=>{e.preventDefault();if(!canContinue()){message('请输入四位数字验证码');return;}if(validPhone())H.setting('login-phone',$('phone').value.trim());H.setting('demo-logged-in',true);window.DemoVersion.go('./OnboardingV2-RingPairing.dc.html');};
+$('login').onsubmit=e=>{e.preventDefault();if(!canContinue()){message('请输入四位数字验证码');return;}if(validPhone())H.setting('login-phone',$('phone').value.trim());H.setting('demo-logged-in',true);if(withoutRing){H.setting('device-bound',false);H.setting('connected',false);window.location.assign('./FeedHealth.dc.html');return;}window.DemoVersion.go('./OnboardingV2-RingPairing.dc.html');};
 </script></body></html>
