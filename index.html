@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f3f4ee">
-<meta name="description" content="乎零 App 交互演示：体验两套首次使用流程，以及三个底栏和五个底栏的页面方案。">
+<meta name="description" content="乎零 App 交互演示：体验三套首次使用流程，以及三个底栏和五个底栏的页面方案。">
 <title>乎零 · 交互演示</title>
 <link rel="icon" href="./assets/ring-firmware.png">
-<link rel="stylesheet" href="./demo-portal.css?v=1">
-<script src="./demo-portal.js?v=1" defer></script>
+<link rel="stylesheet" href="./demo-portal.css?v=2">
+<script src="./demo-portal.js?v=2" defer></script>
 </head>
 <body>
 <div class="catalog-backdrop" id="catalog-backdrop" hidden></div>
@@ -30,8 +30,9 @@
     <div class="option-grid">
       <article class="option-card"><div class="option-top"><span class="option-number">01</span><span class="option-tag">直接开始</span></div><h2>先体验，再探索</h2><p>完成戒指配对与录音教学，<br>直接进入想法首页。</p><ol class="flow"><li>登录</li><li>配对戒指</li><li>录音教学</li></ol><button class="start-option" data-page="OnboardingV1-Launch.dc.html">体验方案一 <span aria-hidden="true">↗</span></button></article>
       <article class="option-card option-two"><div class="option-top"><span class="option-number">02</span><span class="option-tag">教学后开启权限</span></div><h2>准备好日历与提醒</h2><p>完成录音教学后，选择日历和<br>通知权限，再进入想法首页。</p><ol class="flow"><li>登录</li><li>配对与教学</li><li>权限选择</li></ol><button class="start-option" data-page="OnboardingV2-Launch.dc.html">体验方案二 <span aria-hidden="true">↗</span></button></article>
+      <article class="option-card option-three"><div class="option-top"><span class="option-number">03</span><span class="option-tag">先配对，后登录</span></div><h2>先连接你的戒指</h2><p>先搜寻并完成配对绑定，<br>再登录账号，体验录音教学。</p><ol class="flow"><li>配对戒指</li><li>登录</li><li>录音教学</li></ol><button class="start-option" data-page="OnboardingV3-Launch.dc.html">体验方案三 <span aria-hidden="true">↗</span></button></article>
     </div>
-    <p class="landing-note">两个方案完成后，均进入「想法 · 健康 · 我的」三个底栏版本。</p>
+    <p class="landing-note">三个方案完成后，均进入「想法 · 健康 · 我的」三个底栏版本。</p>
     <div class="quick-versions"><span>直接查看首页</span><button data-page="FeedHealth.dc.html">三个底栏 <span aria-hidden="true">→</span></button><button data-page="HomeTest.dc.html?homeTest=1">五个底栏 <span aria-hidden="true">→</span></button></div>
   </section>
   <section class="preview" id="preview" aria-label="手机交互演示" hidden><div class="preview-space" id="preview-space"><iframe id="demo-frame" title="乎零 App 页面演示" allow="clipboard-write" hidden></iframe></div><p class="preview-hint">可点击、双击和左右拖动，体验完整交互。</p></section>

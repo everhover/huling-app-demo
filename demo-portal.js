@@ -6,13 +6,17 @@ const shared=[
 ];
 const withFive=page=>{const url=new URL(page,location.href);url.searchParams.set('homeTest','1');return url.pathname.split('/').pop()+url.search;};
 const groups=[
- {id:'onboarding',title:'首次使用 · 两个方案',open:true,pages:[
+ {id:'onboarding',title:'首次使用 · 三个方案',open:true,pages:[
  ['方案一 · 欢迎','OnboardingV1-Launch.dc.html','完整体验'],['方案一 · 登录','OnboardingV1-Login.dc.html'],['方案一 · 配对戒指','OnboardingV1-RingPairing.dc.html'],['方案一 · 录音教学','OnboardingV1-RecordingTutorial.dc.html'],
- ['方案二 · 欢迎','OnboardingV2-Launch.dc.html','完整体验'],['方案二 · 登录','OnboardingV2-Login.dc.html'],['方案二 · 配对戒指','OnboardingV2-RingPairing.dc.html'],['方案二 · 录音教学','OnboardingV2-RecordingTutorial.dc.html'],['方案二 · 权限开启','OnboardingV2-Settings.dc.html']
+ ['方案二 · 欢迎','OnboardingV2-Launch.dc.html','完整体验'],['方案二 · 登录','OnboardingV2-Login.dc.html'],['方案二 · 配对戒指','OnboardingV2-RingPairing.dc.html'],['方案二 · 录音教学','OnboardingV2-RecordingTutorial.dc.html'],['方案二 · 权限开启','OnboardingV2-Settings.dc.html'],
+ ['方案三 · 欢迎','OnboardingV3-Launch.dc.html','先配对'],['方案三 · 配对戒指','OnboardingV3-RingPairing.dc.html'],['方案三 · 登录','OnboardingV3-Login.dc.html'],['方案三 · 录音教学','OnboardingV3-RecordingTutorial.dc.html']
  ]},
  {id:'three',title:'三个底栏 · 想法优先',pages:[['想法首页','FeedHealth.dc.html'],['想法首页 · 无健康简报','FeedCompact.dc.html'],['待办','TodoList.dc.html'],['日程','ScheduleList.dc.html'],['健康','HealthScreen.dc.html'],...shared]},
  {id:'five',title:'五个底栏 · Today',pages:[['Today 首页','HomeTest.dc.html?homeTest=1'],['待办','TodayTodo.dc.html?homeTest=1'],['日程','TodaySchedule.dc.html?homeTest=1'],['想法','TodayThoughts.dc.html?homeTest=1'],['健康','TodayHealth.dc.html?homeTest=1'],...shared.map(([title,page])=>[title,withFive(page)])]}
 ];
+const onboarding=groups[0],steps=onboarding.pages.filter(page=>!page[2]);
+onboarding.pages=onboarding.pages.filter(page=>page[2]);
+groups.splice(1,0,{id:'onboarding-steps',title:'Onboarding · 分步预览',pages:steps});
 const entries=groups.flatMap(group=>group.pages.map(([title,page,badge])=>({title,page,badge,group})));
 const allowed=new Set(entries.map(entry=>entry.page.split('?')[0]).concat(['Launch.dc.html','Login.dc.html','RingPairing.dc.html','RecordingTutorial.dc.html','TodoSchedule.dc.html','ThoughtDetailPreview.html','Search.dc.html','RelatedTodos.dc.html','Versions.html','OnboardingVersions.html']));
 const base=new URL('./',location.href);
@@ -24,7 +28,7 @@ function isFive(page){const url=new URL(page,base);return url.pathname.endsWith(
 function match(page){
  const exact=entries.find(entry=>entry.page===page);if(exact)return exact;
  const url=new URL(page,base),file=url.pathname.split('/').pop(),five=isFive(page);
- return entries.find(entry=>{const other=new URL(entry.page,base);return other.pathname.split('/').pop()===file&&other.searchParams.get('view')===url.searchParams.get('view')&&(entry.group.id==='onboarding'||(entry.group.id==='five')===five);});
+ return entries.find(entry=>{const other=new URL(entry.page,base);return other.pathname.split('/').pop()===file&&other.searchParams.get('view')===url.searchParams.get('view')&&(entry.group.id.startsWith('onboarding')||(entry.group.id==='five')===five);});
 }
 function metadata(page){
  const entry=match(page);$('current-group').textContent=entry?.group.title||(isFive(page)?'五个底栏 · Today':'三个底栏 · 想法优先');$('current-title').textContent=entry?.title||'页面详情';
